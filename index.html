@@ -14,7 +14,6 @@
       --negro: #121826;
       --gris-texto: #4e5b78;
       --gris-borde: #d8dfeb;
-      --gris-fondo: #f5f7fb;
       --blanco: #ffffff;
       --sombra: 0 18px 50px rgba(13, 59, 255, 0.10);
       --sombra-suave: 0 10px 24px rgba(16, 24, 40, 0.08);
@@ -140,10 +139,6 @@
       align-items: center;
     }
 
-    .brand-block {
-      min-width: 0;
-    }
-
     .splash-covia {
       font-size: clamp(40px, 8vw, 78px);
       font-weight: 900;
@@ -164,8 +159,7 @@
       width: 132px;
       height: 132px;
       border-radius: 28px;
-      background:
-        linear-gradient(135deg, rgba(13, 59, 255, 0.95), rgba(9, 20, 52, 0.98));
+      background: linear-gradient(135deg, rgba(13, 59, 255, 0.95), rgba(9, 20, 52, 0.98));
       box-shadow: 0 20px 45px rgba(13, 59, 255, 0.22);
       position: relative;
       overflow: hidden;
@@ -199,10 +193,6 @@
       font-size: 15px;
       line-height: 1.65;
       color: var(--gris-texto);
-    }
-
-    .hero-copy strong {
-      color: var(--azul-profundo);
     }
 
     .hero-actions {
@@ -594,7 +584,6 @@
       background: rgba(255, 255, 255, 0.95);
       box-shadow: var(--sombra-suave);
       margin-bottom: 10px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .equip-row.completo {
@@ -635,19 +624,23 @@
     }
 
     .equip-tag {
-      font-size: 14px;
+      font-size: 18px;
       font-weight: 900;
       color: var(--azul-profundo);
       letter-spacing: 0.3px;
     }
 
     .equip-nombre {
+      font-size: 13px;
+      color: var(--negro);
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .equip-proceso {
       font-size: 12px;
       color: var(--gris-texto);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .equip-estado {
@@ -724,16 +717,17 @@
     }
 
     .detail-tag {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: 0.5px;
     }
 
     .detail-nombre {
-      font-size: 12px;
-      opacity: 0.86;
-      margin-top: 4px;
-      line-height: 1.5;
+      font-size: 14px;
+      opacity: 0.95;
+      margin-top: 6px;
+      line-height: 1.6;
+      font-weight: 700;
     }
 
     .detail-meta {
@@ -846,11 +840,6 @@
       gap: 10px;
     }
 
-    .foto-thumb-wrap {
-      position: relative;
-      display: inline-block;
-    }
-
     .foto-thumb {
       width: 86px;
       height: 70px;
@@ -942,26 +931,13 @@
       text-align: center;
     }
 
-    #list-view::-webkit-scrollbar,
-    #detail-scroll::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    #list-view::-webkit-scrollbar-thumb,
-    #detail-scroll::-webkit-scrollbar-thumb {
-      background: rgba(13, 59, 255, 0.35);
-      border-radius: 999px;
-    }
-
     @media (max-width: 920px) {
       .hero-shell {
         grid-template-columns: 1fr;
       }
-
       .hero-grid {
         grid-template-columns: 1fr;
       }
-
       .hero-accent {
         width: 100%;
         max-width: 150px;
@@ -973,43 +949,35 @@
       #splash {
         padding: 18px 14px;
       }
-
       .hero-panel,
       .hero-side {
         border-radius: 24px;
       }
-
       .hero-panel,
       .hero-side,
       .top-bar,
       .detail-topbar {
         padding: 18px;
       }
-
       .splash-stats {
         grid-template-columns: 1fr;
       }
-
       .hero-actions {
         flex-direction: column;
       }
-
       .btn-entrar,
       .hero-note {
         width: 100%;
         justify-content: center;
       }
-
       .top-bar,
       .detail-topbar {
         flex-direction: column;
         align-items: stretch;
       }
-
       .top-bar-right {
         text-align: left;
       }
-
       .prog-bar-wrap {
         margin-left: 0;
         width: 100%;
@@ -1070,30 +1038,6 @@
             <div class="side-progress-fill" id="hero-progress-fill"></div>
           </div>
         </div>
-
-        <div class="hero-points">
-          <div class="hero-point">
-            <div class="hero-point-icon">1</div>
-            <div>
-              <strong>Captura ordenada</strong>
-              <span>Registro por equipo, tipo de fotografía y criticidad operativa.</span>
-            </div>
-          </div>
-          <div class="hero-point">
-            <div class="hero-point-icon">2</div>
-            <div>
-              <strong>Seguimiento claro</strong>
-              <span>Visualiza avance, pendientes y equipos terminados sin perder contexto.</span>
-            </div>
-          </div>
-          <div class="hero-point">
-            <div class="hero-point-icon">3</div>
-            <div>
-              <strong>Interfaz ejecutiva</strong>
-              <span>Diseño limpio, corporativo y fácil de usar desde móvil en campo.</span>
-            </div>
-          </div>
-        </div>
       </aside>
     </div>
   </div>
@@ -1113,11 +1057,10 @@
     </div>
 
     <div class="tabs-wrap" id="tabs-wrap"></div>
-
     <div class="summary-bar" id="summary-bar"></div>
 
     <div class="search-wrap">
-      <input type="text" id="search-input" placeholder="Buscar código o nombre..." oninput="filtrar()">
+      <input type="text" id="search-input" placeholder="Buscar ID TAG o nombre..." oninput="filtrar()">
     </div>
 
     <div id="list-view"></div>
@@ -1131,7 +1074,7 @@
         <div class="detail-nombre" id="d-nombre"></div>
         <div class="detail-meta">
           <span class="crit-badge" id="d-crit"></span>
-          <span style="font-size:11px;opacity:0.85" id="d-proceso"></span>
+          <span style="font-size:11px;opacity:0.9;font-weight:700" id="d-proceso"></span>
         </div>
       </div>
     </div>
@@ -1164,7 +1107,6 @@
     let equipoActivo = null;
     let estadoMap = {};
     let fotosCache = {};
-    let appCargada = false;
 
     async function apiGet(params = {}) {
       const url = new URL(API_URL);
@@ -1178,9 +1120,7 @@
       const res = await fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(payload),
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        }
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
       });
       if (!res.ok) throw new Error('Error de red en POST');
       return await res.json();
@@ -1190,23 +1130,31 @@
       const agrupado = {};
 
       lista.forEach(item => {
-        const area = (item.area || 'SIN ÁREA').trim();
+        const area = String(item.area || 'SIN ÁREA').trim();
+
         if (!agrupado[area]) agrupado[area] = [];
 
+        const idReal = String(
+          item.idTag ||
+          item.ID_TAG ||
+          item.id_tag ||
+          ''
+        ).trim();
+
         agrupado[area].push({
-          id: item.idTag || '',
-          nombre: item.nombreEquipo || '',
-          crit: item.criticidad || 'C',
-          proceso: item.proceso || '',
-          sistema: item.sistema || '',
-          noEquipo: item.noEquipo || '',
+          id: idReal,
+          nombre: String(item.nombreEquipo || item.NOMBRE_EQUIPO || '').trim(),
+          crit: String(item.criticidad || item.CRITICIDAD || 'C').trim(),
+          proceso: String(item.proceso || item.PROCESO || '').trim(),
+          sistema: String(item.sistema || item.SISTEMA || '').trim(),
+          noEquipo: String(item.noEquipo || item.N_EQUIPO || item['N° EQUIPO'] || '').trim(),
           area
         });
       });
 
       return Object.keys(agrupado).map(nombre => ({
         nombre,
-        items: agrupado[nombre].sort((a, b) => a.id.localeCompare(b.id))
+        items: agrupado[nombre].sort((a, b) => (a.id || '').localeCompare(b.id || ''))
       }));
     }
 
@@ -1252,12 +1200,6 @@
 
     function renderTabs() {
       const wrap = document.getElementById('tabs-wrap');
-
-      if (!AREAS.length) {
-        wrap.innerHTML = '';
-        return;
-      }
-
       wrap.innerHTML = AREAS.map((a, i) =>
         `<button class="tab-btn${i === areaActiva ? ' active' : ''}" onclick="cambiarArea(${i})">${escapeHtml(a.nombre)}</button>`
       ).join('');
@@ -1292,8 +1234,9 @@
       const area = AREAS[areaActiva];
       const items = area.items.filter(e =>
         !busqueda ||
-        e.id.toLowerCase().includes(busqueda.toLowerCase()) ||
-        e.nombre.toLowerCase().includes(busqueda.toLowerCase())
+        (e.id || '').toLowerCase().includes(busqueda.toLowerCase()) ||
+        (e.nombre || '').toLowerCase().includes(busqueda.toLowerCase()) ||
+        (e.proceso || '').toLowerCase().includes(busqueda.toLowerCase())
       );
 
       const donArea = area.items.filter(e => estadoMap[e.id]).length;
@@ -1309,7 +1252,7 @@
 
       cont.innerHTML = items.map(e => {
         const comp = !!estadoMap[e.id];
-        const pc = fotosDelEquipo(e.id);
+        const pc = e.id ? fotosDelEquipo(e.id) : 0;
 
         let statusClass = '';
         let statusText = '';
@@ -1326,8 +1269,9 @@
           <div class="equip-row${comp ? ' completo' : ''}" onclick="abrirDetalle('${safeJs(e.id)}', ${areaActiva})">
             <div class="status-circle ${statusClass}">${statusText}</div>
             <div class="equip-info">
-              <div class="equip-tag">${escapeHtml(e.id)}</div>
+              <div class="equip-tag">${escapeHtml(e.id || 'SIN ID TAG')}</div>
               <div class="equip-nombre">${escapeHtml(e.nombre)}</div>
+              <div class="equip-proceso">Proceso: ${escapeHtml(e.proceso || e.area)}</div>
               <div class="equip-estado">${comp ? 'Completo' : pc > 0 ? pc + ' de 4 fotos tomadas' : 'Sin fotos aún'}</div>
             </div>
             <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
@@ -1345,6 +1289,7 @@
     async function abrirDetalle(id, areaIdx) {
       const area = AREAS[areaIdx];
       equipoActivo = area.items.find(e => e.id === id);
+
       document.getElementById('main').style.display = 'none';
       document.getElementById('detail-view').style.display = 'flex';
       document.getElementById('detail-scroll').innerHTML = '<div class="loading-msg">Cargando detalle...</div>';
@@ -1379,13 +1324,13 @@
       const e = equipoActivo;
       if (!e) return;
 
-      document.getElementById('d-tag').textContent = e.id;
-      document.getElementById('d-nombre').textContent = e.nombre;
+      document.getElementById('d-tag').textContent = e.id || 'SIN ID TAG';
+      document.getElementById('d-nombre').textContent = e.nombre || '';
+      document.getElementById('d-proceso').textContent = 'Proceso: ' + (e.proceso || e.area || '');
 
       const cb = document.getElementById('d-crit');
       cb.textContent = 'Criticidad ' + e.crit;
       cb.className = 'crit-badge crit-' + e.crit;
-      document.getElementById('d-proceso').textContent = e.proceso || e.area;
 
       const bars = FOTO_TIPOS.map(t => {
         const has = obtenerFotosPorTipo(e.id, t.key).length > 0;
@@ -1399,9 +1344,7 @@
         const imgs = obtenerFotosPorTipo(e.id, t.key);
 
         const thumbsHTML = imgs.map(img =>
-          `<div class="foto-thumb-wrap">
-            <img class="foto-thumb" src="${escapeHtml(img.urlFoto || '')}" alt="${escapeHtml(t.label)}" onclick="window.open('${escapeHtml(img.urlFoto || '')}', '_blank')">
-          </div>`
+          `<img class="foto-thumb" src="${escapeHtml(img.urlFoto || '')}" alt="${escapeHtml(t.label)}" onclick="window.open('${escapeHtml(img.urlFoto || '')}', '_blank')">`
         ).join('');
 
         return `
@@ -1477,9 +1420,7 @@
           const tmp = document.getElementById('tmp-loading-foto');
           if (tmp) tmp.remove();
 
-          if (!r.ok) {
-            throw new Error(r.error || 'No se pudo subir la foto');
-          }
+          if (!r.ok) throw new Error(r.error || 'No se pudo subir la foto');
 
           await cargarFotosEquipo(id);
           renderDetalle();
@@ -1512,9 +1453,7 @@
           usuario: 'OPERADOR'
         });
 
-        if (!r.ok) {
-          throw new Error(r.error || 'No se pudo guardar el estado');
-        }
+        if (!r.ok) throw new Error(r.error || 'No se pudo guardar el estado');
 
         estadoMap[id] = nuevoEstado;
         renderDetalle();
@@ -1543,7 +1482,6 @@
         AREAS = normalizarEquipos(Array.isArray(equiposResp.data) ? equiposResp.data : []);
         estadoMap = estadoResp.data || {};
         areaActiva = 0;
-        appCargada = true;
 
         actualizarSplash();
         renderTabs();
