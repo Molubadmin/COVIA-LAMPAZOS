@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>COVIA LAMPAZOS - MOLUB</title>
+  <style>
+    :root {
+      --azul: #0d3bff;
+      --azul-oscuro: #0827a7;
+      --azul-profundo: #091434;
+      --azul-claro: #eef3ff;
+      --azul-suave: #f6f8ff;
+      --negro: #121826;
+      --gris-texto: #4e5b78;
+      --gris-borde: #d8dfeb;
+      --gris-fondo: #f5f7fb;
+      --blanco: #ffffff;
+      --sombra: 0 18px 50px rgba(13, 59, 255, 0.10);
+      --sombra-suave: 0 10px 24px rgba(16, 24, 40, 0.08);
+      --verde: #179c52;
+      --verde-claro: #eaf8f0;
+      --naranja: #d97706;
+      --naranja-claro: #fff4df;
+      --rojo: #c62828;
+      --rojo-claro: #fdecec;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(13, 59, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(13, 59, 255, 0.06), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f6f8fd 100%);
+      color: var(--negro);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(8px);
+    }
+
+    body::before {
+      width: 220px;
+      height: 220px;
+      top: -70px;
+      right: -80px;
+      background: rgba(13, 59, 255, 0.09);
+    }
+
+    body::after {
+      width: 180px;
+      height: 180px;
+      bottom: 90px;
+      left: -70px;
+      background: rgba(9, 20, 52, 0.05);
+    }
+
+    #splash,
+    #main,
+    #detail-view {
+      position: relative;
+      z-index: 1;
+    }
+
+    #splash {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 28px 18px;
+    }
+
+    .hero-shell {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-panel,
+    .hero-side {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(216, 223, 235, 0.9);
+      border-radius: 28px;
+      box-shadow: var(--sombra);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-panel {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--azul-suave);
+      color: var(--azul-oscuro);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      border: 1px solid rgba(13, 59, 255, 0.12);
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--azul);
+      box-shadow: 0 0 0 5px rgba(13, 59, 255, 0.12);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      margin-top: 22px;
+      align-items: center;
+    }
+
+    .brand-block {
+      min-width: 0;
+    }
+
+    .splash-covia {
+      font-size: clamp(40px, 8vw, 78px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: 5px;
+      color: var(--azul-profundo);
+    }
+
+    .splash-lampazos {
+      font-size: clamp(16px, 3vw, 26px);
+      font-weight: 700;
+      letter-spacing: 7px;
+      margin-top: 10px;
+      color: var(--azul);
+    }
+
+    .hero-accent {
+      width: 132px;
+      height: 132px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(13, 59, 255, 0.95), rgba(9, 20, 52, 0.98));
+      box-shadow: 0 20px 45px rgba(13, 59, 255, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-accent::before,
+    .hero-accent::after {
+      content: "";
+      position: absolute;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .hero-accent::before {
+      inset: 16px;
+    }
+
+    .hero-accent::after {
+      width: 54px;
+      height: 54px;
+      right: -12px;
+      bottom: -10px;
+      background: rgba(255, 255, 255, 0.18);
+      border: none;
+      border-radius: 50%;
+    }
+
+    .hero-copy {
+      margin-top: 20px;
+      max-width: 680px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--gris-texto);
+    }
+
+    .hero-copy strong {
+      color: var(--azul-profundo);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .btn-entrar {
+      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+      color: var(--blanco);
+      border: none;
+      border-radius: 16px;
+      padding: 16px 28px;
+      min-width: 230px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 16px 30px rgba(13, 59, 255, 0.22);
+    }
+
+    .hero-note {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      color: var(--gris-texto);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .hero-side {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .side-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .side-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--azul);
+    }
+
+    .side-sub {
+      margin-top: 6px;
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--azul-profundo);
+    }
+
+    .side-chip {
+      padding: 9px 12px;
+      border-radius: 14px;
+      background: var(--azul-profundo);
+      color: var(--blanco);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .splash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .splash-stat {
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+      border: 1px solid var(--gris-borde);
+      box-shadow: var(--sombra-suave);
+    }
+
+    .splash-stat-n {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--azul-profundo);
+    }
+
+    .splash-stat.done .splash-stat-n {
+      color: var(--verde);
+    }
+
+    .splash-stat-l {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--gris-texto);
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      font-weight: 700;
+    }
+
+    .side-progress {
+      background: linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
+      border: 1px solid rgba(13, 59, 255, 0.10);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .side-progress-label {
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--gris-texto);
+      font-weight: 800;
+    }
+
+    .side-progress-value {
+      margin-top: 8px;
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--azul-profundo);
+    }
+
+    .side-progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(13, 59, 255, 0.10);
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .side-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--azul), #4e8cff);
+      transition: width 0.35s ease;
+    }
+
+    .hero-points {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-point {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+    }
+
+    .hero-point-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--azul-suave);
+      color: var(--azul);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .hero-point strong {
+      display: block;
+      font-size: 13px;
+      color: var(--azul-profundo);
+    }
+
+    .hero-point span {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--gris-texto);
+    }
+
+    #main {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      padding: 14px;
+      gap: 12px;
+    }
+
+    .top-bar {
+      background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
+      color: var(--blanco);
+      padding: 18px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--sombra);
+      flex-shrink: 0;
+    }
+
+    .top-bar-left .top-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+    }
+
+    .top-bar-left .top-sub {
+      font-size: 11px;
+      letter-spacing: 2px;
+      opacity: 0.82;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    .top-bar-right {
+      min-width: 146px;
+      text-align: right;
+    }
+
+    .top-bar-right .prog-n {
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .top-bar-right .prog-l {
+      font-size: 11px;
+      opacity: 0.82;
+      margin-top: 4px;
+    }
+
+    .prog-bar-wrap {
+      height: 7px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      margin-top: 10px;
+      width: 140px;
+      margin-left: auto;
+      overflow: hidden;
+    }
+
+    .prog-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffffff 0%, #d9e5ff 100%);
+      border-radius: 999px;
+      transition: width 0.4s;
+    }
+
+    .btn-inicio {
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--blanco);
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 12px;
+    }
+
+    .tabs-wrap {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--gris-borde);
+      border-radius: 18px;
+      overflow-x: auto;
+      display: flex;
+      padding: 6px;
+      gap: 6px;
+      flex-shrink: 0;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .tabs-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gris-texto);
+      cursor: pointer;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--blanco);
+      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+      box-shadow: 0 10px 20px rgba(13, 59, 255, 0.18);
+    }
+
+    .summary-bar,
+    .search-wrap {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--gris-borde);
+      border-radius: 18px;
+      box-shadow: var(--sombra-suave);
+      flex-shrink: 0;
+    }
+
+    .summary-bar {
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .s-pill {
+      font-size: 11px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+    }
+
+    .s-total {
+      background: #f3f6fb;
+      color: #4e5b78;
+      border: 1px solid var(--gris-borde);
+    }
+
+    .s-done {
+      background: var(--verde-claro);
+      color: var(--verde);
+      border: 1px solid rgba(23, 156, 82, 0.15);
+    }
+
+    .s-pend {
+      background: var(--rojo-claro);
+      color: var(--rojo);
+      border: 1px solid rgba(198, 40, 40, 0.12);
+    }
+
+    .search-wrap {
+      padding: 10px 12px;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1.5px solid var(--gris-borde);
+      border-radius: 14px;
+      font-size: 14px;
+      background: #fbfcff;
+      color: var(--negro);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--azul);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(13, 59, 255, 0.10);
+    }
+
+    #list-view {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .equip-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(216, 223, 235, 0.92);
+      border-radius: 20px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: var(--sombra-suave);
+      margin-bottom: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .equip-row.completo {
+      background: linear-gradient(180deg, #ffffff 0%, #f2fbf5 100%);
+      border-color: rgba(23, 156, 82, 0.22);
+    }
+
+    .status-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      border: 1.5px solid var(--gris-borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 800;
+      background: #f8faff;
+      color: var(--gris-texto);
+    }
+
+    .status-circle.done {
+      background: var(--verde);
+      border-color: var(--verde);
+      color: var(--blanco);
+    }
+
+    .status-circle.parcial {
+      background: var(--naranja);
+      border-color: var(--naranja);
+      color: var(--blanco);
+    }
+
+    .equip-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .equip-tag {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--azul-profundo);
+      letter-spacing: 0.3px;
+    }
+
+    .equip-nombre {
+      font-size: 12px;
+      color: var(--gris-texto);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 3px;
+    }
+
+    .equip-estado {
+      font-size: 11px;
+      color: #7a869f;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .crit-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 7px 10px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      letter-spacing: 0.4px;
+    }
+
+    .crit-A {
+      background: #ffe8e8;
+      color: var(--rojo);
+      border: 1px solid #ffcbcb;
+    }
+
+    .crit-B {
+      background: var(--naranja-claro);
+      color: var(--naranja);
+      border: 1px solid #ffe0a3;
+    }
+
+    .crit-C {
+      background: var(--verde-claro);
+      color: var(--verde);
+      border: 1px solid #bde6ca;
+    }
+
+    .chevron {
+      color: var(--azul);
+      font-size: 20px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    #detail-view {
+      display: none;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      padding: 14px;
+      gap: 12px;
+    }
+
+    .detail-topbar {
+      background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
+      color: var(--blanco);
+      padding: 18px;
+      border-radius: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex-shrink: 0;
+      box-shadow: var(--sombra);
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--blanco);
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 9px 12px;
+      border-radius: 14px;
+    }
+
+    .detail-tag {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-nombre {
+      font-size: 12px;
+      opacity: 0.86;
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .detail-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .prog-fotos {
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--gris-borde);
+      border-radius: 20px;
+      flex-shrink: 0;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .prog-fotos-label {
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      color: var(--gris-texto);
+      margin-bottom: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .prog-fotos-bars {
+      display: flex;
+      gap: 8px;
+    }
+
+    .prog-foto-bar {
+      flex: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: #e8edf6;
+      transition: background 0.3s;
+    }
+
+    .prog-foto-bar.filled {
+      background: linear-gradient(90deg, var(--azul), #78a4ff);
+    }
+
+    .prog-foto-bar.done-all {
+      background: linear-gradient(90deg, var(--verde), #3ecf76);
+    }
+
+    #detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .foto-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--gris-borde);
+      border-radius: 22px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .foto-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e8edf6;
+    }
+
+    .foto-card-label {
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--azul-profundo);
+    }
+
+    .foto-icon {
+      font-size: 17px;
+    }
+
+    .badge-hecho,
+    .badge-vacio {
+      font-size: 10px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-hecho {
+      background: var(--verde-claro);
+      color: var(--verde);
+    }
+
+    .badge-vacio {
+      background: #f3f6fb;
+      color: #7f8aa3;
+    }
+
+    .foto-thumbs {
+      padding: 12px 16px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .foto-thumb-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .foto-thumb {
+      width: 86px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--gris-borde);
+      display: block;
+      box-shadow: 0 6px 18px rgba(16, 24, 40, 0.10);
+      cursor: pointer;
+    }
+
+    .foto-actions {
+      padding: 14px 16px 16px;
+    }
+
+    .btn-camara {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
+      border: 1.5px dashed #b8c4da;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--gris-texto);
+      font-weight: 700;
+    }
+
+    input[type=file] {
+      display: none;
+    }
+
+    .btn-completar {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
+      color: var(--blanco);
+      border: none;
+      border-radius: 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 16px 28px rgba(13, 59, 255, 0.18);
+      flex-shrink: 0;
+    }
+
+    .btn-completar:disabled {
+      background: #ccd4e2;
+      color: #7d869a;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .btn-completar.hecho {
+      background: linear-gradient(135deg, var(--verde), #0f7d41);
+    }
+
+    .detail-footer {
+      flex-shrink: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .empty-msg,
+    .loading-msg {
+      text-align: center;
+      padding: 44px 20px;
+      color: #7f8aa3;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--gris-borde);
+      border-radius: 22px;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .loading-msg {
+      color: var(--azul-profundo);
+      font-weight: 700;
+    }
+
+    .mini-note {
+      font-size: 11px;
+      color: #7f8aa3;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    #list-view::-webkit-scrollbar,
+    #detail-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #list-view::-webkit-scrollbar-thumb,
+    #detail-scroll::-webkit-scrollbar-thumb {
+      background: rgba(13, 59, 255, 0.35);
+      border-radius: 999px;
+    }
+
+    @media (max-width: 920px) {
+      .hero-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-accent {
+        width: 100%;
+        max-width: 150px;
+        height: 120px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      #splash {
+        padding: 18px 14px;
+      }
+
+      .hero-panel,
+      .hero-side {
+        border-radius: 24px;
+      }
+
+      .hero-panel,
+      .hero-side,
+      .top-bar,
+      .detail-topbar {
+        padding: 18px;
+      }
+
+      .splash-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn-entrar,
+      .hero-note {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .top-bar,
+      .detail-topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .top-bar-right {
+        text-align: left;
+      }
+
+      .prog-bar-wrap {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <div class="hero-shell">
+      <section class="hero-panel">
+        <div class="hero-kicker">Inspección visual industrial</div>
+        <div class="hero-grid">
+          <div class="brand-block">
+            <div class="splash-covia">COVIA</div>
+            <div class="splash-lampazos">LAMPAZOS</div>
+          </div>
+          <div class="hero-accent" aria-hidden="true"></div>
+        </div>
+        <p class="hero-copy">
+          Plataforma para el <strong>levantamiento fotográfico de equipos críticos</strong>,
+          con control por áreas, seguimiento visual y avance operativo en tiempo real.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-entrar" onclick="entrar()">Ingresar a planta</button>
+          <div class="hero-note">Proyecto impulsado por MOLUB</div>
+        </div>
+      </section>
+
+      <aside class="hero-side">
+        <div class="side-head">
+          <div>
+            <div class="side-title">Estado del proyecto</div>
+            <div class="side-sub">Panorama general</div>
+          </div>
+          <div class="side-chip">MOLUB</div>
+        </div>
+
+        <div class="splash-stats">
+          <div class="splash-stat">
+            <div class="splash-stat-n" id="s-total">0</div>
+            <div class="splash-stat-l">Equipos</div>
+          </div>
+          <div class="splash-stat done">
+            <div class="splash-stat-n" id="s-done">0</div>
+            <div class="splash-stat-l">Completos</div>
+          </div>
+          <div class="splash-stat">
+            <div class="splash-stat-n" id="s-pct">0%</div>
+            <div class="splash-stat-l">Avance</div>
+          </div>
+        </div>
+
+        <div class="side-progress">
+          <div class="side-progress-label">Cumplimiento total</div>
+          <div class="side-progress-value" id="hero-progress-value">0%</div>
+          <div class="side-progress-bar">
+            <div class="side-progress-fill" id="hero-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="hero-points">
+          <div class="hero-point">
+            <div class="hero-point-icon">1</div>
+            <div>
+              <strong>Captura ordenada</strong>
+              <span>Registro por equipo, tipo de fotografía y criticidad operativa.</span>
+            </div>
+          </div>
+          <div class="hero-point">
+            <div class="hero-point-icon">2</div>
+            <div>
+              <strong>Seguimiento claro</strong>
+              <span>Visualiza avance, pendientes y equipos terminados sin perder contexto.</span>
+            </div>
+          </div>
+          <div class="hero-point">
+            <div class="hero-point-icon">3</div>
+            <div>
+              <strong>Interfaz ejecutiva</strong>
+              <span>Diseño limpio, corporativo y fácil de usar desde móvil en campo.</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <div class="top-title">COVIA LAMPAZOS</div>
+        <div class="top-sub">Proyecto impulsado por MOLUB</div>
+      </div>
+      <div class="top-bar-right">
+        <div class="prog-n" id="m-done">0</div>
+        <div class="prog-l" id="m-total">/ 0 equipos</div>
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="m-bar" style="width:0%"></div></div>
+        <button class="btn-inicio" onclick="irInicio()">Volver al inicio</button>
+      </div>
+    </div>
+
+    <div class="tabs-wrap" id="tabs-wrap"></div>
+
+    <div class="summary-bar" id="summary-bar"></div>
+
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="Buscar código o nombre..." oninput="filtrar()">
+    </div>
+
+    <div id="list-view"></div>
+  </div>
+
+  <div id="detail-view">
+    <div class="detail-topbar">
+      <button class="btn-back" onclick="cerrarDetalle()">&#8592;</button>
+      <div style="flex:1">
+        <div class="detail-tag" id="d-tag"></div>
+        <div class="detail-nombre" id="d-nombre"></div>
+        <div class="detail-meta">
+          <span class="crit-badge" id="d-crit"></span>
+          <span style="font-size:11px;opacity:0.85" id="d-proceso"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prog-fotos">
+      <div class="prog-fotos-label">Progreso de fotos</div>
+      <div class="prog-fotos-bars" id="d-bars"></div>
+    </div>
+
+    <div id="detail-scroll"></div>
+
+    <div class="detail-footer">
+      <button class="btn-completar" id="btn-completar" onclick="toggleCompletar()">Marcar como completo</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyw-rFRKj_MWSqZysrSttIP7VJHsGWYIaKSM-4rVhnQTO8NTcokyGpe5VhJsMKyQADg/exec';
+
+    const FOTO_TIPOS = [
+      { key: 'placa', label: 'Foto de placa', icon: '🏷️' },
+      { key: 'componentes', label: 'Foto de componentes', icon: '⚙️' },
+      { key: 'elementos', label: 'Foto de elementos', icon: '🔩' },
+      { key: 'completo', label: 'Foto completa del equipo', icon: '📷' }
+    ];
+
+    let AREAS = [];
+    let areaActiva = 0;
+    let busqueda = '';
+    let equipoActivo = null;
+    let estadoMap = {};
+    let fotosCache = {};
+    let appCargada = false;
+
+    async function apiGet(params = {}) {
+      const url = new URL(API_URL);
+      Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+      const res = await fetch(url.toString());
+      if (!res.ok) throw new Error('Error de red en GET');
+      return await res.json();
+    }
+
+    async function apiPost(payload = {}) {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        }
+      });
+      if (!res.ok) throw new Error('Error de red en POST');
+      return await res.json();
+    }
+
+    function normalizarEquipos(lista) {
+      const agrupado = {};
+
+      lista.forEach(item => {
+        const area = (item.area || 'SIN ÁREA').trim();
+        if (!agrupado[area]) agrupado[area] = [];
+
+        agrupado[area].push({
+          id: item.idTag || '',
+          nombre: item.nombreEquipo || '',
+          crit: item.criticidad || 'C',
+          proceso: item.proceso || '',
+          sistema: item.sistema || '',
+          noEquipo: item.noEquipo || '',
+          area
+        });
+      });
+
+      return Object.keys(agrupado).map(nombre => ({
+        nombre,
+        items: agrupado[nombre].sort((a, b) => a.id.localeCompare(b.id))
+      }));
+    }
+
+    function totalEquipos() {
+      return AREAS.reduce((a, x) => a + x.items.length, 0);
+    }
+
+    function totalCompletados() {
+      return Object.values(estadoMap).filter(Boolean).length;
+    }
+
+    function fotosDelEquipo(id) {
+      const fotos = fotosCache[id] || [];
+      const tiposConFoto = new Set(fotos.map(f => (f.tipoFoto || '').toLowerCase()));
+      return FOTO_TIPOS.filter(t => tiposConFoto.has(t.key)).length;
+    }
+
+    function actualizarSplash() {
+      const tot = totalEquipos();
+      const don = totalCompletados();
+      const pct = tot > 0 ? Math.round(don / tot * 100) : 0;
+
+      document.getElementById('s-total').textContent = tot;
+      document.getElementById('s-done').textContent = don;
+      document.getElementById('s-pct').textContent = pct + '%';
+      document.getElementById('hero-progress-value').textContent = pct + '%';
+      document.getElementById('hero-progress-fill').style.width = pct + '%';
+    }
+
+    function entrar() {
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('main').style.display = 'flex';
+      renderTabs();
+      renderLista();
+    }
+
+    function irInicio() {
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('detail-view').style.display = 'none';
+      document.getElementById('splash').style.display = 'flex';
+      actualizarSplash();
+    }
+
+    function renderTabs() {
+      const wrap = document.getElementById('tabs-wrap');
+
+      if (!AREAS.length) {
+        wrap.innerHTML = '';
+        return;
+      }
+
+      wrap.innerHTML = AREAS.map((a, i) =>
+        `<button class="tab-btn${i === areaActiva ? ' active' : ''}" onclick="cambiarArea(${i})">${escapeHtml(a.nombre)}</button>`
+      ).join('');
+    }
+
+    function cambiarArea(i) {
+      areaActiva = i;
+      busqueda = '';
+      document.getElementById('search-input').value = '';
+      renderTabs();
+      renderLista();
+    }
+
+    function actualizarTopBar() {
+      const don = totalCompletados();
+      const tot = totalEquipos();
+      document.getElementById('m-done').textContent = don;
+      document.getElementById('m-total').textContent = '/ ' + tot + ' equipos';
+      document.getElementById('m-bar').style.width = (tot > 0 ? Math.round(don / tot * 100) : 0) + '%';
+    }
+
+    function renderLista() {
+      actualizarTopBar();
+
+      const cont = document.getElementById('list-view');
+
+      if (!AREAS.length) {
+        cont.innerHTML = '<div class="empty-msg">No se encontraron áreas ni equipos.</div>';
+        return;
+      }
+
+      const area = AREAS[areaActiva];
+      const items = area.items.filter(e =>
+        !busqueda ||
+        e.id.toLowerCase().includes(busqueda.toLowerCase()) ||
+        e.nombre.toLowerCase().includes(busqueda.toLowerCase())
+      );
+
+      const donArea = area.items.filter(e => estadoMap[e.id]).length;
+      document.getElementById('summary-bar').innerHTML =
+        `<span class="s-pill s-total">${area.items.length} equipos</span>
+         <span class="s-pill s-done">${donArea} completos</span>
+         <span class="s-pill s-pend">${area.items.length - donArea} pendientes</span>`;
+
+      if (!items.length) {
+        cont.innerHTML = '<div class="empty-msg">Sin resultados para la búsqueda.</div>';
+        return;
+      }
+
+      cont.innerHTML = items.map(e => {
+        const comp = !!estadoMap[e.id];
+        const pc = fotosDelEquipo(e.id);
+
+        let statusClass = '';
+        let statusText = '';
+
+        if (comp) {
+          statusClass = 'done';
+          statusText = '&#10003;';
+        } else if (pc > 0) {
+          statusClass = 'parcial';
+          statusText = pc;
+        }
+
+        return `
+          <div class="equip-row${comp ? ' completo' : ''}" onclick="abrirDetalle('${safeJs(e.id)}', ${areaActiva})">
+            <div class="status-circle ${statusClass}">${statusText}</div>
+            <div class="equip-info">
+              <div class="equip-tag">${escapeHtml(e.id)}</div>
+              <div class="equip-nombre">${escapeHtml(e.nombre)}</div>
+              <div class="equip-estado">${comp ? 'Completo' : pc > 0 ? pc + ' de 4 fotos tomadas' : 'Sin fotos aún'}</div>
+            </div>
+            <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
+            <span class="chevron">›</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filtrar() {
+      busqueda = document.getElementById('search-input').value.trim();
+      renderLista();
+    }
+
+    async function abrirDetalle(id, areaIdx) {
+      const area = AREAS[areaIdx];
+      equipoActivo = area.items.find(e => e.id === id);
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('detail-view').style.display = 'flex';
+      document.getElementById('detail-scroll').innerHTML = '<div class="loading-msg">Cargando detalle...</div>';
+
+      await cargarFotosEquipo(id);
+      renderDetalle();
+    }
+
+    function cerrarDetalle() {
+      document.getElementById('detail-view').style.display = 'none';
+      document.getElementById('main').style.display = 'flex';
+      renderLista();
+    }
+
+    async function cargarFotosEquipo(idTag) {
+      try {
+        const r = await apiGet({ action: 'getFotos', idTag });
+        if (!r.ok) throw new Error(r.error || 'No se pudieron cargar las fotos');
+        fotosCache[idTag] = Array.isArray(r.data) ? r.data : [];
+      } catch (err) {
+        console.error(err);
+        fotosCache[idTag] = [];
+      }
+    }
+
+    function obtenerFotosPorTipo(idTag, tipo) {
+      const arr = fotosCache[idTag] || [];
+      return arr.filter(f => (f.tipoFoto || '').toLowerCase() === tipo);
+    }
+
+    function renderDetalle() {
+      const e = equipoActivo;
+      if (!e) return;
+
+      document.getElementById('d-tag').textContent = e.id;
+      document.getElementById('d-nombre').textContent = e.nombre;
+
+      const cb = document.getElementById('d-crit');
+      cb.textContent = 'Criticidad ' + e.crit;
+      cb.className = 'crit-badge crit-' + e.crit;
+      document.getElementById('d-proceso').textContent = e.proceso || e.area;
+
+      const bars = FOTO_TIPOS.map(t => {
+        const has = obtenerFotosPorTipo(e.id, t.key).length > 0;
+        const todas = FOTO_TIPOS.every(tt => obtenerFotosPorTipo(e.id, tt.key).length > 0);
+        return `<div class="prog-foto-bar${has ? (todas ? ' done-all' : ' filled') : ''}"></div>`;
+      }).join('');
+      document.getElementById('d-bars').innerHTML = bars;
+
+      const scroll = document.getElementById('detail-scroll');
+      scroll.innerHTML = FOTO_TIPOS.map(t => {
+        const imgs = obtenerFotosPorTipo(e.id, t.key);
+
+        const thumbsHTML = imgs.map(img =>
+          `<div class="foto-thumb-wrap">
+            <img class="foto-thumb" src="${escapeHtml(img.urlFoto || '')}" alt="${escapeHtml(t.label)}" onclick="window.open('${escapeHtml(img.urlFoto || '')}', '_blank')">
+          </div>`
+        ).join('');
+
+        return `
+          <div class="foto-card">
+            <div class="foto-card-header">
+              <div class="foto-card-label"><span class="foto-icon">${t.icon}</span>${escapeHtml(t.label)}</div>
+              <span class="${imgs.length > 0 ? 'badge-hecho' : 'badge-vacio'}">
+                ${imgs.length > 0 ? imgs.length + ' foto' + (imgs.length > 1 ? 's' : '') : 'Pendiente'}
+              </span>
+            </div>
+            ${imgs.length > 0 ? `<div class="foto-thumbs">${thumbsHTML}</div>` : ''}
+            <div class="foto-actions">
+              <label class="btn-camara" for="file_${escapeAttr(e.id)}_${escapeAttr(t.key)}">
+                <span style="font-size:20px;line-height:1">+</span>
+                Tomar o subir foto
+              </label>
+              <input type="file" accept="image/*" capture="environment"
+                id="file_${escapeAttr(e.id)}_${escapeAttr(t.key)}"
+                onchange="agregarFoto(event,'${safeJs(e.id)}','${safeJs(t.key)}')">
+              <div class="mini-note">La foto se guardará en Drive y su registro en Google Sheets.</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const comp = !!estadoMap[e.id];
+      const tieneTodas = FOTO_TIPOS.every(t => obtenerFotosPorTipo(e.id, t.key).length > 0);
+      const btn = document.getElementById('btn-completar');
+
+      if (comp) {
+        btn.disabled = false;
+        btn.textContent = 'Completo - tocar para desmarcar';
+        btn.className = 'btn-completar hecho';
+      } else if (tieneTodas) {
+        btn.disabled = false;
+        btn.textContent = 'Marcar como completo';
+        btn.className = 'btn-completar';
+      } else {
+        btn.disabled = true;
+        btn.textContent = 'Faltan fotos para completar';
+        btn.className = 'btn-completar';
+      }
+    }
+
+    async function agregarFoto(evt, id, tipo) {
+      const file = evt.target.files[0];
+      if (!file || !equipoActivo) return;
+
+      const lector = new FileReader();
+
+      lector.onload = async function(e2) {
+        try {
+          document.getElementById('detail-scroll').insertAdjacentHTML(
+            'afterbegin',
+            '<div class="loading-msg" id="tmp-loading-foto">Subiendo foto...</div>'
+          );
+
+          const base64 = String(e2.target.result).split(',')[1];
+
+          const payload = {
+            action: 'uploadPhoto',
+            usuario: 'OPERADOR',
+            area: equipoActivo.area,
+            idTag: id,
+            nombreEquipo: equipoActivo.nombre,
+            tipoFoto: tipo,
+            mimeType: file.type || 'image/jpeg',
+            base64
+          };
+
+          const r = await apiPost(payload);
+
+          const tmp = document.getElementById('tmp-loading-foto');
+          if (tmp) tmp.remove();
+
+          if (!r.ok) {
+            throw new Error(r.error || 'No se pudo subir la foto');
+          }
+
+          await cargarFotosEquipo(id);
+          renderDetalle();
+          renderLista();
+          actualizarSplash();
+          alert('Foto subida correctamente.');
+        } catch (err) {
+          const tmp = document.getElementById('tmp-loading-foto');
+          if (tmp) tmp.remove();
+          console.error(err);
+          alert('Error al subir la foto: ' + err.message);
+        }
+      };
+
+      lector.readAsDataURL(file);
+      evt.target.value = '';
+    }
+
+    async function toggleCompletar() {
+      if (!equipoActivo) return;
+
+      const id = equipoActivo.id;
+      const nuevoEstado = !estadoMap[id];
+
+      try {
+        const r = await apiPost({
+          action: 'saveEstado',
+          idTag: id,
+          completo: nuevoEstado,
+          usuario: 'OPERADOR'
+        });
+
+        if (!r.ok) {
+          throw new Error(r.error || 'No se pudo guardar el estado');
+        }
+
+        estadoMap[id] = nuevoEstado;
+        renderDetalle();
+        renderLista();
+        actualizarSplash();
+      } catch (err) {
+        console.error(err);
+        alert('Error al guardar estado: ' + err.message);
+      }
+    }
+
+    async function cargarApp() {
+      try {
+        document.getElementById('tabs-wrap').innerHTML = '';
+        document.getElementById('summary-bar').innerHTML = '<span class="s-pill s-total">Cargando datos...</span>';
+        document.getElementById('list-view').innerHTML = '<div class="loading-msg">Conectando con Google Sheets...</div>';
+
+        const [equiposResp, estadoResp] = await Promise.all([
+          apiGet({ action: 'getEquipos' }),
+          apiGet({ action: 'getEstado' })
+        ]);
+
+        if (!equiposResp.ok) throw new Error(equiposResp.error || 'No se pudieron cargar equipos');
+        if (!estadoResp.ok) throw new Error(estadoResp.error || 'No se pudo cargar estado');
+
+        AREAS = normalizarEquipos(Array.isArray(equiposResp.data) ? equiposResp.data : []);
+        estadoMap = estadoResp.data || {};
+        areaActiva = 0;
+        appCargada = true;
+
+        actualizarSplash();
+        renderTabs();
+        renderLista();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('list-view').innerHTML =
+          `<div class="empty-msg">No se pudo conectar con la API.<br><br>${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function escapeAttr(text) {
+      return escapeHtml(text).replaceAll(' ', '_');
+    }
+
+    function safeJs(text) {
+      return String(text ?? '').replaceAll("\\", "\\\\").replaceAll("'", "\\'");
+    }
+
+    cargarApp();
+  </script>
+</body>
+</html>
