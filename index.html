@@ -24,14 +24,12 @@
       --rojo: #c62828;
       --rojo-claro: #fdecec;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
-
     html, body {
       height: 100%;
       font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -41,7 +39,6 @@
         linear-gradient(180deg, #ffffff 0%, #f6f8fd 100%);
       color: var(--negro);
     }
-
     body::before,
     body::after {
       content: "";
@@ -51,7 +48,6 @@
       z-index: 0;
       filter: blur(8px);
     }
-
     body::before {
       width: 220px;
       height: 220px;
@@ -59,7 +55,6 @@
       right: -80px;
       background: rgba(13, 59, 255, 0.09);
     }
-
     body::after {
       width: 180px;
       height: 180px;
@@ -67,14 +62,12 @@
       left: -70px;
       background: rgba(9, 20, 52, 0.05);
     }
-
     #splash,
     #main,
     #detail-view {
       position: relative;
       z-index: 1;
     }
-
     #splash {
       display: flex;
       flex-direction: column;
@@ -82,7 +75,6 @@
       min-height: 100vh;
       padding: 28px 18px;
     }
-
     .hero-shell {
       width: 100%;
       max-width: 1120px;
@@ -92,7 +84,6 @@
       gap: 24px;
       align-items: stretch;
     }
-
     .hero-panel,
     .hero-side {
       background: rgba(255, 255, 255, 0.88);
@@ -101,12 +92,10 @@
       box-shadow: var(--sombra);
       backdrop-filter: blur(10px);
     }
-
     .hero-panel {
       padding: 28px;
       overflow: hidden;
     }
-
     .hero-kicker {
       display: inline-flex;
       align-items: center;
@@ -121,7 +110,6 @@
       text-transform: uppercase;
       border: 1px solid rgba(13, 59, 255, 0.12);
     }
-
     .hero-kicker::before {
       content: "";
       width: 8px;
@@ -130,7 +118,6 @@
       background: var(--azul);
       box-shadow: 0 0 0 5px rgba(13, 59, 255, 0.12);
     }
-
     .hero-grid {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -138,7 +125,6 @@
       margin-top: 22px;
       align-items: center;
     }
-
     .splash-covia {
       font-size: clamp(40px, 8vw, 78px);
       font-weight: 900;
@@ -146,7 +132,6 @@
       letter-spacing: 5px;
       color: var(--azul-profundo);
     }
-
     .splash-lampazos {
       font-size: clamp(16px, 3vw, 26px);
       font-weight: 700;
@@ -154,39 +139,13 @@
       margin-top: 10px;
       color: var(--azul);
     }
-
     .hero-accent {
       width: 132px;
       height: 132px;
       border-radius: 28px;
       background: linear-gradient(135deg, rgba(13, 59, 255, 0.95), rgba(9, 20, 52, 0.98));
       box-shadow: 0 20px 45px rgba(13, 59, 255, 0.22);
-      position: relative;
-      overflow: hidden;
     }
-
-    .hero-accent::before,
-    .hero-accent::after {
-      content: "";
-      position: absolute;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-    }
-
-    .hero-accent::before {
-      inset: 16px;
-    }
-
-    .hero-accent::after {
-      width: 54px;
-      height: 54px;
-      right: -12px;
-      bottom: -10px;
-      background: rgba(255, 255, 255, 0.18);
-      border: none;
-      border-radius: 50%;
-    }
-
     .hero-copy {
       margin-top: 20px;
       max-width: 680px;
@@ -194,14 +153,12 @@
       line-height: 1.65;
       color: var(--gris-texto);
     }
-
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
       margin-top: 26px;
     }
-
     .btn-entrar {
       background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
       color: var(--blanco);
@@ -216,7 +173,6 @@
       cursor: pointer;
       box-shadow: 0 16px 30px rgba(13, 59, 255, 0.22);
     }
-
     .hero-note {
       display: inline-flex;
       align-items: center;
@@ -229,7 +185,6 @@
       font-weight: 600;
       box-shadow: var(--sombra-suave);
     }
-
     .hero-side {
       padding: 24px;
       display: flex;
@@ -237,14 +192,6 @@
       justify-content: space-between;
       gap: 18px;
     }
-
-    .side-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
     .side-title {
       font-size: 13px;
       font-weight: 800;
@@ -252,32 +199,17 @@
       text-transform: uppercase;
       color: var(--azul);
     }
-
     .side-sub {
       margin-top: 6px;
       font-size: 23px;
       font-weight: 800;
       color: var(--azul-profundo);
     }
-
-    .side-chip {
-      padding: 9px 12px;
-      border-radius: 14px;
-      background: var(--azul-profundo);
-      color: var(--blanco);
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
     .splash-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
     }
-
     .splash-stat {
       padding: 18px 16px;
       border-radius: 20px;
@@ -285,17 +217,14 @@
       border: 1px solid var(--gris-borde);
       box-shadow: var(--sombra-suave);
     }
-
     .splash-stat-n {
       font-size: 34px;
       font-weight: 900;
       color: var(--azul-profundo);
     }
-
     .splash-stat.done .splash-stat-n {
       color: var(--verde);
     }
-
     .splash-stat-l {
       margin-top: 6px;
       font-size: 11px;
@@ -304,14 +233,12 @@
       letter-spacing: 1.1px;
       font-weight: 700;
     }
-
     .side-progress {
       background: linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
       border: 1px solid rgba(13, 59, 255, 0.10);
       border-radius: 22px;
       padding: 18px;
     }
-
     .side-progress-label {
       font-size: 11px;
       letter-spacing: 1.6px;
@@ -319,14 +246,12 @@
       color: var(--gris-texto);
       font-weight: 800;
     }
-
     .side-progress-value {
       margin-top: 8px;
       font-size: 30px;
       font-weight: 900;
       color: var(--azul-profundo);
     }
-
     .side-progress-bar {
       height: 10px;
       border-radius: 999px;
@@ -334,7 +259,6 @@
       margin-top: 12px;
       overflow: hidden;
     }
-
     .side-progress-fill {
       height: 100%;
       width: 0%;
@@ -342,7 +266,6 @@
       background: linear-gradient(90deg, var(--azul), #4e8cff);
       transition: width 0.35s ease;
     }
-
     #main {
       display: none;
       flex-direction: column;
@@ -351,7 +274,6 @@
       padding: 14px;
       gap: 12px;
     }
-
     .top-bar {
       background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
       color: var(--blanco);
@@ -364,38 +286,32 @@
       box-shadow: var(--sombra);
       flex-shrink: 0;
     }
-
-    .top-bar-left .top-title {
+    .top-title {
       font-size: 22px;
       font-weight: 900;
       letter-spacing: 1.5px;
     }
-
-    .top-bar-left .top-sub {
+    .top-sub {
       font-size: 11px;
       letter-spacing: 2px;
       opacity: 0.82;
       margin-top: 5px;
       text-transform: uppercase;
     }
-
     .top-bar-right {
       min-width: 146px;
       text-align: right;
     }
-
-    .top-bar-right .prog-n {
+    .prog-n {
       font-size: 30px;
       font-weight: 900;
       line-height: 1;
     }
-
-    .top-bar-right .prog-l {
+    .prog-l {
       font-size: 11px;
       opacity: 0.82;
       margin-top: 4px;
     }
-
     .prog-bar-wrap {
       height: 7px;
       background: rgba(255, 255, 255, 0.18);
@@ -405,14 +321,12 @@
       margin-left: auto;
       overflow: hidden;
     }
-
     .prog-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, #ffffff 0%, #d9e5ff 100%);
       border-radius: 999px;
       transition: width 0.4s;
     }
-
     .btn-inicio {
       background: rgba(255, 255, 255, 0.10);
       border: 1px solid rgba(255, 255, 255, 0.18);
@@ -423,7 +337,6 @@
       padding: 8px 12px;
       border-radius: 12px;
     }
-
     .tabs-wrap {
       background: rgba(255, 255, 255, 0.9);
       border: 1px solid var(--gris-borde);
@@ -435,11 +348,9 @@
       flex-shrink: 0;
       box-shadow: var(--sombra-suave);
     }
-
     .tabs-wrap::-webkit-scrollbar {
       display: none;
     }
-
     .tab-btn {
       flex: 0 0 auto;
       padding: 11px 14px;
@@ -455,13 +366,11 @@
       border-radius: 12px;
       transition: all 0.25s ease;
     }
-
     .tab-btn.active {
       color: var(--blanco);
       background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
       box-shadow: 0 10px 20px rgba(13, 59, 255, 0.18);
     }
-
     .summary-bar,
     .search-wrap {
       background: rgba(255, 255, 255, 0.92);
@@ -470,7 +379,6 @@
       box-shadow: var(--sombra-suave);
       flex-shrink: 0;
     }
-
     .summary-bar {
       padding: 12px;
       display: flex;
@@ -478,7 +386,6 @@
       flex-wrap: wrap;
       align-items: center;
     }
-
     .s-pill {
       font-size: 11px;
       padding: 8px 12px;
@@ -486,29 +393,24 @@
       font-weight: 800;
       letter-spacing: 0.4px;
     }
-
     .s-total {
       background: #f3f6fb;
       color: #4e5b78;
       border: 1px solid var(--gris-borde);
     }
-
     .s-done {
       background: var(--verde-claro);
       color: var(--verde);
       border: 1px solid rgba(23, 156, 82, 0.15);
     }
-
     .s-pend {
       background: var(--rojo-claro);
       color: var(--rojo);
       border: 1px solid rgba(198, 40, 40, 0.12);
     }
-
     .search-wrap {
       padding: 10px 12px;
     }
-
     .search-wrap input {
       width: 100%;
       padding: 13px 15px;
@@ -517,21 +419,17 @@
       font-size: 14px;
       background: #fbfcff;
       color: var(--negro);
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
-
     .search-wrap input:focus {
       border-color: var(--azul);
       outline: none;
       box-shadow: 0 0 0 4px rgba(13, 59, 255, 0.10);
     }
-
     #list-view {
       flex: 1;
       overflow-y: auto;
       padding-right: 2px;
     }
-
     .equip-row {
       display: flex;
       align-items: center;
@@ -544,12 +442,10 @@
       box-shadow: var(--sombra-suave);
       margin-bottom: 10px;
     }
-
     .equip-row.completo {
       background: linear-gradient(180deg, #ffffff 0%, #f2fbf5 100%);
       border-color: rgba(23, 156, 82, 0.22);
     }
-
     .status-circle {
       width: 38px;
       height: 38px;
@@ -564,85 +460,70 @@
       background: #f8faff;
       color: var(--gris-texto);
     }
-
     .status-circle.done {
       background: var(--verde);
       border-color: var(--verde);
       color: var(--blanco);
     }
-
     .status-circle.parcial {
       background: var(--naranja);
       border-color: var(--naranja);
       color: var(--blanco);
     }
-
     .equip-info {
       flex: 1;
       min-width: 0;
     }
-
     .equip-tag {
       font-size: 18px;
       font-weight: 900;
       color: var(--azul-profundo);
-      letter-spacing: 0.3px;
     }
-
     .equip-nombre {
       font-size: 13px;
       color: var(--negro);
       margin-top: 4px;
       font-weight: 700;
     }
-
     .equip-proceso {
       font-size: 12px;
       color: var(--gris-texto);
       margin-top: 4px;
     }
-
     .equip-estado {
       font-size: 11px;
       color: #7a869f;
       margin-top: 4px;
       font-weight: 600;
     }
-
     .crit-badge {
       font-size: 10px;
       font-weight: 800;
       padding: 7px 10px;
       border-radius: 999px;
       flex-shrink: 0;
-      letter-spacing: 0.4px;
     }
-
     .crit-A {
       background: #ffe8e8;
       color: var(--rojo);
       border: 1px solid #ffcbcb;
     }
-
     .crit-B {
       background: var(--naranja-claro);
       color: var(--naranja);
       border: 1px solid #ffe0a3;
     }
-
     .crit-C {
       background: var(--verde-claro);
       color: var(--verde);
       border: 1px solid #bde6ca;
     }
-
     .chevron {
       color: var(--azul);
       font-size: 20px;
       flex-shrink: 0;
       font-weight: 700;
     }
-
     #detail-view {
       display: none;
       flex-direction: column;
@@ -651,7 +532,6 @@
       padding: 14px;
       gap: 12px;
     }
-
     .detail-topbar {
       background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
       color: var(--blanco);
@@ -663,7 +543,6 @@
       flex-shrink: 0;
       box-shadow: var(--sombra);
     }
-
     .btn-back {
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -674,13 +553,10 @@
       padding: 9px 12px;
       border-radius: 14px;
     }
-
     .detail-tag {
       font-size: 24px;
       font-weight: 900;
-      letter-spacing: 0.5px;
     }
-
     .detail-nombre {
       font-size: 14px;
       opacity: 0.95;
@@ -688,7 +564,6 @@
       line-height: 1.6;
       font-weight: 700;
     }
-
     .detail-meta {
       display: flex;
       gap: 8px;
@@ -696,7 +571,6 @@
       align-items: center;
       flex-wrap: wrap;
     }
-
     .prog-fotos {
       padding: 14px;
       background: rgba(255, 255, 255, 0.95);
@@ -705,7 +579,6 @@
       flex-shrink: 0;
       box-shadow: var(--sombra-suave);
     }
-
     .prog-fotos-label {
       font-size: 11px;
       letter-spacing: 1.6px;
@@ -714,34 +587,27 @@
       font-weight: 800;
       text-transform: uppercase;
     }
-
     .prog-fotos-bars {
       display: flex;
       gap: 8px;
     }
-
     .prog-foto-bar {
       flex: 1;
       height: 10px;
       border-radius: 999px;
       background: #e8edf6;
-      transition: background 0.3s;
     }
-
     .prog-foto-bar.filled {
       background: linear-gradient(90deg, var(--azul), #78a4ff);
     }
-
     .prog-foto-bar.done-all {
       background: linear-gradient(90deg, var(--verde), #3ecf76);
     }
-
     #detail-scroll {
       flex: 1;
       overflow-y: auto;
       padding-right: 2px;
     }
-
     .foto-card {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid var(--gris-borde);
@@ -750,7 +616,9 @@
       margin-bottom: 12px;
       box-shadow: var(--sombra-suave);
     }
-
+    .foto-card.card-blocked {
+      opacity: 0.62;
+    }
     .foto-card-header {
       display: flex;
       align-items: center;
@@ -759,7 +627,6 @@
       padding: 14px 16px;
       border-bottom: 1px solid #e8edf6;
     }
-
     .foto-card-label {
       font-size: 14px;
       font-weight: 800;
@@ -768,59 +635,128 @@
       gap: 8px;
       color: var(--azul-profundo);
     }
-
     .foto-icon {
       font-size: 17px;
     }
-
     .badge-hecho,
-    .badge-vacio {
+    .badge-vacio,
+    .badge-required {
       font-size: 10px;
       padding: 5px 10px;
       border-radius: 999px;
       font-weight: 800;
       letter-spacing: 0.3px;
     }
-
     .badge-hecho {
       background: var(--verde-claro);
       color: var(--verde);
     }
-
     .badge-vacio {
       background: #f3f6fb;
       color: #7f8aa3;
     }
-
-    .foto-thumbs {
-      padding: 12px 16px 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .badge-required {
+      background: #fff0f0;
+      color: var(--rojo);
     }
-
-    .foto-thumb-wrap {
-      position: relative;
-      display: inline-block;
+    .section-hint {
+      padding: 0 16px 14px;
+      font-size: 12px;
+      color: var(--gris-texto);
+      line-height: 1.55;
     }
-
-    .foto-thumb {
-      width: 86px;
-      height: 70px;
-      object-fit: cover;
-      border-radius: 12px;
+    .lock-note,
+    .save-note {
+      margin: 0 16px 16px;
+      padding: 12px 14px;
+      border-radius: 14px;
       border: 1px solid var(--gris-borde);
-      display: block;
-      box-shadow: 0 6px 18px rgba(16, 24, 40, 0.10);
-      cursor: pointer;
+      font-size: 12px;
+      line-height: 1.5;
     }
-
+    .lock-note {
+      background: #f5f7fb;
+      color: var(--gris-texto);
+    }
+    .save-note {
+      background: #eef3ff;
+      color: var(--azul-profundo);
+    }
+    .foto-actions {
+      padding: 14px 16px 16px;
+    }
+    .btn-camara,
+    .btn-secondary,
+    .btn-inline-danger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1.5px solid transparent;
+    }
+    .btn-camara {
+      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
+      border-style: dashed;
+      border-color: #b8c4da;
+      color: var(--gris-texto);
+    }
+    .btn-secondary {
+      background: var(--azul-suave);
+      color: var(--azul-oscuro);
+      border-color: rgba(13, 59, 255, 0.16);
+    }
+    .btn-inline-danger {
+      background: #fff2f2;
+      color: var(--rojo);
+      border-color: rgba(198, 40, 40, 0.16);
+    }
+    .btn-camara[aria-disabled="true"],
+    .btn-secondary:disabled,
+    .btn-inline-danger:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    input[type=file] {
+      display: none;
+    }
+    .thumb-large {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--gris-borde);
+      box-shadow: 0 8px 18px rgba(16, 24, 40, 0.10);
+      background: #eef3ff;
+      display: block;
+    }
+    .thumb-empty {
+      width: 100%;
+      height: 160px;
+      border-radius: 14px;
+      border: 1.5px dashed #b8c4da;
+      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: var(--gris-texto);
+      text-align: center;
+      padding: 10px;
+    }
+    .thumb-stack {
+      position: relative;
+    }
     .btn-del {
       position: absolute;
       top: -7px;
       right: -7px;
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       background: var(--rojo);
       color: var(--blanco);
       border: 2px solid var(--blanco);
@@ -834,31 +770,91 @@
       font-weight: 800;
       box-shadow: 0 6px 14px rgba(198, 40, 40, 0.25);
     }
-
-    .foto-actions {
-      padding: 14px 16px 16px;
+    .placa-list {
+      display: grid;
+      gap: 12px;
+      padding: 0 16px 16px;
     }
-
-    .btn-camara {
+    .placa-item {
+      border: 1px solid #e6ebf5;
+      border-radius: 18px;
+      padding: 14px;
+      background: #fbfcff;
+    }
+    .placa-item-head {
       display: flex;
+      justify-content: space-between;
+      gap: 10px;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
-      border: 1.5px dashed #b8c4da;
-      border-radius: 16px;
-      cursor: pointer;
-      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .placa-item-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--azul-profundo);
+    }
+    .placa-grid,
+    .cond-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .placa-grid {
+      grid-template-columns: 130px minmax(0, 1fr);
+      align-items: start;
+    }
+    .cond-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: 0 16px 16px;
+    }
+    .full-span {
+      grid-column: 1 / -1;
+    }
+    .field-group {
+      display: grid;
+      gap: 7px;
+    }
+    .field-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
       color: var(--gris-texto);
-      font-weight: 700;
     }
-
-    input[type=file] {
-      display: none;
+    .field-input,
+    .field-select,
+    .field-textarea {
+      width: 100%;
+      border: 1.5px solid var(--gris-borde);
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--negro);
+      font-size: 13px;
+      padding: 12px 13px;
+      font-family: inherit;
     }
-
+    .field-textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+    .field-input:focus,
+    .field-select:focus,
+    .field-textarea:focus {
+      outline: none;
+      border-color: var(--azul);
+      box-shadow: 0 0 0 4px rgba(13, 59, 255, 0.10);
+    }
+    .plate-actions {
+      display: grid;
+      gap: 10px;
+    }
+    .status-inline {
+      font-size: 12px;
+      color: #6f7d97;
+      line-height: 1.45;
+    }
+    .detail-footer {
+      flex-shrink: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
     .btn-completar {
       width: 100%;
       padding: 16px;
@@ -872,25 +868,16 @@
       letter-spacing: 0.8px;
       text-transform: uppercase;
       box-shadow: 0 16px 28px rgba(13, 59, 255, 0.18);
-      flex-shrink: 0;
     }
-
     .btn-completar:disabled {
       background: #ccd4e2;
       color: #7d869a;
       cursor: default;
       box-shadow: none;
     }
-
     .btn-completar.hecho {
       background: linear-gradient(135deg, var(--verde), #0f7d41);
     }
-
-    .detail-footer {
-      flex-shrink: 0;
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
     .empty-msg,
     .loading-msg {
       text-align: center;
@@ -902,19 +889,10 @@
       border-radius: 22px;
       box-shadow: var(--sombra-suave);
     }
-
     .loading-msg {
       color: var(--azul-profundo);
       font-weight: 700;
     }
-
-    .mini-note {
-      font-size: 11px;
-      color: #7f8aa3;
-      margin-top: 8px;
-      text-align: center;
-    }
-
     @media (max-width: 920px) {
       .hero-shell {
         grid-template-columns: 1fr;
@@ -928,14 +906,9 @@
         height: 120px;
       }
     }
-
     @media (max-width: 640px) {
       #splash {
         padding: 18px 14px;
-      }
-      .hero-panel,
-      .hero-side {
-        border-radius: 24px;
       }
       .hero-panel,
       .hero-side,
@@ -943,21 +916,20 @@
       .detail-topbar {
         padding: 18px;
       }
-      .splash-stats {
+      .splash-stats,
+      .cond-grid,
+      .placa-grid {
         grid-template-columns: 1fr;
       }
-      .hero-actions {
+      .hero-actions,
+      .top-bar,
+      .detail-topbar {
         flex-direction: column;
       }
       .btn-entrar,
       .hero-note {
         width: 100%;
         justify-content: center;
-      }
-      .top-bar,
-      .detail-topbar {
-        flex-direction: column;
-        align-items: stretch;
       }
       .top-bar-right {
         text-align: left;
@@ -973,7 +945,7 @@
   <div id="splash">
     <div class="hero-shell">
       <section class="hero-panel">
-        <div class="hero-kicker">Inspección visual industrial</div>
+        <div class="hero-kicker">Inspeccion visual industrial</div>
         <div class="hero-grid">
           <div class="brand-block">
             <div class="splash-covia">COVIA</div>
@@ -982,24 +954,19 @@
           <div class="hero-accent" aria-hidden="true"></div>
         </div>
         <p class="hero-copy">
-          Plataforma para el <strong>levantamiento fotográfico de equipos críticos</strong>,
-          con control por áreas, seguimiento visual y avance operativo en tiempo real.
+          Plataforma para el levantamiento fotografico de equipos criticos, con control
+          por areas, seguimiento visual y evidencia completa en campo.
         </p>
         <div class="hero-actions">
           <button class="btn-entrar" onclick="entrar()">Ingresar a planta</button>
           <div class="hero-note">Proyecto impulsado por MOLUB</div>
         </div>
       </section>
-
       <aside class="hero-side">
-        <div class="side-head">
-          <div>
-            <div class="side-title">Estado del proyecto</div>
-            <div class="side-sub">Panorama general</div>
-          </div>
-          <div class="side-chip">MOLUB</div>
+        <div>
+          <div class="side-title">Estado del proyecto</div>
+          <div class="side-sub">Panorama general</div>
         </div>
-
         <div class="splash-stats">
           <div class="splash-stat">
             <div class="splash-stat-n" id="s-total">0</div>
@@ -1014,7 +981,6 @@
             <div class="splash-stat-l">Avance</div>
           </div>
         </div>
-
         <div class="side-progress">
           <div class="side-progress-label">Cumplimiento total</div>
           <div class="side-progress-value" id="hero-progress-value">0%</div>
@@ -1025,7 +991,6 @@
       </aside>
     </div>
   </div>
-
   <div id="main">
     <div class="top-bar">
       <div class="top-bar-left">
@@ -1039,17 +1004,13 @@
         <button class="btn-inicio" onclick="irInicio()">Volver al inicio</button>
       </div>
     </div>
-
     <div class="tabs-wrap" id="tabs-wrap"></div>
     <div class="summary-bar" id="summary-bar"></div>
-
     <div class="search-wrap">
       <input type="text" id="search-input" placeholder="Buscar ID TAG o nombre..." oninput="filtrar()">
     </div>
-
     <div id="list-view"></div>
   </div>
-
   <div id="detail-view">
     <div class="detail-topbar">
       <button class="btn-back" onclick="cerrarDetalle()">&#8592;</button>
@@ -1062,36 +1023,29 @@
         </div>
       </div>
     </div>
-
     <div class="prog-fotos">
-      <div class="prog-fotos-label">Progreso de fotos</div>
+      <div class="prog-fotos-label">Progreso de captura</div>
       <div class="prog-fotos-bars" id="d-bars"></div>
     </div>
-
     <div id="detail-scroll"></div>
-
     <div class="detail-footer">
       <button class="btn-completar" id="btn-completar" onclick="toggleCompletar()">Marcar como completo</button>
     </div>
   </div>
-
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbyw-rFRKj_MWSqZysrSttIP7VJHsGWYIaKSM-4rVhnQTO8NTcokyGpe5VhJsMKyQADg/exec';
-
-    const FOTO_TIPOS = [
-      { key: 'placa', label: 'Foto de placa', icon: '🏷️' },
-      { key: 'componentes', label: 'Foto de componentes', icon: '⚙️' },
-      { key: 'elementos', label: 'Foto de elementos', icon: '🔩' },
-      { key: 'completo', label: 'Foto completa del equipo', icon: '📷' }
+    const USUARIO_ACTUAL = 'OPERADOR';
+    const PASOS = [
+      { key: 'fotoCompleta', label: 'Foto completa' },
+      { key: 'placas', label: 'Placas y codigos' },
+      { key: 'condiciones', label: 'Condiciones del area' }
     ];
-
     let AREAS = [];
     let areaActiva = 0;
     let busqueda = '';
     let equipoActivo = null;
     let estadoMap = {};
-    let fotosCache = {};
-
+    let detalleCache = {};
     async function apiGet(params = {}) {
       const url = new URL(API_URL);
       Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
@@ -1099,7 +1053,6 @@
       if (!res.ok) throw new Error('Error de red en GET');
       return await res.json();
     }
-
     async function apiPost(payload = {}) {
       const res = await fetch(API_URL, {
         method: 'POST',
@@ -1109,86 +1062,144 @@
       if (!res.ok) throw new Error('Error de red en POST');
       return await res.json();
     }
-
+    function uidLocal() {
+      return 'uid_' + Date.now() + '_' + Math.random().toString(16).slice(2, 8);
+    }
+    function placaVacia() {
+      return {
+        uid: uidLocal(),
+        codigo: '',
+        urlFoto: '',
+        fileId: '',
+        previewDataUrl: '',
+        base64: '',
+        mimeType: '',
+        saved: false,
+        dirty: false
+      };
+    }
+    function detalleVacio() {
+      return {
+        fotoCompleta: null,
+        placas: [placaVacia()],
+        condiciones: {
+          temperatura: '',
+          agua: '',
+          polvo: '',
+          otro: '',
+          saved: false
+        }
+      };
+    }
+    function normalizarDetalle(data) {
+      const base = detalleVacio();
+      const placas = Array.isArray(data.placas) && data.placas.length
+        ? data.placas.map(p => ({
+            uid: String(p.uid || uidLocal()),
+            codigo: String(p.codigo || ''),
+            urlFoto: String(p.urlFoto || ''),
+            fileId: String(p.fileId || ''),
+            previewDataUrl: '',
+            base64: '',
+            mimeType: '',
+            saved: true,
+            dirty: false
+          }))
+        : [placaVacia()];
+      return {
+        fotoCompleta: data.fotoCompleta || null,
+        placas: placas,
+        condiciones: {
+          temperatura: String((data.condiciones && data.condiciones.temperatura) || ''),
+          agua: String((data.condiciones && data.condiciones.agua) || ''),
+          polvo: String((data.condiciones && data.condiciones.polvo) || ''),
+          otro: String((data.condiciones && data.condiciones.otro) || ''),
+          saved: !!(data.condiciones && data.condiciones.saved)
+        }
+      };
+    }
+    function getDetalleState(idTag) {
+      if (!detalleCache[idTag]) detalleCache[idTag] = detalleVacio();
+      if (!detalleCache[idTag].placas.length) detalleCache[idTag].placas = [placaVacia()];
+      return detalleCache[idTag];
+    }
     function normalizarEquipos(lista) {
       const agrupado = {};
-
       lista.forEach(item => {
-        const area = String(item.area || 'SIN ÁREA').trim();
-
+        const area = String(item.area || 'SIN AREA').trim();
         if (!agrupado[area]) agrupado[area] = [];
-
-        const idReal = String(
-          item.idTag ||
-          item.ID_TAG ||
-          item.id_tag ||
-          ''
-        ).trim();
-
         agrupado[area].push({
-          id: idReal,
+          id: String(item.idTag || item.ID_TAG || item.id_tag || '').trim(),
           nombre: String(item.nombreEquipo || item.NOMBRE_EQUIPO || '').trim(),
           crit: String(item.criticidad || item.CRITICIDAD || 'C').trim(),
           proceso: String(item.proceso || item.PROCESO || '').trim(),
           sistema: String(item.sistema || item.SISTEMA || '').trim(),
-          noEquipo: String(item.noEquipo || item.N_EQUIPO || item['N° EQUIPO'] || '').trim(),
+          noEquipo: String(item.noEquipo || item.N_EQUIPO || '').trim(),
           area
         });
       });
-
       return Object.keys(agrupado).map(nombre => ({
         nombre,
         items: agrupado[nombre].sort((a, b) => (a.id || '').localeCompare(b.id || ''))
       }));
     }
-
     function totalEquipos() {
       return AREAS.reduce((a, x) => a + x.items.length, 0);
     }
-
     function totalCompletados() {
       return Object.values(estadoMap).filter(Boolean).length;
     }
-
-    function fotosDelEquipo(id) {
-      const fotos = fotosCache[id] || [];
-      const tiposConFoto = new Set(fotos.map(f => (f.tipoFoto || '').toLowerCase()));
-      return FOTO_TIPOS.filter(t => tiposConFoto.has(t.key)).length;
+    function progresoEquipo(idTag) {
+      const det = getDetalleState(idTag);
+      const fotoCompleta = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
+      const placas = det.placas.some(p => p.saved && ((p.codigo || '').trim() || p.urlFoto));
+      const cond = det.condiciones || {};
+      const condicionesValidas =
+        !!cond.temperatura &&
+        !!cond.agua &&
+        !!cond.polvo &&
+        (cond.polvo !== 'otro' || !!String(cond.otro || '').trim()) &&
+        !!cond.saved;
+      const steps = {
+        fotoCompleta,
+        placas,
+        condiciones: condicionesValidas
+      };
+      const doneCount = Object.values(steps).filter(Boolean).length;
+      return {
+        steps,
+        doneCount,
+        puedeCompletar: doneCount === PASOS.length
+      };
     }
-
     function actualizarSplash() {
       const tot = totalEquipos();
       const don = totalCompletados();
       const pct = tot > 0 ? Math.round(don / tot * 100) : 0;
-
       document.getElementById('s-total').textContent = tot;
       document.getElementById('s-done').textContent = don;
       document.getElementById('s-pct').textContent = pct + '%';
       document.getElementById('hero-progress-value').textContent = pct + '%';
       document.getElementById('hero-progress-fill').style.width = pct + '%';
     }
-
     function entrar() {
       document.getElementById('splash').style.display = 'none';
       document.getElementById('main').style.display = 'flex';
       renderTabs();
       renderLista();
     }
-
     function irInicio() {
       document.getElementById('main').style.display = 'none';
       document.getElementById('detail-view').style.display = 'none';
       document.getElementById('splash').style.display = 'flex';
       actualizarSplash();
     }
-
     function renderTabs() {
       const wrap = document.getElementById('tabs-wrap');
       wrap.innerHTML = AREAS.map((a, i) =>
         `<button class="tab-btn${i === areaActiva ? ' active' : ''}" onclick="cambiarArea(${i})">${escapeHtml(a.nombre)}</button>`
       ).join('');
     }
-
     function cambiarArea(i) {
       areaActiva = i;
       busqueda = '';
@@ -1196,7 +1207,6 @@
       renderTabs();
       renderLista();
     }
-
     function actualizarTopBar() {
       const don = totalCompletados();
       const tot = totalEquipos();
@@ -1204,17 +1214,13 @@
       document.getElementById('m-total').textContent = '/ ' + tot + ' equipos';
       document.getElementById('m-bar').style.width = (tot > 0 ? Math.round(don / tot * 100) : 0) + '%';
     }
-
     function renderLista() {
       actualizarTopBar();
-
       const cont = document.getElementById('list-view');
-
       if (!AREAS.length) {
-        cont.innerHTML = '<div class="empty-msg">No se encontraron áreas ni equipos.</div>';
+        cont.innerHTML = '<div class="empty-msg">No se encontraron areas ni equipos.</div>';
         return;
       }
-
       const area = AREAS[areaActiva];
       const items = area.items.filter(e =>
         !busqueda ||
@@ -1222,33 +1228,27 @@
         (e.nombre || '').toLowerCase().includes(busqueda.toLowerCase()) ||
         (e.proceso || '').toLowerCase().includes(busqueda.toLowerCase())
       );
-
       const donArea = area.items.filter(e => estadoMap[e.id]).length;
       document.getElementById('summary-bar').innerHTML =
         `<span class="s-pill s-total">${area.items.length} equipos</span>
          <span class="s-pill s-done">${donArea} completos</span>
          <span class="s-pill s-pend">${area.items.length - donArea} pendientes</span>`;
-
       if (!items.length) {
-        cont.innerHTML = '<div class="empty-msg">Sin resultados para la búsqueda.</div>';
+        cont.innerHTML = '<div class="empty-msg">Sin resultados para la busqueda.</div>';
         return;
       }
-
       cont.innerHTML = items.map(e => {
         const comp = !!estadoMap[e.id];
-        const pc = e.id ? fotosDelEquipo(e.id) : 0;
-
+        const progreso = progresoEquipo(e.id);
         let statusClass = '';
         let statusText = '';
-
         if (comp) {
           statusClass = 'done';
           statusText = '&#10003;';
-        } else if (pc > 0) {
+        } else if (progreso.doneCount > 0) {
           statusClass = 'parcial';
-          statusText = pc;
+          statusText = progreso.doneCount;
         }
-
         return `
           <div class="equip-row${comp ? ' completo' : ''}" onclick="abrirDetalle('${safeJs(e.id)}', ${areaActiva})">
             <div class="status-circle ${statusClass}">${statusText}</div>
@@ -1256,250 +1256,487 @@
               <div class="equip-tag">${escapeHtml(e.id || 'SIN ID TAG')}</div>
               <div class="equip-nombre">${escapeHtml(e.nombre)}</div>
               <div class="equip-proceso">Proceso: ${escapeHtml(e.proceso || e.area)}</div>
-              <div class="equip-estado">${comp ? 'Completo' : pc > 0 ? pc + ' de 4 fotos tomadas' : 'Sin fotos aún'}</div>
+              <div class="equip-estado">${comp ? 'Completo' : progreso.doneCount > 0 ? progreso.doneCount + ' de 3 requisitos cubiertos' : 'Sin captura aun'}</div>
             </div>
             <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
-            <span class="chevron">›</span>
+            <span class="chevron">&#8250;</span>
           </div>
         `;
       }).join('');
     }
-
     function filtrar() {
       busqueda = document.getElementById('search-input').value.trim();
       renderLista();
     }
-
     async function abrirDetalle(id, areaIdx) {
       const area = AREAS[areaIdx];
       equipoActivo = area.items.find(e => e.id === id);
-
       document.getElementById('main').style.display = 'none';
       document.getElementById('detail-view').style.display = 'flex';
       document.getElementById('detail-scroll').innerHTML = '<div class="loading-msg">Cargando detalle...</div>';
-
-      await cargarFotosEquipo(id);
+      await cargarDetalleEquipo(id);
       renderDetalle();
     }
-
     function cerrarDetalle() {
       document.getElementById('detail-view').style.display = 'none';
       document.getElementById('main').style.display = 'flex';
       renderLista();
     }
-
-    async function cargarFotosEquipo(idTag) {
+    async function cargarDetalleEquipo(idTag) {
       try {
-        const r = await apiGet({ action: 'getFotos', idTag });
-        if (!r.ok) throw new Error(r.error || 'No se pudieron cargar las fotos');
-        fotosCache[idTag] = Array.isArray(r.data) ? r.data : [];
+        const r = await apiGet({ action: 'getDetalle', idTag });
+        if (!r.ok) throw new Error(r.error || 'No se pudo cargar el detalle');
+        detalleCache[idTag] = normalizarDetalle(r.data || {});
       } catch (err) {
         console.error(err);
-        fotosCache[idTag] = [];
+        detalleCache[idTag] = detalleVacio();
       }
     }
-
-    function obtenerFotosPorTipo(idTag, tipo) {
-      const arr = fotosCache[idTag] || [];
-      return arr.filter(f => (f.tipoFoto || '').toLowerCase() === tipo);
-    }
-
     function renderDetalle() {
-      const e = equipoActivo;
-      if (!e) return;
-
-      document.getElementById('d-tag').textContent = e.id || 'SIN ID TAG';
-      document.getElementById('d-nombre').textContent = e.nombre || '';
-      document.getElementById('d-proceso').textContent = 'Proceso: ' + (e.proceso || e.area || '');
-
+      if (!equipoActivo) return;
+      const det = getDetalleState(equipoActivo.id);
+      const progreso = progresoEquipo(equipoActivo.id);
+      const bloqueado = !progreso.steps.fotoCompleta;
+      document.getElementById('d-tag').textContent = equipoActivo.id || 'SIN ID TAG';
+      document.getElementById('d-nombre').textContent = equipoActivo.nombre || '';
+      document.getElementById('d-proceso').textContent = 'Proceso: ' + (equipoActivo.proceso || equipoActivo.area || '');
       const cb = document.getElementById('d-crit');
-      cb.textContent = 'Criticidad ' + e.crit;
-      cb.className = 'crit-badge crit-' + e.crit;
-
-      const bars = FOTO_TIPOS.map(t => {
-        const has = obtenerFotosPorTipo(e.id, t.key).length > 0;
-        const todas = FOTO_TIPOS.every(tt => obtenerFotosPorTipo(e.id, tt.key).length > 0);
-        return `<div class="prog-foto-bar${has ? (todas ? ' done-all' : ' filled') : ''}"></div>`;
+      cb.textContent = 'Criticidad ' + equipoActivo.crit;
+      cb.className = 'crit-badge crit-' + equipoActivo.crit;
+      document.getElementById('d-bars').innerHTML = PASOS.map(step => {
+        const on = progreso.steps[step.key];
+        return `<div class="prog-foto-bar${on ? (progreso.puedeCompletar ? ' done-all' : ' filled') : ''}"></div>`;
       }).join('');
-      document.getElementById('d-bars').innerHTML = bars;
-
-      const scroll = document.getElementById('detail-scroll');
-      scroll.innerHTML = FOTO_TIPOS.map(t => {
-        const imgs = obtenerFotosPorTipo(e.id, t.key);
-
-        const thumbsHTML = imgs.map(img =>
-          `<div class="foto-thumb-wrap">
-            <img class="foto-thumb" src="${escapeHtml(img.urlFoto || '')}" alt="${escapeHtml(t.label)}" onclick="window.open('${escapeHtml(img.urlFoto || '')}', '_blank')">
-            <button class="btn-del" onclick="eliminarFoto(event, '${safeJs(e.id)}', '${safeJs(t.key)}', '${safeJs(img.fileId || '')}', '${safeJs(img.urlFoto || '')}')">×</button>
-          </div>`
-        ).join('');
-
+      const fotoCompletaHtml = det.fotoCompleta && det.fotoCompleta.urlFoto
+        ? `<div class="thumb-stack">
+             <img class="thumb-large" src="${escapeHtml(det.fotoCompleta.urlFoto)}" alt="Foto completa">
+             <button class="btn-del" onclick="eliminarFotoCompleta()">&#10005;</button>
+           </div>`
+        : `<div class="thumb-empty">Sin foto completa capturada</div>`;
+      const placasHtml = det.placas.map((item, idx) => {
+        const previewSrc = item.previewDataUrl || item.urlFoto || '';
+        const fotoHtml = previewSrc
+          ? `<div class="thumb-stack">
+               <img class="thumb-large" src="${escapeHtml(previewSrc)}" alt="Placa ${idx + 1}">
+               <button class="btn-del" onclick="quitarFotoPlaca('${safeJs(item.uid)}')">&#10005;</button>
+             </div>`
+          : `<div class="thumb-empty">Sin foto cargada</div>`;
+        const botonGuardar = item.saved && !item.dirty
+          ? 'Placa guardada'
+          : 'Guardar placa';
         return `
-          <div class="foto-card">
-            <div class="foto-card-header">
-              <div class="foto-card-label"><span class="foto-icon">${t.icon}</span>${escapeHtml(t.label)}</div>
-              <span class="${imgs.length > 0 ? 'badge-hecho' : 'badge-vacio'}">
-                ${imgs.length > 0 ? imgs.length + ' foto' + (imgs.length > 1 ? 's' : '') : 'Pendiente'}
-              </span>
+          <div class="placa-item">
+            <div class="placa-item-head">
+              <div class="placa-item-title">Placa o equipo relacionado ${idx + 1}</div>
+              <button class="btn-inline-danger" onclick="eliminarPlaca('${safeJs(item.uid)}')" ${det.placas.length === 1 || bloqueado ? 'disabled' : ''}>Quitar</button>
             </div>
-            ${imgs.length > 0 ? `<div class="foto-thumbs">${thumbsHTML}</div>` : ''}
-            <div class="foto-actions">
-              <label class="btn-camara" for="file_${escapeAttr(e.id)}_${escapeAttr(t.key)}">
-                <span style="font-size:20px;line-height:1">+</span>
-                Tomar o subir foto
-              </label>
-              <input type="file" accept="image/*" capture="environment"
-                id="file_${escapeAttr(e.id)}_${escapeAttr(t.key)}"
-                onchange="agregarFoto(event,'${safeJs(e.id)}','${safeJs(t.key)}')">
-              <div class="mini-note">La foto se guardará en Drive y su registro en Google Sheets.</div>
+            <div class="placa-grid">
+              <div class="field-group">
+                <label class="field-label">Foto</label>
+                ${fotoHtml}
+              </div>
+              <div class="field-group">
+                <label class="field-label">Codigo si no se puede tomar foto</label>
+                <input class="field-input" type="text" value="${escapeAttr(item.codigo || '')}" placeholder="Escribe el codigo de la placa o del equipo" oninput="actualizarCodigoPlaca('${safeJs(item.uid)}', this.value)" ${bloqueado ? 'disabled' : ''}>
+                <div class="status-inline">Puedes guardar foto, codigo o ambos. Si modificas algo, vuelve a guardar la placa.</div>
+                <div class="plate-actions">
+                  <label class="btn-camara" for="placa_file_${escapeAttr(item.uid)}" ${bloqueado ? 'aria-disabled="true"' : ''}>
+                    <span style="font-size:20px;line-height:1">+</span>
+                    ${previewSrc ? 'Reemplazar foto' : 'Tomar o subir foto'}
+                  </label>
+                  <input type="file" accept="image/*" capture="environment" id="placa_file_${escapeAttr(item.uid)}" onchange="seleccionarFotoPlaca(event,'${safeJs(item.uid)}')" ${bloqueado ? 'disabled' : ''}>
+                  <button class="btn-secondary" onclick="guardarPlaca('${safeJs(item.uid)}')" ${bloqueado ? 'disabled' : ''}>${botonGuardar}</button>
+                </div>
+              </div>
             </div>
           </div>
         `;
       }).join('');
-
-      const comp = !!estadoMap[e.id];
-      const tieneTodas = FOTO_TIPOS.every(t => obtenerFotosPorTipo(e.id, t.key).length > 0);
+      const cond = det.condiciones;
+      const condicionesNota = cond.saved
+        ? '<div class="save-note">Condiciones guardadas correctamente.</div>'
+        : '<div class="lock-note">Recuerda guardar las condiciones para poder completar el equipo.</div>';
+      document.getElementById('detail-scroll').innerHTML = `
+        <div class="foto-card">
+          <div class="foto-card-header">
+            <div class="foto-card-label"><span class="foto-icon">&#128247;</span>Foto completa del equipo</div>
+            <span class="badge-required">Obligatorio primero</span>
+          </div>
+          <div class="section-hint">Antes de cualquier otro registro, primero debes capturar la foto completa del equipo seleccionado.</div>
+          <div class="foto-actions">${fotoCompletaHtml}</div>
+          <div class="foto-actions">
+            <label class="btn-camara" for="file_completo">
+              <span style="font-size:20px;line-height:1">+</span>
+              ${det.fotoCompleta && det.fotoCompleta.urlFoto ? 'Reemplazar foto completa' : 'Tomar o subir foto completa'}
+            </label>
+            <input type="file" accept="image/*" capture="environment" id="file_completo" onchange="subirFotoCompleta(event)">
+          </div>
+        </div>
+        <div class="foto-card${bloqueado ? ' card-blocked' : ''}">
+          <div class="foto-card-header">
+            <div class="foto-card-label"><span class="foto-icon">&#127991;</span>Placas o equipos relacionados</div>
+            <span class="${progreso.steps.placas ? 'badge-hecho' : 'badge-vacio'}">${progreso.steps.placas ? 'Capturado' : 'Pendiente'}</span>
+          </div>
+          <div class="section-hint">Debajo de la foto completa puedes registrar placas del reductor o de otro equipo. Si no puedes tomar foto, escribe el codigo. Puedes agregar varias.</div>
+          ${bloqueado ? '<div class="lock-note">Esta seccion se habilita despues de subir la foto completa del equipo.</div>' : ''}
+          <div class="placa-list">${placasHtml}</div>
+          <div class="foto-actions">
+            <button class="btn-secondary" onclick="agregarPlacaLocal()" ${bloqueado ? 'disabled' : ''}>Agregar otra placa o codigo</button>
+          </div>
+        </div>
+        <div class="foto-card${bloqueado ? ' card-blocked' : ''}">
+          <div class="foto-card-header">
+            <div class="foto-card-label"><span class="foto-icon">&#129517;</span>Condiciones del area</div>
+            <span class="${progreso.steps.condiciones ? 'badge-hecho' : 'badge-vacio'}">${progreso.steps.condiciones ? 'Completo' : 'Pendiente'}</span>
+          </div>
+          <div class="section-hint">Selecciona temperatura, agua y polvo. Si eliges "Otro" en polvo, describe la condicion encontrada.</div>
+          ${bloqueado ? '<div class="lock-note">Esta seccion tambien se habilita despues de la foto completa.</div>' : condicionesNota}
+          <div class="cond-grid">
+            <div class="field-group">
+              <label class="field-label">Temperatura</label>
+              <select class="field-select" onchange="cambiarCondicion('temperatura', this.value)" ${bloqueado ? 'disabled' : ''}>
+                ${renderOpciones([
+                  ['', 'Selecciona'],
+                  ['fria', 'Fria'],
+                  ['templada', 'Templada'],
+                  ['caliente', 'Caliente'],
+                  ['muy-caliente', 'Muy caliente']
+                ], cond.temperatura)}
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Agua</label>
+              <select class="field-select" onchange="cambiarCondicion('agua', this.value)" ${bloqueado ? 'disabled' : ''}>
+                ${renderOpciones([
+                  ['', 'Selecciona'],
+                  ['seca', 'Sin agua'],
+                  ['humedad', 'Humedad'],
+                  ['goteo', 'Goteo'],
+                  ['chorro', 'Chorro']
+                ], cond.agua)}
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Polvo</label>
+              <select class="field-select" onchange="cambiarCondicion('polvo', this.value)" ${bloqueado ? 'disabled' : ''}>
+                ${renderOpciones([
+                  ['', 'Selecciona'],
+                  ['sin-polvo', 'Sin polvo'],
+                  ['ligero', 'Ligero'],
+                  ['abrasivo', 'Abrasivo'],
+                  ['humedo', 'Humedo o apelmazado'],
+                  ['otro', 'Otro']
+                ], cond.polvo)}
+              </select>
+            </div>
+            <div class="field-group full-span" ${cond.polvo === 'otro' ? '' : 'style="display:none"'}>
+              <label class="field-label">Describe el otro tipo</label>
+              <textarea class="field-textarea" placeholder="Describe brevemente la condicion encontrada" oninput="actualizarOtro(this.value)" ${bloqueado ? 'disabled' : ''}>${escapeHtml(cond.otro || '')}</textarea>
+            </div>
+          </div>
+          <div class="foto-actions">
+            <button class="btn-secondary" onclick="guardarCondiciones()" ${bloqueado ? 'disabled' : ''}>Guardar condiciones del area</button>
+          </div>
+        </div>
+      `;
+      const comp = !!estadoMap[equipoActivo.id];
       const btn = document.getElementById('btn-completar');
-
       if (comp) {
         btn.disabled = false;
         btn.textContent = 'Completo - tocar para desmarcar';
         btn.className = 'btn-completar hecho';
-      } else if (tieneTodas) {
+      } else if (progreso.puedeCompletar) {
         btn.disabled = false;
         btn.textContent = 'Marcar como completo';
         btn.className = 'btn-completar';
       } else {
         btn.disabled = true;
-        btn.textContent = 'Faltan fotos para completar';
+        btn.textContent = 'Completa los 3 requisitos obligatorios';
         btn.className = 'btn-completar';
       }
     }
-
-    async function agregarFoto(evt, id, tipo) {
-      const file = evt.target.files[0];
-      if (!file || !equipoActivo) return;
-
-      const lector = new FileReader();
-
-      lector.onload = async function(e2) {
-        try {
-          document.getElementById('detail-scroll').insertAdjacentHTML(
-            'afterbegin',
-            '<div class="loading-msg" id="tmp-loading-foto">Subiendo foto...</div>'
-          );
-
-          const base64 = String(e2.target.result).split(',')[1];
-
-          const payload = {
-            action: 'uploadPhoto',
-            usuario: 'OPERADOR',
-            area: equipoActivo.area,
-            idTag: id,
-            nombreEquipo: equipoActivo.nombre,
-            tipoFoto: tipo,
-            mimeType: file.type || 'image/jpeg',
-            base64
-          };
-
-          const r = await apiPost(payload);
-
-          const tmp = document.getElementById('tmp-loading-foto');
-          if (tmp) tmp.remove();
-
-          if (!r.ok) throw new Error(r.error || 'No se pudo subir la foto');
-
-          await cargarFotosEquipo(id);
-          renderDetalle();
-          renderLista();
-          actualizarSplash();
-          alert('Foto subida correctamente.');
-        } catch (err) {
-          const tmp = document.getElementById('tmp-loading-foto');
-          if (tmp) tmp.remove();
-          console.error(err);
-          alert('Error al subir la foto: ' + err.message);
-        }
-      };
-
-      lector.readAsDataURL(file);
-      evt.target.value = '';
+    function renderOpciones(opciones, seleccionado) {
+      return opciones.map(([valor, texto]) =>
+        `<option value="${escapeAttr(valor)}" ${valor === seleccionado ? 'selected' : ''}>${escapeHtml(texto)}</option>`
+      ).join('');
     }
-
-    async function eliminarFoto(ev, idTag, tipoFoto, fileId, urlFoto) {
-      ev.stopPropagation();
-
-      const confirmar = confirm('¿Deseas eliminar esta foto?');
-      if (!confirmar) return;
-
+    function actualizarPantallas() {
+      if (equipoActivo) renderDetalle();
+      renderLista();
+      actualizarSplash();
+    }
+    function leerArchivo(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(String(e.target.result || ''));
+        reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+        reader.readAsDataURL(file);
+      });
+    }
+    async function subirFotoCompleta(evt) {
+      const file = evt.target.files[0];
+      evt.target.value = '';
+      if (!file || !equipoActivo) return;
+      try {
+        const dataUrl = await leerArchivo(file);
+        const base64 = dataUrl.split(',')[1] || '';
+        const r = await apiPost({
+          action: 'uploadPhoto',
+          usuario: USUARIO_ACTUAL,
+          area: equipoActivo.area,
+          idTag: equipoActivo.id,
+          nombreEquipo: equipoActivo.nombre,
+          tipoFoto: 'completo',
+          mimeType: file.type || 'image/jpeg',
+          base64
+        });
+        if (!r.ok) throw new Error(r.error || 'No se pudo subir la foto completa');
+        detalleCache[equipoActivo.id] = getDetalleState(equipoActivo.id);
+        detalleCache[equipoActivo.id].fotoCompleta = {
+          tipoFoto: 'completo',
+          urlFoto: r.urlFoto,
+          fileId: r.fileId
+        };
+        actualizarPantallas();
+        alert('Foto completa guardada correctamente.');
+      } catch (err) {
+        console.error(err);
+        alert('Error al subir la foto completa: ' + err.message);
+      }
+    }
+    async function eliminarFotoCompleta() {
+      if (!equipoActivo) return;
+      const det = getDetalleState(equipoActivo.id);
+      if (!det.fotoCompleta || !det.fotoCompleta.fileId) return;
+      const ok = confirm('¿Deseas eliminar la foto completa del equipo?');
+      if (!ok) return;
       try {
         const r = await apiPost({
           action: 'deletePhoto',
-          idTag,
-          tipoFoto,
-          fileId,
-          urlFoto
+          idTag: equipoActivo.id,
+          tipoFoto: 'completo',
+          fileId: det.fotoCompleta.fileId,
+          urlFoto: det.fotoCompleta.urlFoto
         });
-
-        if (!r.ok) {
-          throw new Error(r.error || 'No se pudo eliminar la foto');
-        }
-
-        await cargarFotosEquipo(idTag);
-        renderDetalle();
-        renderLista();
-        actualizarSplash();
-        alert('Foto eliminada correctamente.');
+        if (!r.ok) throw new Error(r.error || 'No se pudo eliminar la foto completa');
+        det.fotoCompleta = null;
+        estadoMap[equipoActivo.id] = false;
+        actualizarPantallas();
       } catch (err) {
         console.error(err);
-        alert('Error al eliminar la foto: ' + err.message);
+        alert('Error al eliminar la foto completa: ' + err.message);
       }
     }
-
+    function agregarPlacaLocal() {
+      if (!equipoActivo) return;
+      getDetalleState(equipoActivo.id).placas.push(placaVacia());
+      renderDetalle();
+    }
+    function actualizarCodigoPlaca(uid, valor) {
+      const det = getDetalleState(equipoActivo.id);
+      const item = det.placas.find(p => p.uid === uid);
+      if (!item) return;
+      item.codigo = valor;
+      item.dirty = true;
+      item.saved = false;
+    }
+    async function seleccionarFotoPlaca(evt, uid) {
+      const file = evt.target.files[0];
+      evt.target.value = '';
+      if (!file || !equipoActivo) return;
+      try {
+        const dataUrl = await leerArchivo(file);
+        const base64 = dataUrl.split(',')[1] || '';
+        const det = getDetalleState(equipoActivo.id);
+        const item = det.placas.find(p => p.uid === uid);
+        if (!item) return;
+        item.previewDataUrl = dataUrl;
+        item.base64 = base64;
+        item.mimeType = file.type || 'image/jpeg';
+        item.dirty = true;
+        item.saved = false;
+        renderDetalle();
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo preparar la foto de la placa.');
+      }
+    }
+    function quitarFotoPlaca(uid) {
+      const det = getDetalleState(equipoActivo.id);
+      const item = det.placas.find(p => p.uid === uid);
+      if (!item) return;
+      if (item.fileId) {
+        item.urlFoto = '';
+        item.fileId = '';
+      }
+      item.previewDataUrl = '';
+      item.base64 = '';
+      item.mimeType = '';
+      item.dirty = true;
+      item.saved = false;
+      renderDetalle();
+    }
+    async function guardarPlaca(uid) {
+      if (!equipoActivo) return;
+      const det = getDetalleState(equipoActivo.id);
+      const item = det.placas.find(p => p.uid === uid);
+      if (!item) return;
+      const tieneCodigo = !!String(item.codigo || '').trim();
+      const tieneFotoNueva = !!item.base64;
+      const tieneFotoPrev = !!item.urlFoto;
+      if (!tieneCodigo && !tieneFotoNueva && !tieneFotoPrev) {
+        alert('Debes guardar una foto, un codigo o ambos en la placa.');
+        return;
+      }
+      try {
+        const r = await apiPost({
+          action: 'savePlacaRegistro',
+          usuario: USUARIO_ACTUAL,
+          area: equipoActivo.area,
+          idTag: equipoActivo.id,
+          nombreEquipo: equipoActivo.nombre,
+          uid: item.uid,
+          codigo: item.codigo || '',
+          mimeType: item.mimeType || '',
+          base64: item.base64 || ''
+        });
+        if (!r.ok) throw new Error(r.error || 'No se pudo guardar la placa');
+        item.codigo = String((r.placa && r.placa.codigo) || item.codigo || '');
+        item.urlFoto = String((r.placa && r.placa.urlFoto) || item.urlFoto || '');
+        item.fileId = String((r.placa && r.placa.fileId) || item.fileId || '');
+        item.previewDataUrl = '';
+        item.base64 = '';
+        item.mimeType = '';
+        item.saved = true;
+        item.dirty = false;
+        actualizarPantallas();
+        alert('Placa guardada correctamente.');
+      } catch (err) {
+        console.error(err);
+        alert('Error al guardar la placa: ' + err.message);
+      }
+    }
+    async function eliminarPlaca(uid) {
+      if (!equipoActivo) return;
+      const det = getDetalleState(equipoActivo.id);
+      const idx = det.placas.findIndex(p => p.uid === uid);
+      if (idx === -1) return;
+      const item = det.placas[idx];
+      if (!item.saved && !item.fileId && !item.urlFoto) {
+        det.placas.splice(idx, 1);
+        if (!det.placas.length) det.placas.push(placaVacia());
+        renderDetalle();
+        return;
+      }
+      const ok = confirm('¿Deseas eliminar esta placa o codigo?');
+      if (!ok) return;
+      try {
+        const r = await apiPost({
+          action: 'deletePlacaRegistro',
+          idTag: equipoActivo.id,
+          uid: item.uid
+        });
+        if (!r.ok) throw new Error(r.error || 'No se pudo eliminar la placa');
+        det.placas.splice(idx, 1);
+        if (!det.placas.length) det.placas.push(placaVacia());
+        actualizarPantallas();
+      } catch (err) {
+        console.error(err);
+        alert('Error al eliminar la placa: ' + err.message);
+      }
+    }
+    function cambiarCondicion(campo, valor) {
+      if (!equipoActivo) return;
+      const cond = getDetalleState(equipoActivo.id).condiciones;
+      cond[campo] = valor;
+      cond.saved = false;
+      if (campo === 'polvo' && valor !== 'otro') {
+        cond.otro = '';
+      }
+      renderDetalle();
+    }
+    function actualizarOtro(valor) {
+      if (!equipoActivo) return;
+      const cond = getDetalleState(equipoActivo.id).condiciones;
+      cond.otro = valor;
+      cond.saved = false;
+    }
+    async function guardarCondiciones() {
+      if (!equipoActivo) return;
+      const cond = getDetalleState(equipoActivo.id).condiciones;
+      if (!cond.temperatura || !cond.agua || !cond.polvo) {
+        alert('Debes seleccionar temperatura, agua y polvo.');
+        return;
+      }
+      if (cond.polvo === 'otro' && !String(cond.otro || '').trim()) {
+        alert('Debes describir la condicion en "Otro".');
+        return;
+      }
+      try {
+        const r = await apiPost({
+          action: 'saveCondiciones',
+          usuario: USUARIO_ACTUAL,
+          area: equipoActivo.area,
+          idTag: equipoActivo.id,
+          nombreEquipo: equipoActivo.nombre,
+          temperatura: cond.temperatura,
+          agua: cond.agua,
+          polvo: cond.polvo,
+          otro: cond.otro || ''
+        });
+        if (!r.ok) throw new Error(r.error || 'No se pudieron guardar las condiciones');
+        getDetalleState(equipoActivo.id).condiciones = {
+          temperatura: String((r.condiciones && r.condiciones.temperatura) || cond.temperatura || ''),
+          agua: String((r.condiciones && r.condiciones.agua) || cond.agua || ''),
+          polvo: String((r.condiciones && r.condiciones.polvo) || cond.polvo || ''),
+          otro: String((r.condiciones && r.condiciones.otro) || cond.otro || ''),
+          saved: true
+        };
+        actualizarPantallas();
+        alert('Condiciones guardadas correctamente.');
+      } catch (err) {
+        console.error(err);
+        alert('Error al guardar condiciones: ' + err.message);
+      }
+    }
     async function toggleCompletar() {
       if (!equipoActivo) return;
-
       const id = equipoActivo.id;
       const nuevoEstado = !estadoMap[id];
-
+      const progreso = progresoEquipo(id);
+      if (nuevoEstado && !progreso.puedeCompletar) {
+        alert('Primero debes cumplir foto completa, placas guardadas y condiciones del area.');
+        return;
+      }
       try {
         const r = await apiPost({
           action: 'saveEstado',
           idTag: id,
           completo: nuevoEstado,
-          usuario: 'OPERADOR'
+          usuario: USUARIO_ACTUAL
         });
-
         if (!r.ok) throw new Error(r.error || 'No se pudo guardar el estado');
-
         estadoMap[id] = nuevoEstado;
-        renderDetalle();
-        renderLista();
-        actualizarSplash();
+        actualizarPantallas();
       } catch (err) {
         console.error(err);
         alert('Error al guardar estado: ' + err.message);
       }
     }
-
     async function cargarApp() {
       try {
         document.getElementById('tabs-wrap').innerHTML = '';
         document.getElementById('summary-bar').innerHTML = '<span class="s-pill s-total">Cargando datos...</span>';
         document.getElementById('list-view').innerHTML = '<div class="loading-msg">Conectando con Google Sheets...</div>';
-
         const [equiposResp, estadoResp] = await Promise.all([
           apiGet({ action: 'getEquipos' }),
           apiGet({ action: 'getEstado' })
         ]);
-
         if (!equiposResp.ok) throw new Error(equiposResp.error || 'No se pudieron cargar equipos');
         if (!estadoResp.ok) throw new Error(estadoResp.error || 'No se pudo cargar estado');
-
         AREAS = normalizarEquipos(Array.isArray(equiposResp.data) ? equiposResp.data : []);
         estadoMap = estadoResp.data || {};
         areaActiva = 0;
-
         actualizarSplash();
         renderTabs();
         renderLista();
@@ -1509,7 +1746,6 @@
           `<div class="empty-msg">No se pudo conectar con la API.<br><br>${escapeHtml(err.message)}</div>`;
       }
     }
-
     function escapeHtml(text) {
       return String(text ?? '')
         .replaceAll('&', '&amp;')
@@ -1518,15 +1754,12 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
     }
-
     function escapeAttr(text) {
       return escapeHtml(text).replaceAll(' ', '_');
     }
-
     function safeJs(text) {
-      return String(text ?? '').replaceAll("\\", "\\\\").replaceAll("'", "\\'");
+      return String(text ?? '').replaceAll('\\', '\\\\').replaceAll("'", "\\'");
     }
-
     cargarApp();
   </script>
 </body>
