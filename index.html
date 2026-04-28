@@ -1378,13 +1378,21 @@
       return !!String((desc && desc.texto) || '').trim();
     }
 
+    function referenciaConPlacaValida(item) {
+      return !!(item && item.urlFotoEquipo && item.urlFotoPlaca);
+    }
+
+    function referenciaSinPlacaValida(item) {
+      return !!(item && item.urlFotoEquipo);
+    }
+
     function resumenEquipo(id) {
       const det = detalleCache[id];
       if (!det) return { score: 0, total: 4 };
 
       const full = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
-      const placa = Array.isArray(det.equipoPlaca) && det.equipoPlaca.length > 0;
-      const otros = Array.isArray(det.otrosEquipos) && det.otrosEquipos.length > 0;
+      const placa = Array.isArray(det.equipoPlaca) && det.equipoPlaca.some(referenciaConPlacaValida);
+      const otros = Array.isArray(det.otrosEquipos) && det.otrosEquipos.some(referenciaSinPlacaValida);
       const desc = descripcionCompleta(det.descripcion);
 
       return {
@@ -1569,8 +1577,8 @@
     function progresoEquipo(id) {
       const det = getDetalleState(id);
       const full = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
-      const placa = det.equipoPlaca.length > 0;
-      const otros = det.otrosEquipos.length > 0;
+      const placa = det.equipoPlaca.some(referenciaConPlacaValida);
+      const otros = det.otrosEquipos.some(referenciaSinPlacaValida);
       const descripcion = descripcionCompleta(det.descripcion);
 
       return {
@@ -1659,10 +1667,10 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#127991;</span>Foto de reductor o equipo con placa</div>
-            <span class="${det.equipoPlaca.some(x => x.saved || x.urlFotoEquipo) ? 'badge-hecho' : 'badge-vacio'}">${det.equipoPlaca.some(x => x.saved || x.urlFotoEquipo) ? 'Con registros' : 'Pendiente'}</span>
+            <span class="${det.equipoPlaca.some(referenciaConPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.equipoPlaca.some(referenciaConPlacaValida) ? 'Con registros' : 'Pendiente'}</span>
           </div>
           <div class="section-body">
-            <div class="helper-box">Aqui debes subir la foto del reductor o equipo que contiene placa y tambien la foto de su placa. Puedes agregar varias.</div>
+            <div class="helper-box">Aqui debes subir la foto del reductor o equipo que contiene placa y tambien la foto de su placa. Esta seccion solo cuenta como valida cuando tiene las 2 fotos.</div>
             <div class="entry-list">
               ${entries.map((item, idx) => renderReferenciaCard(item, idx + 1, true)).join('')}
             </div>
@@ -1682,7 +1690,7 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#128736;</span>Foto de otros equipos sin placa</div>
-            <span class="${det.otrosEquipos.some(x => x.saved || x.urlFotoEquipo) ? 'badge-hecho' : 'badge-vacio'}">${det.otrosEquipos.some(x => x.saved || x.urlFotoEquipo) ? 'Con registros' : 'Pendiente'}</span>
+            <span class="${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'Con registros' : 'Pendiente'}</span>
           </div>
           <div class="section-body">
             <div class="helper-box">Aqui solo debes poner fotos de otros equipos o componentes que no contienen placa. Puedes agregar varias.</div>
@@ -1698,11 +1706,13 @@
     }
 
     function renderReferenciaCard(item, numero, conPlaca) {
+      const valido = conPlaca ? referenciaConPlacaValida(item) : referenciaSinPlacaValida(item);
+
       return `
         <div class="entry-card">
           <div class="entry-head">
             <div class="entry-title">${conPlaca ? 'Registro ' + numero + ' - equipo con placa' : 'Registro ' + numero + ' - equipo sin placa'}</div>
-            <span class="${item.saved ? 'badge-hecho' : 'badge-vacio'}">${item.saved ? 'Guardado' : 'Sin guardar'}</span>
+            <span class="${valido ? 'badge-hecho' : 'badge-vacio'}">${valido ? 'Guardado' : (conPlaca ? 'Faltan 2 fotos' : 'Sin guardar')}</span>
           </div>
           <div class="entry-grid">
             <div>
