@@ -6,937 +6,1255 @@
   <title>COVIA LAMPAZOS - MOLUB</title>
   <style>
     :root {
-      --azul: #0d3bff;
-      --azul-oscuro: #0827a7;
-      --azul-profundo: #091434;
-      --azul-claro: #eef3ff;
-      --azul-suave: #f6f8ff;
-      --negro: #121826;
-      --gris-texto: #4e5b78;
-      --gris-borde: #d8dfeb;
+      --azul: #1228ff;
+      --azul-2: #0c1eaf;
+      --azul-3: #08112d;
+      --azul-4: #eef2ff;
+      --azul-5: #f8faff;
+      --texto: #182033;
+      --texto-suave: #5f6c8d;
+      --borde: #dbe1f0;
+      --borde-fuerte: #cfd8ee;
       --blanco: #ffffff;
-      --sombra: 0 18px 50px rgba(13, 59, 255, 0.10);
-      --sombra-suave: 0 10px 24px rgba(16, 24, 40, 0.08);
-      --verde: #179c52;
-      --verde-claro: #eaf8f0;
+      --verde: #179b52;
+      --verde-bg: #e9f7ef;
       --naranja: #d97706;
-      --naranja-claro: #fff4df;
+      --naranja-bg: #fff3df;
       --rojo: #c62828;
-      --rojo-claro: #fdecec;
+      --rojo-bg: #fdecec;
+      --gris-bg: #f4f7fd;
+      --sombra-xl: 0 30px 70px rgba(8, 17, 45, 0.12);
+      --sombra-lg: 0 18px 40px rgba(8, 17, 45, 0.10);
+      --sombra-md: 0 12px 24px rgba(8, 17, 45, 0.08);
+      --radio-xl: 28px;
+      --radio-lg: 22px;
+      --radio-md: 16px;
+      --radio-sm: 12px;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
+
     html, body {
       height: 100%;
-      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+      color: var(--texto);
       background:
-        radial-gradient(circle at top left, rgba(13, 59, 255, 0.08), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(13, 59, 255, 0.06), transparent 22%),
-        linear-gradient(180deg, #ffffff 0%, #f6f8fd 100%);
-      color: var(--negro);
+        radial-gradient(circle at top left, rgba(18, 40, 255, 0.08), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(18, 40, 255, 0.08), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f7f9ff 52%, #f1f4fb 100%);
     }
+
     body::before,
     body::after {
       content: "";
       position: fixed;
       border-radius: 999px;
+      filter: blur(8px);
       pointer-events: none;
       z-index: 0;
-      filter: blur(8px);
     }
+
     body::before {
       width: 220px;
       height: 220px;
-      top: -70px;
+      top: -90px;
       right: -80px;
-      background: rgba(13, 59, 255, 0.09);
+      background: rgba(18, 40, 255, 0.08);
     }
+
     body::after {
-      width: 180px;
-      height: 180px;
-      bottom: 90px;
+      width: 170px;
+      height: 170px;
+      bottom: 80px;
       left: -70px;
-      background: rgba(9, 20, 52, 0.05);
+      background: rgba(8, 17, 45, 0.05);
     }
+
     #splash,
     #main,
     #detail-view {
       position: relative;
       z-index: 1;
     }
+
     #splash {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 28px 18px;
     }
+
     .hero-shell {
       width: 100%;
-      max-width: 1120px;
-      margin: 0 auto;
+      max-width: 1240px;
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 24px;
-      align-items: stretch;
     }
-    .hero-panel,
+
+    .hero-main,
     .hero-side {
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(216, 223, 235, 0.9);
-      border-radius: 28px;
-      box-shadow: var(--sombra);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(219, 225, 240, 0.9);
+      border-radius: 32px;
+      box-shadow: var(--sombra-xl);
       backdrop-filter: blur(10px);
-    }
-    .hero-panel {
-      padding: 28px;
       overflow: hidden;
     }
-    .hero-kicker {
+
+    .hero-main {
+      padding: 34px;
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 255, 0.95) 100%);
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      top: -60px;
+      right: -80px;
+      border-radius: 50%;
+      background: rgba(18, 40, 255, 0.06);
+    }
+
+    .hero-pill {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 999px;
-      background: var(--azul-suave);
-      color: var(--azul-oscuro);
+      background: var(--azul-5);
+      color: var(--azul-2);
+      border: 1px solid rgba(18, 40, 255, 0.12);
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1.8px;
       text-transform: uppercase;
-      border: 1px solid rgba(13, 59, 255, 0.12);
     }
-    .hero-kicker::before {
+
+    .hero-pill::before {
       content: "";
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: var(--azul);
-      box-shadow: 0 0 0 5px rgba(13, 59, 255, 0.12);
+      box-shadow: 0 0 0 5px rgba(18, 40, 255, 0.12);
     }
-    .hero-grid {
+
+    .hero-brand {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      margin-top: 22px;
+      grid-template-columns: 1fr 150px;
+      gap: 22px;
       align-items: center;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
     }
-    .splash-covia {
-      font-size: clamp(40px, 8vw, 78px);
+
+    .hero-title {
+      font-size: clamp(44px, 8vw, 84px);
+      line-height: 0.88;
       font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: 5px;
-      color: var(--azul-profundo);
+      letter-spacing: 6px;
+      color: var(--azul-3);
     }
-    .splash-lampazos {
-      font-size: clamp(16px, 3vw, 26px);
+
+    .hero-subtitle {
+      margin-top: 12px;
+      font-size: clamp(16px, 2.8vw, 26px);
+      letter-spacing: 8px;
       font-weight: 700;
-      letter-spacing: 7px;
-      margin-top: 10px;
       color: var(--azul);
     }
-    .hero-accent {
-      width: 132px;
-      height: 132px;
-      border-radius: 28px;
-      background: linear-gradient(135deg, rgba(13, 59, 255, 0.95), rgba(9, 20, 52, 0.98));
-      box-shadow: 0 20px 45px rgba(13, 59, 255, 0.22);
+
+    .hero-mark {
+      width: 150px;
+      height: 150px;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.24), transparent 28%),
+        linear-gradient(140deg, var(--azul), var(--azul-3));
+      box-shadow: 0 24px 55px rgba(18, 40, 255, 0.24);
+      position: relative;
     }
+
+    .hero-mark::before,
+    .hero-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 22px;
+    }
+
+    .hero-mark::before {
+      inset: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.30);
+    }
+
+    .hero-mark::after {
+      width: 54px;
+      height: 54px;
+      right: -8px;
+      bottom: -8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
     .hero-copy {
-      margin-top: 20px;
-      max-width: 680px;
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--gris-texto);
+      margin-top: 28px;
+      max-width: 760px;
+      color: var(--texto-suave);
+      font-size: 17px;
+      line-height: 1.72;
+      position: relative;
+      z-index: 1;
     }
+
+    .hero-copy strong {
+      color: var(--azul-3);
+    }
+
+    .hero-mini-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-mini-card {
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(219, 225, 240, 0.85);
+      box-shadow: var(--sombra-md);
+    }
+
+    .hero-mini-card strong {
+      display: block;
+      font-size: 20px;
+      color: var(--azul-3);
+      font-weight: 900;
+    }
+
+    .hero-mini-card span {
+      display: block;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
     .hero-actions {
+      margin-top: 28px;
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      margin-top: 26px;
+      position: relative;
+      z-index: 1;
     }
+
     .btn-entrar {
-      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
-      color: var(--blanco);
       border: none;
-      border-radius: 16px;
-      padding: 16px 28px;
-      min-width: 230px;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 16px 30px rgba(13, 59, 255, 0.22);
+      background: linear-gradient(135deg, var(--azul), var(--azul-2));
+      color: var(--blanco);
+      padding: 18px 30px;
+      border-radius: 18px;
+      min-width: 250px;
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      box-shadow: 0 18px 38px rgba(18, 40, 255, 0.22);
     }
+
     .hero-note {
       display: inline-flex;
       align-items: center;
-      padding: 14px 18px;
+      gap: 10px;
+      padding: 15px 18px;
       border-radius: 16px;
       background: var(--blanco);
-      border: 1px solid var(--gris-borde);
-      color: var(--gris-texto);
+      border: 1px solid var(--borde);
+      color: var(--texto-suave);
       font-size: 13px;
-      font-weight: 600;
-      box-shadow: var(--sombra-suave);
+      font-weight: 700;
+      box-shadow: var(--sombra-md);
     }
+
+    .hero-note::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--verde);
+      box-shadow: 0 0 0 5px rgba(23, 155, 82, 0.12);
+    }
+
     .hero-side {
-      padding: 24px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       gap: 18px;
+      justify-content: space-between;
+      background:
+        radial-gradient(circle at top right, rgba(18, 40, 255, 0.08), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 249, 255, 0.95) 100%);
     }
-    .side-title {
+
+    .hero-side-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .hero-side-title {
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
       color: var(--azul);
-    }
-    .side-sub {
-      margin-top: 6px;
-      font-size: 23px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       font-weight: 800;
-      color: var(--azul-profundo);
     }
-    .splash-stats {
+
+    .hero-side-sub {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--azul-3);
+    }
+
+    .hero-chip {
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: var(--azul-3);
+      color: var(--blanco);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
     }
-    .splash-stat {
-      padding: 18px 16px;
-      border-radius: 20px;
-      background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
-      border: 1px solid var(--gris-borde);
-      box-shadow: var(--sombra-suave);
+
+    .stat-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      box-shadow: var(--sombra-md);
     }
-    .splash-stat-n {
+
+    .stat-card .n {
       font-size: 34px;
       font-weight: 900;
-      color: var(--azul-profundo);
+      color: var(--azul-3);
     }
-    .splash-stat.done .splash-stat-n {
+
+    .stat-card.done .n {
       color: var(--verde);
     }
-    .splash-stat-l {
+
+    .stat-card .l {
       margin-top: 6px;
+      color: var(--texto-suave);
       font-size: 11px;
-      color: var(--gris-texto);
       text-transform: uppercase;
-      letter-spacing: 1.1px;
+      letter-spacing: 1px;
       font-weight: 700;
     }
-    .side-progress {
-      background: linear-gradient(180deg, #f8faff 0%, #eef3ff 100%);
-      border: 1px solid rgba(13, 59, 255, 0.10);
-      border-radius: 22px;
-      padding: 18px;
+
+    .progress-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #f8faff 0%, #edf2ff 100%);
+      border: 1px solid rgba(18, 40, 255, 0.10);
     }
-    .side-progress-label {
+
+    .progress-card .label {
       font-size: 11px;
-      letter-spacing: 1.6px;
+      color: var(--texto-suave);
       text-transform: uppercase;
-      color: var(--gris-texto);
+      letter-spacing: 1.5px;
       font-weight: 800;
     }
-    .side-progress-value {
+
+    .progress-card .value {
       margin-top: 8px;
       font-size: 30px;
       font-weight: 900;
-      color: var(--azul-profundo);
+      color: var(--azul-3);
     }
-    .side-progress-bar {
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(13, 59, 255, 0.10);
+
+    .progress-line {
       margin-top: 12px;
+      height: 10px;
+      background: rgba(18, 40, 255, 0.10);
+      border-radius: 999px;
       overflow: hidden;
     }
-    .side-progress-fill {
+
+    .progress-line > div {
       height: 100%;
       width: 0%;
+      background: linear-gradient(90deg, var(--azul), #4f8dff);
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--azul), #4e8cff);
-      transition: width 0.35s ease;
     }
+
     #main {
       display: none;
-      flex-direction: column;
       height: 100vh;
+      flex-direction: column;
+      gap: 14px;
+      padding: 16px;
       overflow: hidden;
-      padding: 14px;
-      gap: 12px;
     }
-    .top-bar {
-      background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
+
+    .top-bar,
+    .detail-topbar {
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 26%),
+        linear-gradient(135deg, var(--azul-3), #0b2590 60%, var(--azul));
       color: var(--blanco);
-      padding: 18px;
-      border-radius: 24px;
+      border-radius: 28px;
+      padding: 22px 24px;
+      box-shadow: var(--sombra-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      box-shadow: var(--sombra);
+      gap: 16px;
+      align-items: center;
       flex-shrink: 0;
     }
-    .top-title {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 1.5px;
+
+    .top-bar::after,
+    .detail-topbar::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -36px;
+      bottom: -76px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
     }
+
+    .top-title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1.6px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .top-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .top-status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ef08a;
+      box-shadow: 0 0 0 4px rgba(78, 240, 138, 0.18);
+    }
+
     .top-sub {
+      margin-top: 6px;
       font-size: 11px;
       letter-spacing: 2px;
-      opacity: 0.82;
-      margin-top: 5px;
       text-transform: uppercase;
+      opacity: 0.84;
     }
-    .top-bar-right {
-      min-width: 146px;
+
+    .top-right {
+      min-width: 180px;
       text-align: right;
+      position: relative;
+      z-index: 1;
     }
-    .prog-n {
-      font-size: 30px;
+
+    .top-right .prog-n {
+      font-size: 32px;
       font-weight: 900;
       line-height: 1;
     }
-    .prog-l {
+
+    .top-right .prog-l {
+      margin-top: 4px;
       font-size: 11px;
       opacity: 0.82;
-      margin-top: 4px;
     }
+
     .prog-bar-wrap {
-      height: 7px;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 999px;
       margin-top: 10px;
-      width: 140px;
       margin-left: auto;
+      width: 170px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
       overflow: hidden;
     }
+
     .prog-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #ffffff 0%, #d9e5ff 100%);
+      width: 0%;
+      background: linear-gradient(90deg, #ffffff 0%, #dce7ff 100%);
       border-radius: 999px;
-      transition: width 0.4s;
     }
-    .btn-inicio {
-      background: rgba(255, 255, 255, 0.10);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: var(--blanco);
-      font-size: 12px;
+
+    .btn-inicio,
+    .btn-back,
+    .btn-secondary,
+    .btn-outline {
       cursor: pointer;
+      border: none;
+      transition: 0.2s ease;
+    }
+
+    .btn-inicio {
       margin-top: 10px;
-      padding: 8px 12px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--blanco);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      font-weight: 700;
     }
+
+    .tabs-wrap,
+    .summary-bar,
+    .search-wrap,
+    .prog-fotos,
+    .section-card,
+    .loading-msg,
+    .empty-msg {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(219, 225, 240, 0.9);
+      box-shadow: var(--sombra-md);
+      backdrop-filter: blur(8px);
+    }
+
     .tabs-wrap {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid var(--gris-borde);
-      border-radius: 18px;
-      overflow-x: auto;
       display: flex;
-      padding: 6px;
       gap: 6px;
+      padding: 8px;
+      border-radius: 20px;
+      overflow-x: auto;
       flex-shrink: 0;
-      box-shadow: var(--sombra-suave);
     }
+
     .tabs-wrap::-webkit-scrollbar {
       display: none;
     }
+
     .tab-btn {
       flex: 0 0 auto;
+      border: none;
+      border-radius: 13px;
+      background: transparent;
+      color: var(--texto-suave);
       padding: 11px 14px;
       font-size: 11px;
       font-weight: 800;
-      color: var(--gris-texto);
-      cursor: pointer;
-      white-space: nowrap;
       text-transform: uppercase;
       letter-spacing: 0.9px;
-      background: transparent;
-      border: none;
-      border-radius: 12px;
-      transition: all 0.25s ease;
+      cursor: pointer;
     }
+
     .tab-btn.active {
       color: var(--blanco);
-      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
-      box-shadow: 0 10px 20px rgba(13, 59, 255, 0.18);
+      background: linear-gradient(135deg, var(--azul), var(--azul-2));
+      box-shadow: 0 10px 18px rgba(18, 40, 255, 0.18);
     }
-    .summary-bar,
-    .search-wrap {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid var(--gris-borde);
-      border-radius: 18px;
-      box-shadow: var(--sombra-suave);
-      flex-shrink: 0;
-    }
+
     .summary-bar {
       padding: 12px;
+      border-radius: 20px;
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
       align-items: center;
+      flex-shrink: 0;
     }
+
+    .s-pill,
+    .meta-pill,
+    .mini-badge,
+    .badge-hecho,
+    .badge-vacio,
+    .badge-required {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
     .s-pill {
       font-size: 11px;
       padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
     }
+
     .s-total {
-      background: #f3f6fb;
-      color: #4e5b78;
-      border: 1px solid var(--gris-borde);
+      background: #f4f7fc;
+      border: 1px solid var(--borde);
+      color: var(--texto-suave);
     }
+
     .s-done {
-      background: var(--verde-claro);
+      background: var(--verde-bg);
       color: var(--verde);
-      border: 1px solid rgba(23, 156, 82, 0.15);
+      border: 1px solid rgba(23, 155, 82, 0.14);
     }
+
     .s-pend {
-      background: var(--rojo-claro);
+      background: var(--rojo-bg);
       color: var(--rojo);
       border: 1px solid rgba(198, 40, 40, 0.12);
     }
+
     .search-wrap {
+      border-radius: 20px;
       padding: 10px 12px;
+      flex-shrink: 0;
     }
-    .search-wrap input {
+
+    .search-wrap input,
+    .field-input,
+    .field-textarea {
       width: 100%;
-      padding: 13px 15px;
-      border: 1.5px solid var(--gris-borde);
-      border-radius: 14px;
-      font-size: 14px;
+      border: 1.5px solid var(--borde);
       background: #fbfcff;
-      color: var(--negro);
-    }
-    .search-wrap input:focus {
-      border-color: var(--azul);
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(13, 59, 255, 0.10);
-    }
-    #list-view {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 2px;
-    }
-    .equip-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px;
-      border: 1px solid rgba(216, 223, 235, 0.92);
-      border-radius: 20px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: var(--sombra-suave);
-      margin-bottom: 10px;
-    }
-    .equip-row.completo {
-      background: linear-gradient(180deg, #ffffff 0%, #f2fbf5 100%);
-      border-color: rgba(23, 156, 82, 0.22);
-    }
-    .status-circle {
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      border: 1.5px solid var(--gris-borde);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 13px;
-      font-weight: 800;
-      background: #f8faff;
-      color: var(--gris-texto);
-    }
-    .status-circle.done {
-      background: var(--verde);
-      border-color: var(--verde);
-      color: var(--blanco);
-    }
-    .status-circle.parcial {
-      background: var(--naranja);
-      border-color: var(--naranja);
-      color: var(--blanco);
-    }
-    .equip-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .equip-tag {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--azul-profundo);
-    }
-    .equip-nombre {
-      font-size: 13px;
-      color: var(--negro);
-      margin-top: 4px;
-      font-weight: 700;
-    }
-    .equip-proceso {
-      font-size: 12px;
-      color: var(--gris-texto);
-      margin-top: 4px;
-    }
-    .equip-estado {
-      font-size: 11px;
-      color: #7a869f;
-      margin-top: 4px;
-      font-weight: 600;
-    }
-    .crit-badge {
-      font-size: 10px;
-      font-weight: 800;
-      padding: 7px 10px;
-      border-radius: 999px;
-      flex-shrink: 0;
-    }
-    .crit-A {
-      background: #ffe8e8;
-      color: var(--rojo);
-      border: 1px solid #ffcbcb;
-    }
-    .crit-B {
-      background: var(--naranja-claro);
-      color: var(--naranja);
-      border: 1px solid #ffe0a3;
-    }
-    .crit-C {
-      background: var(--verde-claro);
-      color: var(--verde);
-      border: 1px solid #bde6ca;
-    }
-    .chevron {
-      color: var(--azul);
-      font-size: 20px;
-      flex-shrink: 0;
-      font-weight: 700;
-    }
-    #detail-view {
-      display: none;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      padding: 14px;
-      gap: 12px;
-    }
-    .detail-topbar {
-      background: linear-gradient(135deg, #0a1b48, #1138d4 70%, #2354ff);
-      color: var(--blanco);
-      padding: 18px;
-      border-radius: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      flex-shrink: 0;
-      box-shadow: var(--sombra);
-    }
-    .btn-back {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--blanco);
-      font-size: 22px;
-      cursor: pointer;
-      line-height: 1;
-      padding: 9px 12px;
-      border-radius: 14px;
-    }
-    .detail-tag {
-      font-size: 24px;
-      font-weight: 900;
-    }
-    .detail-nombre {
+      color: var(--texto);
+      border-radius: 15px;
       font-size: 14px;
-      opacity: 0.95;
-      margin-top: 6px;
-      line-height: 1.6;
-      font-weight: 700;
+      font-family: inherit;
     }
-    .detail-meta {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      align-items: center;
-      flex-wrap: wrap;
+
+    .search-wrap input {
+      padding: 13px 15px;
     }
-    .prog-fotos {
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--gris-borde);
-      border-radius: 20px;
-      flex-shrink: 0;
-      box-shadow: var(--sombra-suave);
+
+    .search-wrap input:focus,
+    .field-input:focus,
+    .field-textarea:focus {
+      outline: none;
+      border-color: var(--azul);
+      box-shadow: 0 0 0 4px rgba(18, 40, 255, 0.10);
     }
-    .prog-fotos-label {
-      font-size: 11px;
-      letter-spacing: 1.6px;
-      color: var(--gris-texto);
-      margin-bottom: 9px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .prog-fotos-bars {
-      display: flex;
-      gap: 8px;
-    }
-    .prog-foto-bar {
-      flex: 1;
-      height: 10px;
-      border-radius: 999px;
-      background: #e8edf6;
-    }
-    .prog-foto-bar.filled {
-      background: linear-gradient(90deg, var(--azul), #78a4ff);
-    }
-    .prog-foto-bar.done-all {
-      background: linear-gradient(90deg, var(--verde), #3ecf76);
-    }
+
+    #list-view,
     #detail-scroll {
       flex: 1;
       overflow-y: auto;
       padding-right: 2px;
     }
-    .foto-card {
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--gris-borde);
-      border-radius: 22px;
-      overflow: hidden;
+
+    .equip-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
       margin-bottom: 12px;
-      box-shadow: var(--sombra-suave);
+      border-radius: 24px;
+      border: 1px solid rgba(219, 225, 240, 0.92);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 252, 255, 0.97) 100%);
+      box-shadow: var(--sombra-md);
+      cursor: pointer;
     }
-    .foto-card.card-blocked {
-      opacity: 0.62;
+
+    .equip-row.completo {
+      background: linear-gradient(180deg, #ffffff 0%, #f3fbf6 100%);
+      border-color: rgba(23, 155, 82, 0.22);
     }
-    .foto-card-header {
+
+    .status-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--borde);
+      background: #f8faff;
+      color: var(--texto-suave);
+      font-size: 13px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .status-circle.done {
+      background: var(--verde);
+      color: var(--blanco);
+      border-color: var(--verde);
+    }
+
+    .status-circle.parcial {
+      background: var(--naranja);
+      color: var(--blanco);
+      border-color: var(--naranja);
+    }
+
+    .equip-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .equip-tag {
+      color: var(--azul-3);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .equip-nombre {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--texto);
+    }
+
+    .equip-proceso,
+    .equip-estado {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--texto-suave);
+      font-weight: 600;
+    }
+
+    .crit-badge {
+      font-size: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .crit-A {
+      background: #ffe8e8;
+      color: var(--rojo);
+      border: 1px solid #ffcccc;
+    }
+
+    .crit-B {
+      background: var(--naranja-bg);
+      color: var(--naranja);
+      border: 1px solid #ffdfaa;
+    }
+
+    .crit-C {
+      background: var(--verde-bg);
+      color: var(--verde);
+      border: 1px solid #c6ead4;
+    }
+
+    .chevron {
+      color: var(--azul);
+      font-size: 20px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    #detail-view {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .detail-topbar {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+
+    .btn-back {
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--blanco);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 22px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .detail-tag {
+      font-size: 25px;
+      font-weight: 900;
+      position: relative;
+      z-index: 1;
+    }
+
+    .detail-nombre {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      opacity: 0.96;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta-pill {
+      padding: 8px 12px;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--blanco);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .prog-fotos {
+      padding: 16px 18px;
+      border-radius: 22px;
+      flex-shrink: 0;
+    }
+
+    .prog-fotos-label {
+      font-size: 11px;
+      color: var(--texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+      margin-bottom: 9px;
+    }
+
+    .prog-fotos-bars {
+      display: flex;
+      gap: 8px;
+    }
+
+    .prog-foto-bar {
+      flex: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: #e7edf8;
+    }
+
+    .prog-foto-bar.filled {
+      background: linear-gradient(90deg, var(--azul), #76a7ff);
+    }
+
+    .prog-foto-bar.done-all {
+      background: linear-gradient(90deg, var(--verde), #42d07c);
+    }
+
+    .section-card {
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .section-head {
+      padding: 16px 20px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 26%),
+        linear-gradient(135deg, var(--azul), var(--azul-2));
+      color: var(--blanco);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 14px 16px;
-      border-bottom: 1px solid #e8edf6;
     }
-    .foto-card-label {
-      font-size: 14px;
-      font-weight: 800;
+
+    .section-head-title {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
+      gap: 10px;
+    }
+
+    .section-body {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .section-hint {
+      margin-bottom: 16px;
+      color: var(--texto-suave);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .helper-box {
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f8faff 0%, #f3f7ff 100%);
+      border: 1px solid #dde6fb;
+      color: #4e5e84;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .helper-box.warn {
+      background: linear-gradient(180deg, #fff8ef 0%, #fff4e4 100%);
+      border-color: #ffe2af;
+      color: #915b00;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .photo-frame {
+      position: relative;
+      min-height: 190px;
+      border-radius: 18px;
+      border: 1.5px dashed #c6d3f0;
+      background: linear-gradient(180deg, #fbfcff 0%, #f4f7ff 100%);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-empty {
+      padding: 24px;
+      text-align: center;
+      color: var(--texto-suave);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .photo-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .btn-camara,
+    .btn-outline,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 8px;
-      color: var(--azul-profundo);
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 13px;
+      min-height: 48px;
+      padding: 12px 16px;
     }
-    .foto-icon {
-      font-size: 17px;
+
+    .btn-camara {
+      cursor: pointer;
+      background: linear-gradient(180deg, #fbfcff 0%, #f2f6ff 100%);
+      border: 1.5px dashed #b9c7e4;
+      color: var(--texto-suave);
+      flex: 1;
+      min-width: 210px;
     }
+
+    .btn-outline {
+      background: var(--blanco);
+      color: var(--rojo);
+      border: 1px solid #f1c6c6;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--azul), var(--azul-2));
+      color: var(--blanco);
+      box-shadow: 0 14px 26px rgba(18, 40, 255, 0.16);
+    }
+
+    .btn-secondary[disabled],
+    .btn-outline[disabled] {
+      opacity: 0.55;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .entry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .entry-card {
+      border: 1px solid var(--borde);
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    }
+
+    .entry-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .entry-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--azul-3);
+    }
+
+    .mini-badge,
     .badge-hecho,
     .badge-vacio,
     .badge-required {
       font-size: 10px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
+      padding: 6px 10px;
     }
+
     .badge-hecho {
-      background: var(--verde-claro);
+      background: var(--verde-bg);
       color: var(--verde);
     }
+
     .badge-vacio {
       background: #f3f6fb;
-      color: #7f8aa3;
+      color: #7d89a4;
     }
+
     .badge-required {
-      background: #fff0f0;
-      color: var(--rojo);
+      background: #eaf0ff;
+      color: var(--azul-2);
     }
-    .section-hint {
-      padding: 0 16px 14px;
-      font-size: 12px;
-      color: var(--gris-texto);
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field-group {
+      margin-top: 14px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--azul-3);
+    }
+
+    .field-input {
+      padding: 13px 14px;
+    }
+
+    .field-textarea {
+      min-height: 120px;
+      resize: vertical;
+      padding: 14px;
       line-height: 1.55;
     }
-    .lock-note,
-    .save-note {
-      margin: 0 16px 16px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--gris-borde);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-    .lock-note {
-      background: #f5f7fb;
-      color: var(--gris-texto);
-    }
-    .save-note {
-      background: #eef3ff;
-      color: var(--azul-profundo);
-    }
-    .foto-actions {
-      padding: 14px 16px 16px;
-    }
-    .btn-camara,
-    .btn-secondary,
-    .btn-inline-danger {
+
+    .chip-group {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 13px;
-      border-radius: 16px;
-      cursor: pointer;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip-btn {
+      border: 1.5px solid #d9deec;
+      background: var(--blanco);
+      color: #4b5b83;
+      border-radius: 999px;
+      padding: 13px 18px;
       font-size: 13px;
       font-weight: 700;
-      border: 1.5px solid transparent;
-    }
-    .btn-camara {
-      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
-      border-style: dashed;
-      border-color: #b8c4da;
-      color: var(--gris-texto);
-    }
-    .btn-secondary {
-      background: var(--azul-suave);
-      color: var(--azul-oscuro);
-      border-color: rgba(13, 59, 255, 0.16);
-    }
-    .btn-inline-danger {
-      background: #fff2f2;
-      color: var(--rojo);
-      border-color: rgba(198, 40, 40, 0.16);
-    }
-    .btn-camara[aria-disabled="true"],
-    .btn-secondary:disabled,
-    .btn-inline-danger:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    input[type=file] {
-      display: none;
-    }
-    .thumb-large {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid var(--gris-borde);
-      box-shadow: 0 8px 18px rgba(16, 24, 40, 0.10);
-      background: #eef3ff;
-      display: block;
-    }
-    .thumb-empty {
-      width: 100%;
-      height: 160px;
-      border-radius: 14px;
-      border: 1.5px dashed #b8c4da;
-      background: linear-gradient(180deg, #fbfcff 0%, #f3f6fd 100%);
-      display: grid;
-      place-items: center;
-      font-size: 12px;
-      color: var(--gris-texto);
-      text-align: center;
-      padding: 10px;
-    }
-    .thumb-stack {
-      position: relative;
-    }
-    .btn-del {
-      position: absolute;
-      top: -7px;
-      right: -7px;
-      width: 24px;
-      height: 24px;
-      background: var(--rojo);
-      color: var(--blanco);
-      border: 2px solid var(--blanco);
-      border-radius: 50%;
-      font-size: 12px;
       cursor: pointer;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      box-shadow: 0 6px 14px rgba(198, 40, 40, 0.25);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     }
-    .placa-list {
-      display: grid;
-      gap: 12px;
-      padding: 0 16px 16px;
+
+    .chip-btn.active {
+      background: linear-gradient(135deg, var(--azul), var(--azul-2));
+      color: var(--blanco);
+      border-color: transparent;
+      box-shadow: 0 12px 20px rgba(18, 40, 255, 0.16);
     }
-    .placa-item {
-      border: 1px solid #e6ebf5;
-      border-radius: 18px;
-      padding: 14px;
-      background: #fbfcff;
-    }
-    .placa-item-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .placa-item-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--azul-profundo);
-    }
-    .placa-grid,
-    .cond-grid {
-      display: grid;
-      gap: 12px;
-    }
-    .placa-grid {
-      grid-template-columns: 130px minmax(0, 1fr);
-      align-items: start;
-    }
-    .cond-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      padding: 0 16px 16px;
-    }
-    .full-span {
-      grid-column: 1 / -1;
-    }
-    .field-group {
-      display: grid;
-      gap: 7px;
-    }
-    .field-label {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--gris-texto);
-    }
-    .field-input,
-    .field-select,
-    .field-textarea {
-      width: 100%;
-      border: 1.5px solid var(--gris-borde);
-      border-radius: 14px;
-      background: #ffffff;
-      color: var(--negro);
-      font-size: 13px;
-      padding: 12px 13px;
-      font-family: inherit;
-    }
-    .field-textarea {
-      min-height: 84px;
-      resize: vertical;
-    }
-    .field-input:focus,
-    .field-select:focus,
-    .field-textarea:focus {
-      outline: none;
-      border-color: var(--azul);
-      box-shadow: 0 0 0 4px rgba(13, 59, 255, 0.10);
-    }
-    .plate-actions {
-      display: grid;
-      gap: 10px;
-    }
-    .status-inline {
-      font-size: 12px;
-      color: #6f7d97;
-      line-height: 1.45;
-    }
+
     .detail-footer {
       flex-shrink: 0;
       padding-bottom: env(safe-area-inset-bottom);
     }
+
     .btn-completar {
       width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--azul), var(--azul-oscuro));
-      color: var(--blanco);
+      min-height: 56px;
       border: none;
-      border-radius: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--azul), var(--azul-2));
+      color: var(--blanco);
       font-size: 15px;
       font-weight: 900;
-      cursor: pointer;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      box-shadow: 0 16px 28px rgba(13, 59, 255, 0.18);
+      box-shadow: 0 18px 30px rgba(18, 40, 255, 0.18);
+      cursor: pointer;
     }
-    .btn-completar:disabled {
-      background: #ccd4e2;
-      color: #7d869a;
-      cursor: default;
-      box-shadow: none;
-    }
+
     .btn-completar.hecho {
-      background: linear-gradient(135deg, var(--verde), #0f7d41);
+      background: linear-gradient(135deg, var(--verde), #107241);
+      box-shadow: 0 18px 30px rgba(23, 155, 82, 0.18);
     }
-    .empty-msg,
-    .loading-msg {
+
+    .btn-completar:disabled {
+      background: #cfd7e7;
+      color: #7f8aa1;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .loading-msg,
+    .empty-msg {
+      border-radius: 24px;
+      padding: 42px 20px;
       text-align: center;
-      padding: 44px 20px;
-      color: #7f8aa3;
+      color: var(--texto-suave);
       font-size: 14px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid var(--gris-borde);
-      border-radius: 22px;
-      box-shadow: var(--sombra-suave);
+      line-height: 1.7;
     }
+
     .loading-msg {
-      color: var(--azul-profundo);
+      color: var(--azul-3);
       font-weight: 700;
     }
-    @media (max-width: 920px) {
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
       .hero-shell {
         grid-template-columns: 1fr;
       }
-      .hero-grid {
+
+      .hero-brand {
         grid-template-columns: 1fr;
       }
-      .hero-accent {
-        width: 100%;
-        max-width: 150px;
-        height: 120px;
+
+      .hero-mark {
+        width: 150px;
+        height: 130px;
       }
     }
-    @media (max-width: 640px) {
-      #splash {
-        padding: 18px 14px;
+
+    @media (max-width: 760px) {
+      .section-grid,
+      .entry-grid,
+      .hero-mini-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
-      .hero-panel,
+
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .top-right {
+        text-align: left;
+      }
+
+      .prog-bar-wrap {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 620px) {
+      #splash,
+      #main,
+      #detail-view {
+        padding: 14px;
+      }
+
+      .hero-main,
       .hero-side,
       .top-bar,
       .detail-topbar {
-        padding: 18px;
+        border-radius: 24px;
       }
-      .splash-stats,
-      .cond-grid,
-      .placa-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero-actions,
+
+      .hero-main,
+      .hero-side,
       .top-bar,
       .detail-topbar {
+        padding: 20px;
+      }
+
+      .hero-actions {
         flex-direction: column;
       }
+
       .btn-entrar,
       .hero-note {
         width: 100%;
         justify-content: center;
       }
-      .top-bar-right {
-        text-align: left;
-      }
-      .prog-bar-wrap {
-        margin-left: 0;
-        width: 100%;
+
+      .detail-topbar {
+        flex-direction: column;
       }
     }
   </style>
@@ -944,73 +1262,100 @@
 <body>
   <div id="splash">
     <div class="hero-shell">
-      <section class="hero-panel">
-        <div class="hero-kicker">Inspeccion visual industrial</div>
-        <div class="hero-grid">
-          <div class="brand-block">
-            <div class="splash-covia">COVIA</div>
-            <div class="splash-lampazos">LAMPAZOS</div>
+      <section class="hero-main">
+        <div class="hero-pill">Inspeccion fotografica industrial</div>
+        <div class="hero-brand">
+          <div>
+            <div class="hero-title">COVIA</div>
+            <div class="hero-subtitle">LAMPAZOS</div>
           </div>
-          <div class="hero-accent" aria-hidden="true"></div>
+          <div class="hero-mark" aria-hidden="true"></div>
         </div>
         <p class="hero-copy">
-          Plataforma para el levantamiento fotografico de equipos criticos, con control
-          por areas, seguimiento visual y evidencia completa en campo.
+          Plataforma para el <strong>levantamiento visual de equipos criticos</strong> con
+          control por areas, fotografias obligatorias, referencias adicionales y
+          condiciones operativas para el proyecto impulsado por MOLUB.
         </p>
+        <div class="hero-mini-grid">
+          <div class="hero-mini-card">
+            <strong>1</strong>
+            <span>Foto completa obligatoria</span>
+          </div>
+          <div class="hero-mini-card">
+            <strong>2</strong>
+            <span>Equipo y placa o sin placa</span>
+          </div>
+          <div class="hero-mini-card">
+            <strong>3</strong>
+            <span>Condiciones operativas</span>
+          </div>
+        </div>
         <div class="hero-actions">
           <button class="btn-entrar" onclick="entrar()">Ingresar a planta</button>
           <div class="hero-note">Proyecto impulsado por MOLUB</div>
         </div>
       </section>
+
       <aside class="hero-side">
-        <div>
-          <div class="side-title">Estado del proyecto</div>
-          <div class="side-sub">Panorama general</div>
+        <div class="hero-side-head">
+          <div>
+            <div class="hero-side-title">Estado del proyecto</div>
+            <div class="hero-side-sub">Panorama general</div>
+          </div>
+          <div class="hero-chip">MOLUB</div>
         </div>
-        <div class="splash-stats">
-          <div class="splash-stat">
-            <div class="splash-stat-n" id="s-total">0</div>
-            <div class="splash-stat-l">Equipos</div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="n" id="s-total">0</div>
+            <div class="l">Equipos</div>
           </div>
-          <div class="splash-stat done">
-            <div class="splash-stat-n" id="s-done">0</div>
-            <div class="splash-stat-l">Completos</div>
+          <div class="stat-card done">
+            <div class="n" id="s-done">0</div>
+            <div class="l">Completos</div>
           </div>
-          <div class="splash-stat">
-            <div class="splash-stat-n" id="s-pct">0%</div>
-            <div class="splash-stat-l">Avance</div>
+          <div class="stat-card">
+            <div class="n" id="s-pct">0%</div>
+            <div class="l">Avance</div>
           </div>
         </div>
-        <div class="side-progress">
-          <div class="side-progress-label">Cumplimiento total</div>
-          <div class="side-progress-value" id="hero-progress-value">0%</div>
-          <div class="side-progress-bar">
-            <div class="side-progress-fill" id="hero-progress-fill"></div>
-          </div>
+
+        <div class="progress-card">
+          <div class="label">Cumplimiento total</div>
+          <div class="value" id="hero-progress-value">0%</div>
+          <div class="progress-line"><div id="hero-progress-fill"></div></div>
         </div>
       </aside>
     </div>
   </div>
+
   <div id="main">
     <div class="top-bar">
-      <div class="top-bar-left">
-        <div class="top-title">COVIA LAMPAZOS</div>
+      <div>
+        <div class="top-row">
+          <div class="top-title">COVIA LAMPAZOS</div>
+          <div class="top-status">Monitoreo activo</div>
+        </div>
         <div class="top-sub">Proyecto impulsado por MOLUB</div>
       </div>
-      <div class="top-bar-right">
+      <div class="top-right">
         <div class="prog-n" id="m-done">0</div>
         <div class="prog-l" id="m-total">/ 0 equipos</div>
-        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="m-bar" style="width:0%"></div></div>
+        <div class="prog-bar-wrap"><div class="prog-bar-fill" id="m-bar"></div></div>
         <button class="btn-inicio" onclick="irInicio()">Volver al inicio</button>
       </div>
     </div>
+
     <div class="tabs-wrap" id="tabs-wrap"></div>
     <div class="summary-bar" id="summary-bar"></div>
+
     <div class="search-wrap">
-      <input type="text" id="search-input" placeholder="Buscar ID TAG o nombre..." oninput="filtrar()">
+      <input type="text" id="search-input" placeholder="Buscar ID TAG, nombre o proceso..." oninput="filtrar()">
     </div>
+
     <div id="list-view"></div>
   </div>
+
   <div id="detail-view">
     <div class="detail-topbar">
       <button class="btn-back" onclick="cerrarDetalle()">&#8592;</button>
@@ -1019,33 +1364,78 @@
         <div class="detail-nombre" id="d-nombre"></div>
         <div class="detail-meta">
           <span class="crit-badge" id="d-crit"></span>
-          <span style="font-size:11px;opacity:0.9;font-weight:700" id="d-proceso"></span>
+          <span class="meta-pill" id="d-proceso"></span>
+          <span class="meta-pill" id="d-sistema"></span>
         </div>
       </div>
     </div>
+
     <div class="prog-fotos">
-      <div class="prog-fotos-label">Progreso de captura</div>
+      <div class="prog-fotos-label">Progreso del levantamiento</div>
       <div class="prog-fotos-bars" id="d-bars"></div>
     </div>
+
     <div id="detail-scroll"></div>
+
     <div class="detail-footer">
       <button class="btn-completar" id="btn-completar" onclick="toggleCompletar()">Marcar como completo</button>
     </div>
   </div>
+
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbyw-rFRKj_MWSqZysrSttIP7VJHsGWYIaKSM-4rVhnQTO8NTcokyGpe5VhJsMKyQADg/exec';
     const USUARIO_ACTUAL = 'OPERADOR';
-    const PASOS = [
-      { key: 'fotoCompleta', label: 'Foto completa' },
-      { key: 'placas', label: 'Placas y codigos' },
-      { key: 'condiciones', label: 'Condiciones del area' }
-    ];
+
+    const OPCIONES = {
+      temperatura: [
+        'Baja',
+        'Media',
+        'Alta',
+        'Muy alta'
+      ],
+      carga: [
+        'Baja',
+        'Media',
+        'Alta'
+      ],
+      vibracion: [
+        'Baja',
+        'Media',
+        'Alta'
+      ],
+      agua: [
+        'Ninguna',
+        'Ambiental',
+        'Humedad 80-90%',
+        'Goteo',
+        'Chorro',
+        'Lavado',
+        'Vapor'
+      ],
+      polvo: [
+        'Polvo abrasivo (ligero)',
+        'Polvo abrasivo (abundante)',
+        'Polvo no abrasivo (ligero)',
+        'Polvo no abrasivo (abundante)',
+        'Otro'
+      ],
+      problema: [
+        'No hay',
+        'Temperatura alta',
+        'Desgaste',
+        'Ruido',
+        'Vibracion',
+        'Fugas'
+      ]
+    };
+
     let AREAS = [];
     let areaActiva = 0;
     let busqueda = '';
     let equipoActivo = null;
     let estadoMap = {};
     let detalleCache = {};
+
     async function apiGet(params = {}) {
       const url = new URL(API_URL);
       Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
@@ -1053,6 +1443,7 @@
       if (!res.ok) throw new Error('Error de red en GET');
       return await res.json();
     }
+
     async function apiPost(payload = {}) {
       const res = await fetch(API_URL, {
         method: 'POST',
@@ -1062,144 +1453,142 @@
       if (!res.ok) throw new Error('Error de red en POST');
       return await res.json();
     }
-    function uidLocal() {
-      return 'uid_' + Date.now() + '_' + Math.random().toString(16).slice(2, 8);
-    }
-    function placaVacia() {
-      return {
-        uid: uidLocal(),
-        codigo: '',
-        urlFoto: '',
-        fileId: '',
-        previewDataUrl: '',
-        base64: '',
-        mimeType: '',
-        saved: false,
-        dirty: false
-      };
-    }
-    function detalleVacio() {
-      return {
-        fotoCompleta: null,
-        placas: [placaVacia()],
-        condiciones: {
-          temperatura: '',
-          agua: '',
-          polvo: '',
-          otro: '',
-          saved: false
-        }
-      };
-    }
-    function normalizarDetalle(data) {
-      const base = detalleVacio();
-      const placas = Array.isArray(data.placas) && data.placas.length
-        ? data.placas.map(p => ({
-            uid: String(p.uid || uidLocal()),
-            codigo: String(p.codigo || ''),
-            urlFoto: String(p.urlFoto || ''),
-            fileId: String(p.fileId || ''),
-            previewDataUrl: '',
-            base64: '',
-            mimeType: '',
-            saved: true,
-            dirty: false
-          }))
-        : [placaVacia()];
-      return {
-        fotoCompleta: data.fotoCompleta || null,
-        placas: placas,
-        condiciones: {
-          temperatura: String((data.condiciones && data.condiciones.temperatura) || ''),
-          agua: String((data.condiciones && data.condiciones.agua) || ''),
-          polvo: String((data.condiciones && data.condiciones.polvo) || ''),
-          otro: String((data.condiciones && data.condiciones.otro) || ''),
-          saved: !!(data.condiciones && data.condiciones.saved)
-        }
-      };
-    }
-    function getDetalleState(idTag) {
-      if (!detalleCache[idTag]) detalleCache[idTag] = detalleVacio();
-      if (!detalleCache[idTag].placas.length) detalleCache[idTag].placas = [placaVacia()];
-      return detalleCache[idTag];
-    }
+
     function normalizarEquipos(lista) {
       const agrupado = {};
+
       lista.forEach(item => {
         const area = String(item.area || 'SIN AREA').trim();
         if (!agrupado[area]) agrupado[area] = [];
+
         agrupado[area].push({
           id: String(item.idTag || item.ID_TAG || item.id_tag || '').trim(),
           nombre: String(item.nombreEquipo || item.NOMBRE_EQUIPO || '').trim(),
-          crit: String(item.criticidad || item.CRITICIDAD || 'C').trim(),
+          crit: String(item.criticidad || item.CRITICIDAD || 'C').trim() || 'C',
           proceso: String(item.proceso || item.PROCESO || '').trim(),
           sistema: String(item.sistema || item.SISTEMA || '').trim(),
-          noEquipo: String(item.noEquipo || item.N_EQUIPO || '').trim(),
+          noEquipo: String(item.noEquipo || item.N_EQUIPO || item['N° EQUIPO'] || '').trim(),
           area
         });
       });
+
       return Object.keys(agrupado).map(nombre => ({
         nombre,
         items: agrupado[nombre].sort((a, b) => (a.id || '').localeCompare(b.id || ''))
       }));
     }
+
     function totalEquipos() {
-      return AREAS.reduce((a, x) => a + x.items.length, 0);
+      return AREAS.reduce((acc, area) => acc + area.items.length, 0);
     }
+
     function totalCompletados() {
       return Object.values(estadoMap).filter(Boolean).length;
     }
-    function progresoEquipo(idTag) {
-      const det = getDetalleState(idTag);
-      const fotoCompleta = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
-      const placas = det.placas.some(p => p.saved && ((p.codigo || '').trim() || p.urlFoto));
-      const cond = det.condiciones || {};
-      const condicionesValidas =
-        !!cond.temperatura &&
-        !!cond.agua &&
-        !!cond.polvo &&
-        (cond.polvo !== 'otro' || !!String(cond.otro || '').trim()) &&
-        !!cond.saved;
-      const steps = {
-        fotoCompleta,
-        placas,
-        condiciones: condicionesValidas
-      };
-      const doneCount = Object.values(steps).filter(Boolean).length;
+
+    function resumenEquipo(id) {
+      const det = detalleCache[id];
+      if (!det) return { score: 0, total: 4 };
+
+      const full = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
+      const placa = Array.isArray(det.equipoPlaca) && det.equipoPlaca.length > 0;
+      const otros = Array.isArray(det.otrosEquipos) && det.otrosEquipos.length > 0;
+      const condiciones = condicionesCompletas(det.condiciones);
+
       return {
-        steps,
-        doneCount,
-        puedeCompletar: doneCount === PASOS.length
+        score: [full, placa, otros, condiciones].filter(Boolean).length,
+        total: 4
       };
     }
+
+    function condicionesCompletas(cond) {
+      if (!cond) return false;
+      const temp = !!String(cond.temperatura || '').trim();
+      const carga = !!String(cond.carga || '').trim();
+      const vibracion = !!String(cond.vibracion || '').trim();
+      const agua = !!String(cond.agua || '').trim();
+      const polvo = Array.isArray(cond.polvo) && cond.polvo.length > 0;
+      const problema = !!String(cond.problema || '').trim();
+      const otroValido = !Array.isArray(cond.polvo) || !cond.polvo.includes('Otro') || !!String(cond.otro || '').trim();
+      return temp && carga && vibracion && agua && polvo && problema && otroValido;
+    }
+
+    function detalleVacio() {
+      return {
+        fotoCompleta: null,
+        equipoPlaca: [],
+        otrosEquipos: [],
+        condiciones: {
+          temperatura: '',
+          carga: '',
+          vibracion: '',
+          agua: '',
+          polvo: [],
+          problema: '',
+          descripcion: '',
+          otro: '',
+          saved: false
+        }
+      };
+    }
+
+    function referenciaLocal(categoria) {
+      return {
+        uid: 'tmp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+        categoria,
+        codigo: '',
+        urlFotoEquipo: '',
+        fileIdFotoEquipo: '',
+        urlFotoPlaca: '',
+        fileIdFotoPlaca: '',
+        previewEquipo: '',
+        previewPlaca: '',
+        base64FotoEquipo: '',
+        base64FotoPlaca: '',
+        mimeTypeFotoEquipo: '',
+        mimeTypeFotoPlaca: '',
+        saved: false,
+        dirty: false
+      };
+    }
+
+    function getDetalleState(id) {
+      if (!detalleCache[id]) detalleCache[id] = detalleVacio();
+      return detalleCache[id];
+    }
+
     function actualizarSplash() {
       const tot = totalEquipos();
-      const don = totalCompletados();
-      const pct = tot > 0 ? Math.round(don / tot * 100) : 0;
+      const done = totalCompletados();
+      const pct = tot > 0 ? Math.round(done / tot * 100) : 0;
       document.getElementById('s-total').textContent = tot;
-      document.getElementById('s-done').textContent = don;
+      document.getElementById('s-done').textContent = done;
       document.getElementById('s-pct').textContent = pct + '%';
       document.getElementById('hero-progress-value').textContent = pct + '%';
       document.getElementById('hero-progress-fill').style.width = pct + '%';
     }
+
     function entrar() {
       document.getElementById('splash').style.display = 'none';
       document.getElementById('main').style.display = 'flex';
       renderTabs();
       renderLista();
     }
+
     function irInicio() {
       document.getElementById('main').style.display = 'none';
       document.getElementById('detail-view').style.display = 'none';
       document.getElementById('splash').style.display = 'flex';
       actualizarSplash();
     }
+
     function renderTabs() {
       const wrap = document.getElementById('tabs-wrap');
-      wrap.innerHTML = AREAS.map((a, i) =>
-        `<button class="tab-btn${i === areaActiva ? ' active' : ''}" onclick="cambiarArea(${i})">${escapeHtml(a.nombre)}</button>`
+      wrap.innerHTML = AREAS.map((area, i) =>
+        `<button class="tab-btn${i === areaActiva ? ' active' : ''}" onclick="cambiarArea(${i})">${escapeHtml(area.nombre)}</button>`
       ).join('');
     }
+
     function cambiarArea(i) {
       areaActiva = i;
       busqueda = '';
@@ -1207,20 +1596,25 @@
       renderTabs();
       renderLista();
     }
+
     function actualizarTopBar() {
-      const don = totalCompletados();
+      const done = totalCompletados();
       const tot = totalEquipos();
-      document.getElementById('m-done').textContent = don;
+      const pct = tot > 0 ? Math.round(done / tot * 100) : 0;
+      document.getElementById('m-done').textContent = done;
       document.getElementById('m-total').textContent = '/ ' + tot + ' equipos';
-      document.getElementById('m-bar').style.width = (tot > 0 ? Math.round(don / tot * 100) : 0) + '%';
+      document.getElementById('m-bar').style.width = pct + '%';
     }
+
     function renderLista() {
       actualizarTopBar();
-      const cont = document.getElementById('list-view');
+      const list = document.getElementById('list-view');
+
       if (!AREAS.length) {
-        cont.innerHTML = '<div class="empty-msg">No se encontraron areas ni equipos.</div>';
+        list.innerHTML = '<div class="empty-msg">No se encontraron areas ni equipos.</div>';
         return;
       }
+
       const area = AREAS[areaActiva];
       const items = area.items.filter(e =>
         !busqueda ||
@@ -1228,244 +1622,419 @@
         (e.nombre || '').toLowerCase().includes(busqueda.toLowerCase()) ||
         (e.proceso || '').toLowerCase().includes(busqueda.toLowerCase())
       );
-      const donArea = area.items.filter(e => estadoMap[e.id]).length;
+
+      const doneArea = area.items.filter(e => estadoMap[e.id]).length;
       document.getElementById('summary-bar').innerHTML =
         `<span class="s-pill s-total">${area.items.length} equipos</span>
-         <span class="s-pill s-done">${donArea} completos</span>
-         <span class="s-pill s-pend">${area.items.length - donArea} pendientes</span>`;
+         <span class="s-pill s-done">${doneArea} completos</span>
+         <span class="s-pill s-pend">${area.items.length - doneArea} pendientes</span>`;
+
       if (!items.length) {
-        cont.innerHTML = '<div class="empty-msg">Sin resultados para la busqueda.</div>';
+        list.innerHTML = '<div class="empty-msg">Sin resultados para la busqueda.</div>';
         return;
       }
-      cont.innerHTML = items.map(e => {
+
+      list.innerHTML = items.map(e => {
         const comp = !!estadoMap[e.id];
-        const progreso = progresoEquipo(e.id);
+        const res = resumenEquipo(e.id);
         let statusClass = '';
         let statusText = '';
+
         if (comp) {
           statusClass = 'done';
           statusText = '&#10003;';
-        } else if (progreso.doneCount > 0) {
+        } else if (res.score > 0) {
           statusClass = 'parcial';
-          statusText = progreso.doneCount;
+          statusText = res.score;
         }
+
         return `
           <div class="equip-row${comp ? ' completo' : ''}" onclick="abrirDetalle('${safeJs(e.id)}', ${areaActiva})">
             <div class="status-circle ${statusClass}">${statusText}</div>
             <div class="equip-info">
               <div class="equip-tag">${escapeHtml(e.id || 'SIN ID TAG')}</div>
-              <div class="equip-nombre">${escapeHtml(e.nombre)}</div>
-              <div class="equip-proceso">Proceso: ${escapeHtml(e.proceso || e.area)}</div>
-              <div class="equip-estado">${comp ? 'Completo' : progreso.doneCount > 0 ? progreso.doneCount + ' de 3 requisitos cubiertos' : 'Sin captura aun'}</div>
+              <div class="equip-nombre">${escapeHtml(e.nombre || '')}</div>
+              <div class="equip-proceso">Proceso: ${escapeHtml(e.proceso || e.area || '')}</div>
+              <div class="equip-estado">${comp ? 'Completo' : res.score > 0 ? res.score + ' de ' + res.total + ' requisitos cubiertos' : 'Sin levantar'}</div>
             </div>
             <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
-            <span class="chevron">&#8250;</span>
+            <span class="chevron">›</span>
           </div>
         `;
       }).join('');
     }
+
     function filtrar() {
       busqueda = document.getElementById('search-input').value.trim();
       renderLista();
     }
+
     async function abrirDetalle(id, areaIdx) {
       const area = AREAS[areaIdx];
       equipoActivo = area.items.find(e => e.id === id);
+
       document.getElementById('main').style.display = 'none';
       document.getElementById('detail-view').style.display = 'flex';
-      document.getElementById('detail-scroll').innerHTML = '<div class="loading-msg">Cargando detalle...</div>';
+      document.getElementById('detail-scroll').innerHTML = '<div class="loading-msg">Cargando detalle del equipo...</div>';
+
       await cargarDetalleEquipo(id);
       renderDetalle();
     }
+
     function cerrarDetalle() {
       document.getElementById('detail-view').style.display = 'none';
       document.getElementById('main').style.display = 'flex';
       renderLista();
     }
+
     async function cargarDetalleEquipo(idTag) {
       try {
         const r = await apiGet({ action: 'getDetalle', idTag });
         if (!r.ok) throw new Error(r.error || 'No se pudo cargar el detalle');
-        detalleCache[idTag] = normalizarDetalle(r.data || {});
+
+        const data = r.data || {};
+        detalleCache[idTag] = {
+          fotoCompleta: data.fotoCompleta || null,
+          equipoPlaca: Array.isArray(data.equipoPlaca) ? data.equipoPlaca.map(mapReferenciaAPI) : [],
+          otrosEquipos: Array.isArray(data.otrosEquipos) ? data.otrosEquipos.map(mapReferenciaAPI) : [],
+          condiciones: normalizarCondiciones(data.condiciones)
+        };
       } catch (err) {
         console.error(err);
         detalleCache[idTag] = detalleVacio();
       }
     }
+
+    function mapReferenciaAPI(item) {
+      return {
+        uid: String(item.uid || ''),
+        categoria: String(item.categoria || ''),
+        codigo: String(item.codigo || ''),
+        urlFotoEquipo: String(item.urlFotoEquipo || ''),
+        fileIdFotoEquipo: String(item.fileIdFotoEquipo || ''),
+        urlFotoPlaca: String(item.urlFotoPlaca || ''),
+        fileIdFotoPlaca: String(item.fileIdFotoPlaca || ''),
+        previewEquipo: '',
+        previewPlaca: '',
+        base64FotoEquipo: '',
+        base64FotoPlaca: '',
+        mimeTypeFotoEquipo: '',
+        mimeTypeFotoPlaca: '',
+        saved: true,
+        dirty: false
+      };
+    }
+
+    function normalizarCondiciones(cond) {
+      return {
+        temperatura: String((cond && cond.temperatura) || ''),
+        carga: String((cond && cond.carga) || ''),
+        vibracion: String((cond && cond.vibracion) || ''),
+        agua: String((cond && cond.agua) || ''),
+        polvo: Array.isArray(cond && cond.polvo) ? cond.polvo.map(v => String(v || '')) : [],
+        problema: String((cond && cond.problema) || ''),
+        descripcion: String((cond && cond.descripcion) || ''),
+        otro: String((cond && cond.otro) || ''),
+        saved: !!(cond && cond.saved)
+      };
+    }
+
+    function progresoEquipo(id) {
+      const det = getDetalleState(id);
+      const full = !!(det.fotoCompleta && det.fotoCompleta.urlFoto);
+      const placa = det.equipoPlaca.length > 0;
+      const otros = det.otrosEquipos.length > 0;
+      const condiciones = condicionesCompletas(det.condiciones);
+
+      return {
+        steps: { full, placa, otros, condiciones },
+        total: [full, placa, otros, condiciones].filter(Boolean).length,
+        puedeCompletar: full && placa && otros && condiciones
+      };
+    }
+
     function renderDetalle() {
       if (!equipoActivo) return;
       const det = getDetalleState(equipoActivo.id);
       const progreso = progresoEquipo(equipoActivo.id);
-      const bloqueado = !progreso.steps.fotoCompleta;
+
       document.getElementById('d-tag').textContent = equipoActivo.id || 'SIN ID TAG';
       document.getElementById('d-nombre').textContent = equipoActivo.nombre || '';
       document.getElementById('d-proceso').textContent = 'Proceso: ' + (equipoActivo.proceso || equipoActivo.area || '');
-      const cb = document.getElementById('d-crit');
-      cb.textContent = 'Criticidad ' + equipoActivo.crit;
-      cb.className = 'crit-badge crit-' + equipoActivo.crit;
-      document.getElementById('d-bars').innerHTML = PASOS.map(step => {
-        const on = progreso.steps[step.key];
-        return `<div class="prog-foto-bar${on ? (progreso.puedeCompletar ? ' done-all' : ' filled') : ''}"></div>`;
-      }).join('');
-      const fotoCompletaHtml = det.fotoCompleta && det.fotoCompleta.urlFoto
-        ? `<div class="thumb-stack">
-             <img class="thumb-large" src="${escapeHtml(det.fotoCompleta.urlFoto)}" alt="Foto completa">
-             <button class="btn-del" onclick="eliminarFotoCompleta()">&#10005;</button>
-           </div>`
-        : `<div class="thumb-empty">Sin foto completa capturada</div>`;
-      const placasHtml = det.placas.map((item, idx) => {
-        const previewSrc = item.previewDataUrl || item.urlFoto || '';
-        const fotoHtml = previewSrc
-          ? `<div class="thumb-stack">
-               <img class="thumb-large" src="${escapeHtml(previewSrc)}" alt="Placa ${idx + 1}">
-               <button class="btn-del" onclick="quitarFotoPlaca('${safeJs(item.uid)}')">&#10005;</button>
-             </div>`
-          : `<div class="thumb-empty">Sin foto cargada</div>`;
-        const botonGuardar = item.saved && !item.dirty
-          ? 'Placa guardada'
-          : 'Guardar placa';
-        return `
-          <div class="placa-item">
-            <div class="placa-item-head">
-              <div class="placa-item-title">Placa o equipo relacionado ${idx + 1}</div>
-              <button class="btn-inline-danger" onclick="eliminarPlaca('${safeJs(item.uid)}')" ${det.placas.length === 1 || bloqueado ? 'disabled' : ''}>Quitar</button>
+      document.getElementById('d-sistema').textContent = 'Sistema: ' + (equipoActivo.sistema || 'Sin dato');
+
+      const crit = document.getElementById('d-crit');
+      crit.textContent = 'Criticidad ' + (equipoActivo.crit || 'C');
+      crit.className = 'crit-badge crit-' + (equipoActivo.crit || 'C');
+
+      document.getElementById('d-bars').innerHTML = [progreso.steps.full, progreso.steps.placa, progreso.steps.otros, progreso.steps.condiciones]
+        .map((ok, idx, arr) => `<div class="prog-foto-bar${ok ? (arr.every(Boolean) ? ' done-all' : ' filled') : ''}"></div>`)
+        .join('');
+
+      const scroll = document.getElementById('detail-scroll');
+      scroll.innerHTML = `
+        ${renderFotoCompleta(det)}
+        ${renderEquipoPlaca(det)}
+        ${renderOtrosEquipos(det)}
+        ${renderCondiciones(det)}
+      `;
+
+      const comp = !!estadoMap[equipoActivo.id];
+      const btn = document.getElementById('btn-completar');
+
+      if (comp) {
+        btn.disabled = false;
+        btn.className = 'btn-completar hecho';
+        btn.textContent = 'Completo - tocar para desmarcar';
+      } else if (progreso.puedeCompletar) {
+        btn.disabled = false;
+        btn.className = 'btn-completar';
+        btn.textContent = 'Marcar como completo';
+      } else {
+        btn.disabled = true;
+        btn.className = 'btn-completar';
+        btn.textContent = 'Completa los 4 requisitos para cerrar';
+      }
+    }
+
+    function renderFotoCompleta(det) {
+      const foto = det.fotoCompleta;
+      return `
+        <div class="section-card">
+          <div class="section-head">
+            <div class="section-head-title"><span>&#128247;</span>Foto completa del equipo</div>
+            <span class="${foto && foto.urlFoto ? 'badge-hecho' : 'badge-vacio'}">${foto && foto.urlFoto ? 'Obligatoria lista' : 'Pendiente'}</span>
+          </div>
+          <div class="section-body">
+            <div class="helper-box warn">Aqui debe ir la foto COMPLETA de todo el equipo. Esta es la primera evidencia obligatoria y habilita el resto de secciones.</div>
+            <div class="photo-frame">
+              ${foto && foto.urlFoto
+                ? `<img src="${escapeHtml(foto.urlFoto)}" alt="Foto completa del equipo">`
+                : `<div class="photo-empty">Toma una fotografia amplia donde se vea todo el equipo completo.</div>`}
             </div>
-            <div class="placa-grid">
-              <div class="field-group">
-                <label class="field-label">Foto</label>
-                ${fotoHtml}
-              </div>
-              <div class="field-group">
-                <label class="field-label">Codigo si no se puede tomar foto</label>
-                <input class="field-input" type="text" value="${escapeAttr(item.codigo || '')}" placeholder="Escribe el codigo de la placa o del equipo" oninput="actualizarCodigoPlaca('${safeJs(item.uid)}', this.value)" ${bloqueado ? 'disabled' : ''}>
-                <div class="status-inline">Puedes guardar foto, codigo o ambos. Si modificas algo, vuelve a guardar la placa.</div>
-                <div class="plate-actions">
-                  <label class="btn-camara" for="placa_file_${escapeAttr(item.uid)}" ${bloqueado ? 'aria-disabled="true"' : ''}>
-                    <span style="font-size:20px;line-height:1">+</span>
-                    ${previewSrc ? 'Reemplazar foto' : 'Tomar o subir foto'}
-                  </label>
-                  <input type="file" accept="image/*" capture="environment" id="placa_file_${escapeAttr(item.uid)}" onchange="seleccionarFotoPlaca(event,'${safeJs(item.uid)}')" ${bloqueado ? 'disabled' : ''}>
-                  <button class="btn-secondary" onclick="guardarPlaca('${safeJs(item.uid)}')" ${bloqueado ? 'disabled' : ''}>${botonGuardar}</button>
-                </div>
-              </div>
+            <div class="photo-actions">
+              <label class="btn-camara" for="file_foto_completa">
+                <span style="font-size:20px;line-height:1">+</span>
+                ${foto && foto.urlFoto ? 'Reemplazar foto completa' : 'Tomar o subir foto completa'}
+              </label>
+              <input type="file" accept="image/*" capture="environment" id="file_foto_completa" onchange="subirFotoCompleta(event)">
+              ${foto && foto.urlFoto ? '<button class="btn-outline" onclick="eliminarFotoCompleta()">Eliminar foto</button>' : ''}
             </div>
-          </div>
-        `;
-      }).join('');
-      const cond = det.condiciones;
-      const condicionesNota = cond.saved
-        ? '<div class="save-note">Condiciones guardadas correctamente.</div>'
-        : '<div class="lock-note">Recuerda guardar las condiciones para poder completar el equipo.</div>';
-      document.getElementById('detail-scroll').innerHTML = `
-        <div class="foto-card">
-          <div class="foto-card-header">
-            <div class="foto-card-label"><span class="foto-icon">&#128247;</span>Foto completa del equipo</div>
-            <span class="badge-required">Obligatorio primero</span>
-          </div>
-          <div class="section-hint">Antes de cualquier otro registro, primero debes capturar la foto completa del equipo seleccionado.</div>
-          <div class="foto-actions">${fotoCompletaHtml}</div>
-          <div class="foto-actions">
-            <label class="btn-camara" for="file_completo">
-              <span style="font-size:20px;line-height:1">+</span>
-              ${det.fotoCompleta && det.fotoCompleta.urlFoto ? 'Reemplazar foto completa' : 'Tomar o subir foto completa'}
-            </label>
-            <input type="file" accept="image/*" capture="environment" id="file_completo" onchange="subirFotoCompleta(event)">
-          </div>
-        </div>
-        <div class="foto-card${bloqueado ? ' card-blocked' : ''}">
-          <div class="foto-card-header">
-            <div class="foto-card-label"><span class="foto-icon">&#127991;</span>Placas o equipos relacionados</div>
-            <span class="${progreso.steps.placas ? 'badge-hecho' : 'badge-vacio'}">${progreso.steps.placas ? 'Capturado' : 'Pendiente'}</span>
-          </div>
-          <div class="section-hint">Debajo de la foto completa puedes registrar placas del reductor o de otro equipo. Si no puedes tomar foto, escribe el codigo. Puedes agregar varias.</div>
-          ${bloqueado ? '<div class="lock-note">Esta seccion se habilita despues de subir la foto completa del equipo.</div>' : ''}
-          <div class="placa-list">${placasHtml}</div>
-          <div class="foto-actions">
-            <button class="btn-secondary" onclick="agregarPlacaLocal()" ${bloqueado ? 'disabled' : ''}>Agregar otra placa o codigo</button>
-          </div>
-        </div>
-        <div class="foto-card${bloqueado ? ' card-blocked' : ''}">
-          <div class="foto-card-header">
-            <div class="foto-card-label"><span class="foto-icon">&#129517;</span>Condiciones del area</div>
-            <span class="${progreso.steps.condiciones ? 'badge-hecho' : 'badge-vacio'}">${progreso.steps.condiciones ? 'Completo' : 'Pendiente'}</span>
-          </div>
-          <div class="section-hint">Selecciona temperatura, agua y polvo. Si eliges "Otro" en polvo, describe la condicion encontrada.</div>
-          ${bloqueado ? '<div class="lock-note">Esta seccion tambien se habilita despues de la foto completa.</div>' : condicionesNota}
-          <div class="cond-grid">
-            <div class="field-group">
-              <label class="field-label">Temperatura</label>
-              <select class="field-select" onchange="cambiarCondicion('temperatura', this.value)" ${bloqueado ? 'disabled' : ''}>
-                ${renderOpciones([
-                  ['', 'Selecciona'],
-                  ['fria', 'Fria'],
-                  ['templada', 'Templada'],
-                  ['caliente', 'Caliente'],
-                  ['muy-caliente', 'Muy caliente']
-                ], cond.temperatura)}
-              </select>
-            </div>
-            <div class="field-group">
-              <label class="field-label">Agua</label>
-              <select class="field-select" onchange="cambiarCondicion('agua', this.value)" ${bloqueado ? 'disabled' : ''}>
-                ${renderOpciones([
-                  ['', 'Selecciona'],
-                  ['seca', 'Sin agua'],
-                  ['humedad', 'Humedad'],
-                  ['goteo', 'Goteo'],
-                  ['chorro', 'Chorro']
-                ], cond.agua)}
-              </select>
-            </div>
-            <div class="field-group">
-              <label class="field-label">Polvo</label>
-              <select class="field-select" onchange="cambiarCondicion('polvo', this.value)" ${bloqueado ? 'disabled' : ''}>
-                ${renderOpciones([
-                  ['', 'Selecciona'],
-                  ['sin-polvo', 'Sin polvo'],
-                  ['ligero', 'Ligero'],
-                  ['abrasivo', 'Abrasivo'],
-                  ['humedo', 'Humedo o apelmazado'],
-                  ['otro', 'Otro']
-                ], cond.polvo)}
-              </select>
-            </div>
-            <div class="field-group full-span" ${cond.polvo === 'otro' ? '' : 'style="display:none"'}>
-              <label class="field-label">Describe el otro tipo</label>
-              <textarea class="field-textarea" placeholder="Describe brevemente la condicion encontrada" oninput="actualizarOtro(this.value)" ${bloqueado ? 'disabled' : ''}>${escapeHtml(cond.otro || '')}</textarea>
-            </div>
-          </div>
-          <div class="foto-actions">
-            <button class="btn-secondary" onclick="guardarCondiciones()" ${bloqueado ? 'disabled' : ''}>Guardar condiciones del area</button>
           </div>
         </div>
       `;
-      const comp = !!estadoMap[equipoActivo.id];
-      const btn = document.getElementById('btn-completar');
-      if (comp) {
-        btn.disabled = false;
-        btn.textContent = 'Completo - tocar para desmarcar';
-        btn.className = 'btn-completar hecho';
-      } else if (progreso.puedeCompletar) {
-        btn.disabled = false;
-        btn.textContent = 'Marcar como completo';
-        btn.className = 'btn-completar';
-      } else {
-        btn.disabled = true;
-        btn.textContent = 'Completa los 3 requisitos obligatorios';
-        btn.className = 'btn-completar';
+    }
+
+    function renderEquipoPlaca(det) {
+      const entries = det.equipoPlaca.length ? det.equipoPlaca : [referenciaLocal('equipo_placa')];
+      det.equipoPlaca = entries;
+
+      return `
+        <div class="section-card">
+          <div class="section-head">
+            <div class="section-head-title"><span>&#127991;</span>Foto del equipo y placa</div>
+            <span class="${det.equipoPlaca.some(x => x.saved || x.urlFotoEquipo) ? 'badge-hecho' : 'badge-vacio'}">${det.equipoPlaca.some(x => x.saved || x.urlFotoEquipo) ? 'Con registros' : 'Pendiente'}</span>
+          </div>
+          <div class="section-body">
+            <div class="helper-box">En esta seccion debes tomar la foto del equipo desde el angulo donde se aprecie la zona de la placa. Debajo puedes agregar la foto de la placa si existe. Si el equipo no trae placa, puedes guardar solo la foto del equipo y agregar codigo si aplica.</div>
+            <div class="entry-list">
+              ${entries.map((item, idx) => renderReferenciaCard(item, idx + 1, true)).join('')}
+            </div>
+            <div class="photo-actions">
+              <button class="btn-secondary" onclick="agregarReferencia('equipo_placa')">Agregar otra foto de equipo y placa</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderOtrosEquipos(det) {
+      const entries = det.otrosEquipos.length ? det.otrosEquipos : [referenciaLocal('otro_equipo')];
+      det.otrosEquipos = entries;
+
+      return `
+        <div class="section-card">
+          <div class="section-head">
+            <div class="section-head-title"><span>&#128295;</span>Foto de otro equipo o referencia</div>
+            <span class="${det.otrosEquipos.some(x => x.saved || x.urlFotoEquipo) ? 'badge-hecho' : 'badge-vacio'}">${det.otrosEquipos.some(x => x.saved || x.urlFotoEquipo) ? 'Con registros' : 'Pendiente'}</span>
+          </div>
+          <div class="section-body">
+            <div class="helper-box">Aqui puedes subir foto de otro equipo, otro componente o una referencia relacionada. Tambien puedes escribir el codigo. Puedes agregar varias.</div>
+            <div class="entry-list">
+              ${entries.map((item, idx) => renderReferenciaCard(item, idx + 1, false)).join('')}
+            </div>
+            <div class="photo-actions">
+              <button class="btn-secondary" onclick="agregarReferencia('otro_equipo')">Agregar otra referencia</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderReferenciaCard(item, numero, conPlaca) {
+      const titulo = conPlaca ? 'Registro ' + numero + ' - equipo y placa' : 'Registro ' + numero + ' - otro equipo';
+      return `
+        <div class="entry-card">
+          <div class="entry-head">
+            <div class="entry-title">${titulo}</div>
+            <span class="${item.saved ? 'badge-hecho' : 'badge-vacio'}">${item.saved ? 'Guardado' : 'Sin guardar'}</span>
+          </div>
+          <div class="entry-grid">
+            <div>
+              <div class="field-label">Foto del equipo</div>
+              <div class="photo-frame">
+                ${renderImagePreview(item.previewEquipo || item.urlFotoEquipo, 'Foto del equipo', 'La foto del equipo es obligatoria en este registro.')}
+              </div>
+              <div class="photo-actions">
+                <label class="btn-camara" for="file_eq_${escapeAttr(item.uid)}">
+                  <span style="font-size:20px;line-height:1">+</span>
+                  ${item.previewEquipo || item.urlFotoEquipo ? 'Reemplazar foto del equipo' : 'Tomar o subir foto del equipo'}
+                </label>
+                <input type="file" accept="image/*" capture="environment" id="file_eq_${escapeAttr(item.uid)}" onchange="seleccionarFotoReferencia(event, '${safeJs(item.uid)}', 'equipo')">
+              </div>
+            </div>
+            <div>
+              <div class="field-label">${conPlaca ? 'Foto de placa' : 'Foto adicional opcional'}</div>
+              <div class="photo-frame">
+                ${renderImagePreview(item.previewPlaca || item.urlFotoPlaca, conPlaca ? 'Foto de placa' : 'Foto adicional', conPlaca ? 'Opcional si el equipo no cuenta con placa.' : 'Opcional para documentar otra referencia.')}
+              </div>
+              <div class="photo-actions">
+                <label class="btn-camara" for="file_pl_${escapeAttr(item.uid)}">
+                  <span style="font-size:20px;line-height:1">+</span>
+                  ${item.previewPlaca || item.urlFotoPlaca ? 'Reemplazar foto adicional' : 'Tomar o subir foto adicional'}
+                </label>
+                <input type="file" accept="image/*" capture="environment" id="file_pl_${escapeAttr(item.uid)}" onchange="seleccionarFotoReferencia(event, '${safeJs(item.uid)}', 'placa')">
+              </div>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Codigo o identificacion</label>
+            <input class="field-input" type="text" placeholder="Escribe codigo, tag o observacion si aplica" value="${escapeAttrValue(item.codigo || '')}" oninput="actualizarCodigoReferencia('${safeJs(item.uid)}', this.value, '${safeJs(item.categoria)}')">
+          </div>
+          <div class="photo-actions">
+            <button class="btn-secondary" onclick="guardarReferencia('${safeJs(item.uid)}', '${safeJs(item.categoria)}')">Guardar registro</button>
+            <button class="btn-outline" onclick="eliminarReferencia('${safeJs(item.uid)}', '${safeJs(item.categoria)}')">Eliminar</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderImagePreview(src, alt, emptyText) {
+      if (src) {
+        return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`;
       }
+      return `<div class="photo-empty">${escapeHtml(emptyText)}</div>`;
     }
-    function renderOpciones(opciones, seleccionado) {
-      return opciones.map(([valor, texto]) =>
-        `<option value="${escapeAttr(valor)}" ${valor === seleccionado ? 'selected' : ''}>${escapeHtml(texto)}</option>`
-      ).join('');
+
+    function renderCondiciones(det) {
+      const cond = det.condiciones;
+      return `
+        <div class="section-card">
+          <div class="section-head">
+            <div class="section-head-title"><span>&#9881;</span>Condiciones de operacion</div>
+            <span class="${condicionesCompletas(cond) ? 'badge-hecho' : 'badge-vacio'}">${condicionesCompletas(cond) ? 'Lista' : 'Pendiente'}</span>
+          </div>
+          <div class="section-body">
+            <div class="helper-box">Selecciona las condiciones operativas como en tu formato: temperatura, carga, vibracion, agua, polvo, problema reportado y descripcion general del equipo.</div>
+
+            ${renderChipField('Temperatura *', 'temperatura', OPCIONES.temperatura, cond.temperatura, false)}
+            ${renderChipField('Carga *', 'carga', OPCIONES.carga, cond.carga, false)}
+            ${renderChipField('Vibracion *', 'vibracion', OPCIONES.vibracion, cond.vibracion, false)}
+            ${renderChipField('Presencia de agua *', 'agua', OPCIONES.agua, cond.agua, false)}
+            ${renderChipField('Polvo *', 'polvo', OPCIONES.polvo, cond.polvo, true)}
+            ${renderChipField('Problema reportado *', 'problema', OPCIONES.problema, cond.problema, false)}
+
+            ${Array.isArray(cond.polvo) && cond.polvo.includes('Otro') ? `
+              <div class="field-group">
+                <label class="field-label">Otro en polvo</label>
+                <textarea class="field-textarea" placeholder="Describe la condicion adicional de polvo" oninput="actualizarCampoCondicion('otro', this.value)">${escapeHtml(cond.otro || '')}</textarea>
+              </div>
+            ` : ''}
+
+            <div class="field-group">
+              <label class="field-label">Descripcion general del equipo</label>
+              <textarea class="field-textarea" placeholder="Describe funcion del equipo, contexto de operacion, historial relevante o comentarios del levantamiento" oninput="actualizarCampoCondicion('descripcion', this.value)">${escapeHtml(cond.descripcion || '')}</textarea>
+            </div>
+
+            <div class="photo-actions">
+              <button class="btn-secondary" onclick="guardarCondiciones()">Guardar condiciones de operacion</button>
+            </div>
+          </div>
+        </div>
+      `;
     }
-    function actualizarPantallas() {
-      if (equipoActivo) renderDetalle();
-      renderLista();
-      actualizarSplash();
+
+    function renderChipField(label, campo, opciones, valorActual, multiple) {
+      const actual = multiple ? (Array.isArray(valorActual) ? valorActual : []) : valorActual;
+      return `
+        <div class="field-group">
+          <label class="field-label">${label}</label>
+          <div class="chip-group">
+            ${opciones.map(op => {
+              const activo = multiple ? actual.includes(op) : actual === op;
+              return `<button type="button" class="chip-btn${activo ? ' active' : ''}" onclick="toggleChip('${safeJs(campo)}', '${safeJs(op)}', ${multiple})">${escapeHtml(op)}</button>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
     }
-    function leerArchivo(file) {
+
+    function toggleChip(campo, valor, multiple) {
+      if (!equipoActivo) return;
+      const cond = getDetalleState(equipoActivo.id).condiciones;
+
+      if (multiple) {
+        const actual = Array.isArray(cond[campo]) ? [...cond[campo]] : [];
+        const idx = actual.indexOf(valor);
+        if (idx >= 0) actual.splice(idx, 1);
+        else actual.push(valor);
+        cond[campo] = actual;
+      } else {
+        cond[campo] = valor;
+      }
+
+      if (campo === 'polvo' && Array.isArray(cond.polvo) && !cond.polvo.includes('Otro')) {
+        cond.otro = '';
+      }
+
+      cond.saved = false;
+      renderDetalle();
+    }
+
+    function actualizarCampoCondicion(campo, valor) {
+      if (!equipoActivo) return;
+      const cond = getDetalleState(equipoActivo.id).condiciones;
+      cond[campo] = valor;
+      cond.saved = false;
+    }
+
+    function agregarReferencia(categoria) {
+      if (!equipoActivo) return;
+      const det = getDetalleState(equipoActivo.id);
+      if (categoria === 'equipo_placa') det.equipoPlaca.push(referenciaLocal(categoria));
+      else det.otrosEquipos.push(referenciaLocal(categoria));
+      renderDetalle();
+    }
+
+    function obtenerListaCategoria(categoria) {
+      const det = getDetalleState(equipoActivo.id);
+      return categoria === 'equipo_placa' ? det.equipoPlaca : det.otrosEquipos;
+    }
+
+    function buscarReferencia(uid, categoria) {
+      return obtenerListaCategoria(categoria).find(item => item.uid === uid);
+    }
+
+    function actualizarCodigoReferencia(uid, valor, categoria) {
+      if (!equipoActivo) return;
+      const item = buscarReferencia(uid, categoria);
+      if (!item) return;
+      item.codigo = valor;
+      item.dirty = true;
+      item.saved = false;
+    }
+
+    async function leerArchivo(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = e => resolve(String(e.target.result || ''));
@@ -1473,30 +2042,29 @@
         reader.readAsDataURL(file);
       });
     }
+
     async function subirFotoCompleta(evt) {
       const file = evt.target.files[0];
       evt.target.value = '';
       if (!file || !equipoActivo) return;
+
       try {
         const dataUrl = await leerArchivo(file);
         const base64 = dataUrl.split(',')[1] || '';
+
         const r = await apiPost({
-          action: 'uploadPhoto',
+          action: 'saveFotoCompleta',
           usuario: USUARIO_ACTUAL,
           area: equipoActivo.area,
           idTag: equipoActivo.id,
           nombreEquipo: equipoActivo.nombre,
-          tipoFoto: 'completo',
           mimeType: file.type || 'image/jpeg',
           base64
         });
-        if (!r.ok) throw new Error(r.error || 'No se pudo subir la foto completa');
-        detalleCache[equipoActivo.id] = getDetalleState(equipoActivo.id);
-        detalleCache[equipoActivo.id].fotoCompleta = {
-          tipoFoto: 'completo',
-          urlFoto: r.urlFoto,
-          fileId: r.fileId
-        };
+
+        if (!r.ok) throw new Error(r.error || 'No se pudo guardar la foto completa');
+
+        getDetalleState(equipoActivo.id).fotoCompleta = r.foto || null;
         actualizarPantallas();
         alert('Foto completa guardada correctamente.');
       } catch (err) {
@@ -1504,22 +2072,21 @@
         alert('Error al subir la foto completa: ' + err.message);
       }
     }
+
     async function eliminarFotoCompleta() {
       if (!equipoActivo) return;
-      const det = getDetalleState(equipoActivo.id);
-      if (!det.fotoCompleta || !det.fotoCompleta.fileId) return;
       const ok = confirm('¿Deseas eliminar la foto completa del equipo?');
       if (!ok) return;
+
       try {
         const r = await apiPost({
-          action: 'deletePhoto',
-          idTag: equipoActivo.id,
-          tipoFoto: 'completo',
-          fileId: det.fotoCompleta.fileId,
-          urlFoto: det.fotoCompleta.urlFoto
+          action: 'deleteFotoCompleta',
+          idTag: equipoActivo.id
         });
+
         if (!r.ok) throw new Error(r.error || 'No se pudo eliminar la foto completa');
-        det.fotoCompleta = null;
+
+        getDetalleState(equipoActivo.id).fotoCompleta = null;
         estadoMap[equipoActivo.id] = false;
         actualizarPantallas();
       } catch (err) {
@@ -1527,151 +2094,135 @@
         alert('Error al eliminar la foto completa: ' + err.message);
       }
     }
-    function agregarPlacaLocal() {
-      if (!equipoActivo) return;
-      getDetalleState(equipoActivo.id).placas.push(placaVacia());
-      renderDetalle();
-    }
-    function actualizarCodigoPlaca(uid, valor) {
-      const det = getDetalleState(equipoActivo.id);
-      const item = det.placas.find(p => p.uid === uid);
-      if (!item) return;
-      item.codigo = valor;
-      item.dirty = true;
-      item.saved = false;
-    }
-    async function seleccionarFotoPlaca(evt, uid) {
+
+    async function seleccionarFotoReferencia(evt, uid, tipo) {
       const file = evt.target.files[0];
       evt.target.value = '';
       if (!file || !equipoActivo) return;
+
       try {
         const dataUrl = await leerArchivo(file);
         const base64 = dataUrl.split(',')[1] || '';
-        const det = getDetalleState(equipoActivo.id);
-        const item = det.placas.find(p => p.uid === uid);
+        const categoria = uidCategoria(uid);
+        const item = buscarReferencia(uid, categoria);
         if (!item) return;
-        item.previewDataUrl = dataUrl;
-        item.base64 = base64;
-        item.mimeType = file.type || 'image/jpeg';
-        item.dirty = true;
+
+        if (tipo === 'equipo') {
+          item.previewEquipo = dataUrl;
+          item.base64FotoEquipo = base64;
+          item.mimeTypeFotoEquipo = file.type || 'image/jpeg';
+        } else {
+          item.previewPlaca = dataUrl;
+          item.base64FotoPlaca = base64;
+          item.mimeTypeFotoPlaca = file.type || 'image/jpeg';
+        }
+
         item.saved = false;
+        item.dirty = true;
         renderDetalle();
       } catch (err) {
         console.error(err);
-        alert('No se pudo preparar la foto de la placa.');
+        alert('No se pudo preparar la imagen.');
       }
     }
-    function quitarFotoPlaca(uid) {
+
+    function uidCategoria(uid) {
       const det = getDetalleState(equipoActivo.id);
-      const item = det.placas.find(p => p.uid === uid);
-      if (!item) return;
-      if (item.fileId) {
-        item.urlFoto = '';
-        item.fileId = '';
-      }
-      item.previewDataUrl = '';
-      item.base64 = '';
-      item.mimeType = '';
-      item.dirty = true;
-      item.saved = false;
-      renderDetalle();
+      if (det.equipoPlaca.some(x => x.uid === uid)) return 'equipo_placa';
+      return 'otro_equipo';
     }
-    async function guardarPlaca(uid) {
+
+    async function guardarReferencia(uid, categoria) {
       if (!equipoActivo) return;
-      const det = getDetalleState(equipoActivo.id);
-      const item = det.placas.find(p => p.uid === uid);
+      const item = buscarReferencia(uid, categoria);
       if (!item) return;
-      const tieneCodigo = !!String(item.codigo || '').trim();
-      const tieneFotoNueva = !!item.base64;
-      const tieneFotoPrev = !!item.urlFoto;
-      if (!tieneCodigo && !tieneFotoNueva && !tieneFotoPrev) {
-        alert('Debes guardar una foto, un codigo o ambos en la placa.');
+
+      const tieneFotoEquipo = !!(item.base64FotoEquipo || item.urlFotoEquipo);
+      if (!tieneFotoEquipo) {
+        alert('La foto del equipo es obligatoria en este registro.');
         return;
       }
+
       try {
         const r = await apiPost({
-          action: 'savePlacaRegistro',
+          action: 'saveReferencia',
           usuario: USUARIO_ACTUAL,
           area: equipoActivo.area,
           idTag: equipoActivo.id,
           nombreEquipo: equipoActivo.nombre,
           uid: item.uid,
+          categoria,
           codigo: item.codigo || '',
-          mimeType: item.mimeType || '',
-          base64: item.base64 || ''
+          base64FotoEquipo: item.base64FotoEquipo || '',
+          mimeTypeFotoEquipo: item.mimeTypeFotoEquipo || '',
+          base64FotoPlaca: item.base64FotoPlaca || '',
+          mimeTypeFotoPlaca: item.mimeTypeFotoPlaca || ''
         });
-        if (!r.ok) throw new Error(r.error || 'No se pudo guardar la placa');
-        item.codigo = String((r.placa && r.placa.codigo) || item.codigo || '');
-        item.urlFoto = String((r.placa && r.placa.urlFoto) || item.urlFoto || '');
-        item.fileId = String((r.placa && r.placa.fileId) || item.fileId || '');
-        item.previewDataUrl = '';
-        item.base64 = '';
-        item.mimeType = '';
+
+        if (!r.ok) throw new Error(r.error || 'No se pudo guardar el registro');
+
+        const guardado = mapReferenciaAPI(r.referencia || {});
+        Object.assign(item, guardado);
+        item.previewEquipo = '';
+        item.previewPlaca = '';
+        item.base64FotoEquipo = '';
+        item.base64FotoPlaca = '';
+        item.mimeTypeFotoEquipo = '';
+        item.mimeTypeFotoPlaca = '';
         item.saved = true;
         item.dirty = false;
         actualizarPantallas();
-        alert('Placa guardada correctamente.');
+        alert('Registro guardado correctamente.');
       } catch (err) {
         console.error(err);
-        alert('Error al guardar la placa: ' + err.message);
+        alert('Error al guardar el registro: ' + err.message);
       }
     }
-    async function eliminarPlaca(uid) {
+
+    async function eliminarReferencia(uid, categoria) {
       if (!equipoActivo) return;
-      const det = getDetalleState(equipoActivo.id);
-      const idx = det.placas.findIndex(p => p.uid === uid);
+      const lista = obtenerListaCategoria(categoria);
+      const idx = lista.findIndex(item => item.uid === uid);
       if (idx === -1) return;
-      const item = det.placas[idx];
-      if (!item.saved && !item.fileId && !item.urlFoto) {
-        det.placas.splice(idx, 1);
-        if (!det.placas.length) det.placas.push(placaVacia());
+      const item = lista[idx];
+
+      if (!item.saved && !item.urlFotoEquipo && !item.urlFotoPlaca && !item.codigo) {
+        lista.splice(idx, 1);
+        if (!lista.length) lista.push(referenciaLocal(categoria));
         renderDetalle();
         return;
       }
-      const ok = confirm('¿Deseas eliminar esta placa o codigo?');
+
+      const ok = confirm('¿Deseas eliminar este registro?');
       if (!ok) return;
+
       try {
         const r = await apiPost({
-          action: 'deletePlacaRegistro',
+          action: 'deleteReferencia',
           idTag: equipoActivo.id,
-          uid: item.uid
+          uid
         });
-        if (!r.ok) throw new Error(r.error || 'No se pudo eliminar la placa');
-        det.placas.splice(idx, 1);
-        if (!det.placas.length) det.placas.push(placaVacia());
+
+        if (!r.ok) throw new Error(r.error || 'No se pudo eliminar el registro');
+
+        lista.splice(idx, 1);
+        if (!lista.length) lista.push(referenciaLocal(categoria));
         actualizarPantallas();
       } catch (err) {
         console.error(err);
-        alert('Error al eliminar la placa: ' + err.message);
+        alert('Error al eliminar el registro: ' + err.message);
       }
     }
-    function cambiarCondicion(campo, valor) {
-      if (!equipoActivo) return;
-      const cond = getDetalleState(equipoActivo.id).condiciones;
-      cond[campo] = valor;
-      cond.saved = false;
-      if (campo === 'polvo' && valor !== 'otro') {
-        cond.otro = '';
-      }
-      renderDetalle();
-    }
-    function actualizarOtro(valor) {
-      if (!equipoActivo) return;
-      const cond = getDetalleState(equipoActivo.id).condiciones;
-      cond.otro = valor;
-      cond.saved = false;
-    }
+
     async function guardarCondiciones() {
       if (!equipoActivo) return;
       const cond = getDetalleState(equipoActivo.id).condiciones;
-      if (!cond.temperatura || !cond.agua || !cond.polvo) {
-        alert('Debes seleccionar temperatura, agua y polvo.');
+
+      if (!condicionesCompletas(cond)) {
+        alert('Debes completar temperatura, carga, vibracion, agua, polvo y problema reportado.');
         return;
       }
-      if (cond.polvo === 'otro' && !String(cond.otro || '').trim()) {
-        alert('Debes describir la condicion en "Otro".');
-        return;
-      }
+
       try {
         const r = await apiPost({
           action: 'saveCondiciones',
@@ -1680,18 +2231,19 @@
           idTag: equipoActivo.id,
           nombreEquipo: equipoActivo.nombre,
           temperatura: cond.temperatura,
+          carga: cond.carga,
+          vibracion: cond.vibracion,
           agua: cond.agua,
           polvo: cond.polvo,
+          problema: cond.problema,
+          descripcion: cond.descripcion || '',
           otro: cond.otro || ''
         });
+
         if (!r.ok) throw new Error(r.error || 'No se pudieron guardar las condiciones');
-        getDetalleState(equipoActivo.id).condiciones = {
-          temperatura: String((r.condiciones && r.condiciones.temperatura) || cond.temperatura || ''),
-          agua: String((r.condiciones && r.condiciones.agua) || cond.agua || ''),
-          polvo: String((r.condiciones && r.condiciones.polvo) || cond.polvo || ''),
-          otro: String((r.condiciones && r.condiciones.otro) || cond.otro || ''),
-          saved: true
-        };
+
+        getDetalleState(equipoActivo.id).condiciones = normalizarCondiciones(r.condiciones || cond);
+        getDetalleState(equipoActivo.id).condiciones.saved = true;
         actualizarPantallas();
         alert('Condiciones guardadas correctamente.');
       } catch (err) {
@@ -1699,15 +2251,19 @@
         alert('Error al guardar condiciones: ' + err.message);
       }
     }
+
     async function toggleCompletar() {
       if (!equipoActivo) return;
+
       const id = equipoActivo.id;
       const nuevoEstado = !estadoMap[id];
       const progreso = progresoEquipo(id);
+
       if (nuevoEstado && !progreso.puedeCompletar) {
-        alert('Primero debes cumplir foto completa, placas guardadas y condiciones del area.');
+        alert('Primero debes completar la foto completa, el bloque equipo y placa, el bloque de otras referencias y las condiciones de operacion.');
         return;
       }
+
       try {
         const r = await apiPost({
           action: 'saveEstado',
@@ -1715,7 +2271,9 @@
           completo: nuevoEstado,
           usuario: USUARIO_ACTUAL
         });
+
         if (!r.ok) throw new Error(r.error || 'No se pudo guardar el estado');
+
         estadoMap[id] = nuevoEstado;
         actualizarPantallas();
       } catch (err) {
@@ -1723,29 +2281,40 @@
         alert('Error al guardar estado: ' + err.message);
       }
     }
+
+    function actualizarPantallas() {
+      if (equipoActivo) renderDetalle();
+      renderLista();
+      actualizarSplash();
+    }
+
     async function cargarApp() {
       try {
         document.getElementById('tabs-wrap').innerHTML = '';
         document.getElementById('summary-bar').innerHTML = '<span class="s-pill s-total">Cargando datos...</span>';
         document.getElementById('list-view').innerHTML = '<div class="loading-msg">Conectando con Google Sheets...</div>';
+
         const [equiposResp, estadoResp] = await Promise.all([
           apiGet({ action: 'getEquipos' }),
           apiGet({ action: 'getEstado' })
         ]);
+
         if (!equiposResp.ok) throw new Error(equiposResp.error || 'No se pudieron cargar equipos');
         if (!estadoResp.ok) throw new Error(estadoResp.error || 'No se pudo cargar estado');
+
         AREAS = normalizarEquipos(Array.isArray(equiposResp.data) ? equiposResp.data : []);
         estadoMap = estadoResp.data || {};
         areaActiva = 0;
+
         actualizarSplash();
         renderTabs();
         renderLista();
       } catch (err) {
         console.error(err);
-        document.getElementById('list-view').innerHTML =
-          `<div class="empty-msg">No se pudo conectar con la API.<br><br>${escapeHtml(err.message)}</div>`;
+        document.getElementById('list-view').innerHTML = `<div class="empty-msg">No se pudo conectar con la API.<br><br>${escapeHtml(err.message)}</div>`;
       }
     }
+
     function escapeHtml(text) {
       return String(text ?? '')
         .replaceAll('&', '&amp;')
@@ -1754,12 +2323,23 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
     }
+
     function escapeAttr(text) {
       return escapeHtml(text).replaceAll(' ', '_');
     }
+
+    function escapeAttrValue(text) {
+      return String(text ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('"', '&quot;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
     function safeJs(text) {
       return String(text ?? '').replaceAll('\\', '\\\\').replaceAll("'", "\\'");
     }
+
     cargarApp();
   </script>
 </body>
