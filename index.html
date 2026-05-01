@@ -612,8 +612,7 @@
     .s-pill,
     .meta-pill,
     .badge-hecho,
-    .badge-vacio,
-    .badge-required {
+    .badge-vacio {
       display: inline-flex;
       align-items: center;
       border-radius: 999px;
@@ -1026,8 +1025,7 @@
     }
 
     .badge-hecho,
-    .badge-vacio,
-    .badge-required {
+    .badge-vacio {
       font-size: 10px;
       padding: 6px 10px;
     }
@@ -1040,11 +1038,6 @@
     .badge-vacio {
       background: #f3f6fb;
       color: #7d89a4;
-    }
-
-    .badge-required {
-      background: #eaf0ff;
-      color: var(--azul-2);
     }
 
     .entry-grid {
@@ -1095,13 +1088,6 @@
     .btn-completar.hecho {
       background: linear-gradient(135deg, var(--verde), #107241);
       box-shadow: 0 18px 30px rgba(23, 155, 82, 0.18);
-    }
-
-    .btn-completar:disabled {
-      background: #cfd7e7;
-      color: #7f8aa1;
-      box-shadow: none;
-      cursor: default;
     }
 
     .loading-msg,
@@ -1170,8 +1156,8 @@
         </div>
         <p class="hero-copy">
           Plataforma para el <strong>levantamiento visual de equipos criticos</strong> con
-          control por areas, foto completa obligatoria, registros con placa y referencias
-          adicionales para el proyecto impulsado por MOLUB.
+          control por areas, registros fotograficos y cierre manual por el operador
+          para el proyecto impulsado por MOLUB.
         </p>
         <div class="hero-mini-grid">
           <div class="hero-mini-card">
@@ -1379,7 +1365,7 @@
     }
 
     function referenciaConPlacaValida(item) {
-      return !!(item && item.urlFotoEquipo && item.urlFotoPlaca);
+      return !!(item && (item.urlFotoEquipo || item.urlFotoPlaca));
     }
 
     function referenciaSinPlacaValida(item) {
@@ -1499,7 +1485,7 @@
               <div class="equip-tag">${escapeHtml(e.id || 'SIN ID TAG')}</div>
               <div class="equip-nombre">${escapeHtml(e.nombre || '')}</div>
               <div class="equip-proceso">Proceso: ${escapeHtml(e.proceso || e.area || '')}</div>
-              <div class="equip-estado">${comp ? 'Completo' : res.score > 0 ? res.score + ' de ' + res.total + ' requisitos cubiertos' : 'Sin levantar'}</div>
+              <div class="equip-estado">${comp ? 'Completo' : res.score > 0 ? res.score + ' de ' + res.total + ' registros cargados' : 'Sin levantar'}</div>
             </div>
             <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
             <span class="chevron">›</span>
@@ -1584,7 +1570,7 @@
       return {
         steps: { full, placa, otros, descripcion },
         total: [full, placa, otros, descripcion].filter(Boolean).length,
-        puedeCompletar: full && placa && otros && descripcion
+        puedeCompletar: true
       };
     }
 
@@ -1620,14 +1606,10 @@
         btn.disabled = false;
         btn.className = 'btn-completar hecho';
         btn.textContent = 'Completo - tocar para desmarcar';
-      } else if (progreso.puedeCompletar) {
+      } else {
         btn.disabled = false;
         btn.className = 'btn-completar';
         btn.textContent = 'Marcar como completo';
-      } else {
-        btn.disabled = true;
-        btn.className = 'btn-completar';
-        btn.textContent = 'Completa los 4 requisitos para cerrar';
       }
     }
 
@@ -1637,14 +1619,14 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#128247;</span>Foto completa del equipo</div>
-            <span class="${foto && foto.urlFoto ? 'badge-hecho' : 'badge-vacio'}">${foto && foto.urlFoto ? 'Lista' : 'Pendiente'}</span>
+            <span class="${foto && foto.urlFoto ? 'badge-hecho' : 'badge-vacio'}">${foto && foto.urlFoto ? 'Con foto' : 'Opcional'}</span>
           </div>
           <div class="section-body">
-            <div class="helper-box warn">Aqui debe ir la foto completa de todo el equipo. Esta es la evidencia principal y obligatoria.</div>
+            <div class="helper-box warn">Puedes subir la foto completa del equipo si la tienes disponible.</div>
             <div class="photo-frame">
               ${foto && foto.urlFoto
                 ? `<img src="${escapeHtml(foto.urlFoto)}" alt="Foto completa del equipo">`
-                : `<div class="photo-empty">Toma una fotografia amplia donde se vea todo el equipo completo.</div>`}
+                : `<div class="photo-empty">Sin foto completa cargada.</div>`}
             </div>
             <div class="photo-actions">
               <label class="btn-camara" for="file_foto_completa">
@@ -1667,10 +1649,10 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#127991;</span>Foto de reductor o equipo con placa</div>
-            <span class="${det.equipoPlaca.some(referenciaConPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.equipoPlaca.some(referenciaConPlacaValida) ? 'Con registros' : 'Pendiente'}</span>
+            <span class="${det.equipoPlaca.some(referenciaConPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.equipoPlaca.some(referenciaConPlacaValida) ? 'Con registros' : 'Opcional'}</span>
           </div>
           <div class="section-body">
-            <div class="helper-box">Aqui debes subir la foto del reductor o equipo que contiene placa y tambien la foto de su placa. Esta seccion solo cuenta como valida cuando tiene las 2 fotos.</div>
+            <div class="helper-box">Aqui puedes subir foto del equipo, foto de la placa o ambas. Ninguna es obligatoria.</div>
             <div class="entry-list">
               ${entries.map((item, idx) => renderReferenciaCard(item, idx + 1, true)).join('')}
             </div>
@@ -1690,10 +1672,10 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#128736;</span>Foto de otros equipos sin placa</div>
-            <span class="${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'Con registros' : 'Pendiente'}</span>
+            <span class="${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'badge-hecho' : 'badge-vacio'}">${det.otrosEquipos.some(referenciaSinPlacaValida) ? 'Con registros' : 'Opcional'}</span>
           </div>
           <div class="section-body">
-            <div class="helper-box">Aqui solo debes poner fotos de otros equipos o componentes que no contienen placa. Puedes agregar varias.</div>
+            <div class="helper-box">Aqui puedes agregar fotos de otros equipos o componentes sin placa. Tampoco es obligatorio.</div>
             <div class="entry-list">
               ${entries.map((item, idx) => renderReferenciaCard(item, idx + 1, false)).join('')}
             </div>
@@ -1712,13 +1694,13 @@
         <div class="entry-card">
           <div class="entry-head">
             <div class="entry-title">${conPlaca ? 'Registro ' + numero + ' - equipo con placa' : 'Registro ' + numero + ' - equipo sin placa'}</div>
-            <span class="${valido ? 'badge-hecho' : 'badge-vacio'}">${valido ? 'Guardado' : (conPlaca ? 'Faltan 2 fotos' : 'Sin guardar')}</span>
+            <span class="${valido ? 'badge-hecho' : 'badge-vacio'}">${valido ? 'Guardado' : 'Parcial o vacio'}</span>
           </div>
           <div class="entry-grid">
             <div>
               <div class="field-label">Foto del equipo</div>
               <div class="photo-frame">
-                ${renderImagePreview(item.previewEquipo || item.urlFotoEquipo, 'Foto del equipo', 'La foto del equipo es obligatoria en este registro.')}
+                ${renderImagePreview(item.previewEquipo || item.urlFotoEquipo, 'Foto del equipo', 'Puedes subir esta foto si la tienes disponible.')}
               </div>
               <div class="photo-actions">
                 <label class="btn-camara" for="file_eq_${escapeAttr(item.uid)}">
@@ -1732,8 +1714,8 @@
               <div class="field-label">${conPlaca ? 'Foto de la placa' : 'Sin placa'}</div>
               <div class="photo-frame">
                 ${conPlaca
-                  ? renderImagePreview(item.previewPlaca || item.urlFotoPlaca, 'Foto de placa', 'La foto de la placa es obligatoria en esta seccion.')
-                  : '<div class="photo-empty">En esta seccion no se captura placa. Solo la foto del otro equipo.</div>'}
+                  ? renderImagePreview(item.previewPlaca || item.urlFotoPlaca, 'Foto de placa', 'Puedes subir esta foto si la tienes disponible.')
+                  : '<div class="photo-empty">En esta seccion no se captura placa.</div>'}
               </div>
               ${conPlaca ? `
                 <div class="photo-actions">
@@ -1764,10 +1746,10 @@
         <div class="section-card">
           <div class="section-head">
             <div class="section-head-title"><span>&#9997;</span>Descripcion del equipo</div>
-            <span class="${descripcionCompleta(det.descripcion) ? 'badge-hecho' : 'badge-vacio'}">${descripcionCompleta(det.descripcion) ? 'Lista' : 'Pendiente'}</span>
+            <span class="${descripcionCompleta(det.descripcion) ? 'badge-hecho' : 'badge-vacio'}">${descripcionCompleta(det.descripcion) ? 'Con texto' : 'Opcional'}</span>
           </div>
           <div class="section-body">
-            <div class="helper-box">Aqui agrega una descripcion general del equipo, su condicion visible o cualquier observacion relevante del levantamiento.</div>
+            <div class="helper-box">Aqui puedes agregar observaciones o notas si lo necesitas.</div>
             <div class="field-group">
               <label class="field-label">Descripcion</label>
               <textarea class="field-textarea" placeholder="Describe el equipo, observaciones visuales, estado general o notas relevantes" oninput="actualizarDescripcion(this.value)">${escapeHtml(det.descripcion.texto || '')}</textarea>
@@ -1899,16 +1881,6 @@
       const item = buscarReferencia(uid, categoria);
       if (!item) return;
 
-      if (!(item.base64FotoEquipo || item.urlFotoEquipo)) {
-        alert('La foto del equipo es obligatoria en este registro.');
-        return;
-      }
-
-      if (categoria === 'equipo_placa' && !(item.base64FotoPlaca || item.urlFotoPlaca)) {
-        alert('La foto de la placa es obligatoria en esta seccion.');
-        return;
-      }
-
       try {
         const r = await apiPost({
           action: 'saveReferencia',
@@ -1989,11 +1961,6 @@
       if (!equipoActivo) return;
       const desc = getDetalleState(equipoActivo.id).descripcion;
 
-      if (!String(desc.texto || '').trim()) {
-        alert('Debes escribir una descripcion del equipo.');
-        return;
-      }
-
       try {
         const r = await apiPost({
           action: 'saveDescripcion',
@@ -2001,7 +1968,7 @@
           area: equipoActivo.area,
           idTag: equipoActivo.id,
           nombreEquipo: equipoActivo.nombre,
-          descripcion: desc.texto
+          descripcion: desc.texto || ''
         });
 
         if (!r.ok) throw new Error(r.error || 'No se pudo guardar la descripcion');
@@ -2021,12 +1988,6 @@
 
       const id = equipoActivo.id;
       const nuevoEstado = !estadoMap[id];
-      const progreso = progresoEquipo(id);
-
-      if (nuevoEstado && !progreso.puedeCompletar) {
-        alert('Primero debes completar la foto completa, el bloque con placa, el bloque de otros equipos y la descripcion.');
-        return;
-      }
 
       try {
         const r = await apiPost({
