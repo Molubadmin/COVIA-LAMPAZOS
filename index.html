@@ -21,8 +21,6 @@
     body::before{width:220px;height:220px;top:-90px;right:-80px;background:rgba(18,40,255,.08)}
     body::after{width:170px;height:170px;bottom:80px;left:-70px;background:rgba(8,17,45,.05)}
     #splash,#main,#detail-view,#cartas-view,#carta-editor-view{position:relative;z-index:1}
-
-    /* UPLOAD OVERLAY */
     #upload-overlay{display:none;position:fixed;inset:0;z-index:9999;
       background:rgba(8,17,45,.75);backdrop-filter:blur(6px);
       align-items:center;justify-content:center;flex-direction:column;gap:18px}
@@ -39,8 +37,6 @@
     .upload-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--azul),#4f8dff);
       border-radius:999px;transition:width .25s ease}
     .upload-pct{font-size:13px;font-weight:800;color:var(--azul)}
-
-    /* SPLASH */
     #splash{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px}
     .hero-shell{width:100%;max-width:1240px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px}
     .hero-main,.hero-side{background:rgba(255,255,255,.92);border:1px solid rgba(219,225,240,.9);
@@ -102,8 +98,6 @@
     .progress-card .value{margin-top:8px;font-size:30px;font-weight:900;color:var(--azul-3)}
     .progress-line{margin-top:12px;height:10px;background:rgba(18,40,255,.10);border-radius:999px;overflow:hidden}
     .progress-line>div{height:100%;width:0%;background:linear-gradient(90deg,var(--azul),#4f8dff);border-radius:999px}
-
-    /* MAIN LIST VIEW */
     #main{display:none;height:100vh;flex-direction:column;gap:14px;padding:16px;overflow:hidden}
     .top-bar,.detail-topbar,.cartas-topbar,.carta-editor-topbar{
       background:radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 26%),
@@ -173,8 +167,6 @@
     .crit-B{background:var(--naranja-bg);color:var(--naranja);border:1px solid #ffdfaa}
     .crit-C{background:var(--verde-bg);color:var(--verde);border:1px solid #c6ead4}
     .chevron{color:var(--azul);font-size:20px;font-weight:900;flex-shrink:0}
-
-    /* DETAIL VIEW */
     #detail-view{display:none;height:100vh;flex-direction:column;gap:12px;padding:14px;overflow:hidden}
     .detail-topbar{display:flex;gap:12px;align-items:flex-start;flex-shrink:0}
     .btn-back{padding:10px 13px;border-radius:14px;background:rgba(255,255,255,.12);color:var(--blanco);
@@ -212,7 +204,6 @@
     .btn-outline{background:var(--blanco);color:var(--rojo);border:1px solid #f1c6c6}
     .btn-secondary{background:linear-gradient(135deg,var(--azul),var(--azul-2));color:var(--blanco);
       box-shadow:0 14px 26px rgba(18,40,255,.16)}
-    /* CARTA BUTTON in detail */
     .btn-carta{display:inline-flex;align-items:center;justify-content:center;gap:8px;
       border-radius:16px;font-weight:800;font-size:13px;min-height:48px;padding:12px 18px;cursor:pointer;
       background:linear-gradient(135deg,#08112d,#0c1eaf);color:#fff;border:none;
@@ -240,8 +231,6 @@
       color:var(--texto-suave);font-size:14px;line-height:1.7}
     .loading-msg{color:var(--azul-3);font-weight:700}
     input[type="file"]{display:none}
-
-    /* ===================== CARTAS LIST VIEW ===================== */
     #cartas-view{display:none;height:100vh;flex-direction:column;gap:14px;padding:16px;overflow:hidden}
     .cartas-topbar{display:flex;gap:12px;align-items:center;flex-shrink:0}
     .cartas-topbar-info{flex:1;position:relative;z-index:1}
@@ -263,8 +252,6 @@
     .carta-status{font-size:10px;padding:7px 11px;border-radius:999px;font-weight:800;flex-shrink:0}
     .carta-status.con-datos{background:var(--verde-bg);color:var(--verde);border:1px solid rgba(23,155,82,.14)}
     .carta-status.sin-datos{background:#f3f6fb;color:#7d89a4;border:1px solid var(--borde)}
-
-    /* ===================== CARTA EDITOR VIEW ===================== */
     #carta-editor-view{display:none;height:100vh;flex-direction:column;gap:10px;padding:14px;overflow:hidden}
     .carta-editor-topbar{display:flex;gap:12px;align-items:flex-start;flex-shrink:0}
     .carta-editor-topbar-info{flex:1;position:relative;z-index:1}
@@ -277,8 +264,6 @@
       color:var(--azul-3);border:none;font-size:12px;font-weight:800;cursor:pointer;
       box-shadow:0 4px 12px rgba(8,17,45,.1)}
     #carta-editor-scroll{flex:1;overflow-y:auto}
-
-    /* ===================== CARTA DESIGN (inline editor) ===================== */
     .carta-wrap{background:#fff;border:2px solid #08112d;border-radius:6px;font-family:Arial,sans-serif;overflow:hidden;margin-bottom:12px}
     .c-header{display:grid;grid-template-columns:90px 1fr 200px;border-bottom:2px solid #08112d}
     .c-logo{border-right:1px solid #1228ff;padding:10px;background:#08112d;display:flex;align-items:center;justify-content:center}
@@ -292,11 +277,9 @@
     .c-info-val{border-bottom:1.5px solid #08112d;flex:1;padding:2px 4px;font-size:8pt;outline:none;background:transparent;color:#08112d;font-family:Arial,sans-serif}
     .c-info-val:focus{background:#dde4ff}
     .c-equip{display:grid;grid-template-columns:90px 1fr;border-bottom:2px solid #08112d}
-    .c-foto-cell{border-right:1px solid #08112d;padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
-    .c-foto-cell:hover .c-foto-hover{opacity:1}
+    .c-foto-cell{border-right:1px solid #08112d;padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center;position:relative}
     .c-foto-img{width:72px;height:72px;object-fit:cover;border-radius:4px;border:2px solid #fff;display:block}
     .c-foto-placeholder{width:72px;height:72px;border:2px dashed #c7d0f8;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7pt;color:#c7d0f8;text-align:center;gap:4px;font-family:Arial}
-    .c-foto-hover{position:absolute;inset:0;background:rgba(18,40,255,.25);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:8pt;font-weight:700;color:#fff}
     .c-datos{padding:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f8faff}
     .c-dato{display:flex;flex-direction:column;gap:2px}
     .c-dato-lbl{font-size:7pt;font-weight:800;color:#0c1eaf;text-transform:uppercase}
@@ -346,11 +329,8 @@
       color:var(--azul-2);font-size:13px;font-weight:800;cursor:pointer;margin-top:6px}
     .btn-add-elem:hover{background:#eef2ff}
     .btn-del-elem{background:none;border:none;color:#c62828;font-size:12px;cursor:pointer;padding:4px 8px;font-weight:700}
-
-    /* CRM Sync badge */
     .crm-sync-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
       background:#e9f7ef;border:1px solid rgba(23,155,82,.2);font-size:11px;font-weight:700;color:var(--verde);margin-bottom:10px}
-
     @media(max-width:980px){.hero-shell{grid-template-columns:1fr}.hero-brand{grid-template-columns:1fr}}
     @media(max-width:760px){
       .entry-grid,.hero-mini-grid,.stats-grid,.c-datos,.c-firmas-grid{grid-template-columns:1fr}
@@ -375,16 +355,12 @@
   </div>
 </div>
 
-<!-- ==================== SPLASH ==================== -->
 <div id="splash">
   <div class="hero-shell">
     <section class="hero-main">
       <div class="hero-pill">Inspeccion fotografica industrial</div>
       <div class="hero-brand">
-        <div>
-          <div class="hero-title">COVIA</div>
-          <div class="hero-subtitle">LAMPAZOS</div>
-        </div>
+        <div><div class="hero-title">COVIA</div><div class="hero-subtitle">LAMPAZOS</div></div>
         <div class="hero-mark" aria-hidden="true"></div>
       </div>
       <p class="hero-copy">Plataforma para el <strong>levantamiento visual de equipos criticos</strong> con control por areas, registros fotograficos y cierre manual por el operador para el proyecto impulsado por MOLUB.</p>
@@ -395,7 +371,7 @@
       </div>
       <div class="hero-actions">
         <button class="btn-entrar" id="btn-entrar-main" onclick="entrar()">Ingresar a planta</button>
-        <button class="btn-entrar" style="min-width:200px;background:linear-gradient(135deg,#08112d,#0c1eaf)" onclick="entrarCartas()">&#128196; Cartas de lubricacion</button>
+        <button class="btn-entrar" id="btn-cartas-main" style="min-width:200px;background:linear-gradient(135deg,#08112d,#0c1eaf)" onclick="entrarCartas()">&#128196; Cartas de lubricacion</button>
         <div class="hero-note">Proyecto impulsado por MOLUB</div>
       </div>
     </section>
@@ -418,7 +394,6 @@
   </div>
 </div>
 
-<!-- ==================== MAIN LIST ==================== -->
 <div id="main">
   <div class="top-bar">
     <div>
@@ -443,7 +418,6 @@
   <div id="list-view"></div>
 </div>
 
-<!-- ==================== DETAIL VIEW ==================== -->
 <div id="detail-view">
   <div class="detail-topbar">
     <button class="btn-back" onclick="cerrarDetalle()">&#8592;</button>
@@ -456,9 +430,7 @@
         <span class="meta-pill" id="d-sistema"></span>
       </div>
     </div>
-    <button class="btn-carta" onclick="abrirCartaDesdeDetalle()" title="Abrir carta de lubricacion">
-      &#128196; Carta
-    </button>
+    <button class="btn-carta" onclick="abrirCartaDesdeDetalle()" title="Abrir carta de lubricacion">&#128196; Carta</button>
   </div>
   <div class="prog-fotos">
     <div class="prog-fotos-label">Progreso del levantamiento</div>
@@ -470,7 +442,6 @@
   </div>
 </div>
 
-<!-- ==================== CARTAS LIST VIEW ==================== -->
 <div id="cartas-view">
   <div class="cartas-topbar">
     <button class="btn-back" onclick="cerrarCartas()">&#8592;</button>
@@ -485,7 +456,6 @@
   <div id="cartas-list"></div>
 </div>
 
-<!-- ==================== CARTA EDITOR VIEW ==================== -->
 <div id="carta-editor-view">
   <div class="carta-editor-topbar">
     <button class="btn-back" onclick="cerrarCartaEditor()">&#8592;</button>
@@ -498,32 +468,22 @@
       </div>
     </div>
   </div>
-  <div id="carta-editor-scroll">
-    <div id="carta-container"></div>
-  </div>
+  <div id="carta-editor-scroll"><div id="carta-container"></div></div>
 </div>
 
 <script>
-/* ============================================================
-   API & CONFIG
-   ============================================================ */
 const API_URL="https://script.google.com/macros/s/AKfycbyw-rFRKj_MWSqZysrSttIP7VJHsGWYIaKSM-4rVhnQTO8NTcokyGpe5VhJsMKyQADg/exec";
 const USUARIO_ACTUAL="OPERADOR";
 const IMG_MAX_PX=1080;
 const IMG_QUALITY=0.72;
-
 let AREAS=[],areaActiva=0,busqueda="",equipoActivo=null,estadoMap={},detalleCache={},subiendoFoto=false;
 let cartasBusqueda="";
-let cartaActivaId=null;      // idTag de la carta que se está editando
-let CARTAS_DATA={};          // { idTag: { elementos:[], recomendaciones:"", firmas:{} } }
-let CARTA_FOTO_MAP={};       // { idTag: dataUrl } foto del equipo cargada desde CRM
-
+let cartaActivaId=null;
+let CARTAS_DATA={};
+let CARTA_FOTO_MAP={};
 const FRECUENCIAS=["Diaria","Semanal","Quincenal","Mensual","Bimestral","Trimestral","Semestral","Anual"];
 const TAREAS=["Engrase","Aceite","Inspeccion visual","Muestra de aceite","Cambio de aceite","Limpieza"];
 
-/* ============================================================
-   OVERLAY
-   ============================================================ */
 function mostrarOverlay(t,s){
   document.getElementById("overlay-title").textContent=t||"Subiendo foto...";
   document.getElementById("overlay-sub").textContent=s||"Comprimiendo y enviando imagen";
@@ -539,9 +499,6 @@ function actualizarOverlay(p){
 }
 function ocultarOverlay(){document.getElementById("upload-overlay").classList.remove("visible");subiendoFoto=false;}
 
-/* ============================================================
-   IMAGEN
-   ============================================================ */
 function comprimirImagen(file){
   return new Promise((resolve,reject)=>{
     const reader=new FileReader();
@@ -567,9 +524,6 @@ function comprimirImagen(file){
   });
 }
 
-/* ============================================================
-   API
-   ============================================================ */
 async function apiGet(params={}){
   const url=new URL(API_URL);
   Object.entries(params).forEach(([k,v])=>url.searchParams.set(k,v));
@@ -583,9 +537,6 @@ async function apiPost(payload={}){
   return await res.json();
 }
 
-/* ============================================================
-   NORMALIZACIÓN
-   ============================================================ */
 function normalizarEquipos(lista){
   const ag={};
   lista.forEach(item=>{
@@ -623,9 +574,6 @@ function mapReferenciaAPI(item){return{uid:String(item.uid||""),categoria:String
   mimeTypeFotoEquipo:"",mimeTypeFotoPlaca:"",saved:true}}
 function normalizarDescripcion(desc){return{texto:String((desc&&desc.texto)||""),saved:!!(desc&&desc.saved)}}
 
-/* ============================================================
-   SPLASH STATS
-   ============================================================ */
 function actualizarSplash(){
   const tot=totalEquipos(),done=totalCompletados(),pct=tot>0?Math.round(done/tot*100):0;
   document.getElementById("s-total").textContent=tot;
@@ -635,9 +583,6 @@ function actualizarSplash(){
   document.getElementById("hero-progress-fill").style.width=pct+"%";
 }
 
-/* ============================================================
-   NAVEGACIÓN PRINCIPAL
-   ============================================================ */
 async function entrar(){
   const btn=document.getElementById("btn-entrar-main");
   btn.disabled=true;btn.textContent="Cargando datos...";
@@ -650,21 +595,28 @@ async function entrar(){
     alert("Error al conectar:\n"+e.message);
   }
 }
+
 function irInicio(){
   document.getElementById("main").style.display="none";
   document.getElementById("detail-view").style.display="none";
   document.getElementById("cartas-view").style.display="none";
   document.getElementById("carta-editor-view").style.display="none";
   document.getElementById("splash").style.display="flex";
+  // ── ÚNICO CAMBIO: resetear botones para que nunca queden en "Cargando..." ──
+  const btnE=document.getElementById("btn-entrar-main");
+  if(btnE){btnE.disabled=false;btnE.textContent="Ingresar a planta";}
+  const btnC=document.getElementById("btn-cartas-main");
+  if(btnC){btnC.disabled=false;btnC.textContent="\uD83D\uDCC4 Cartas de lubricacion";}
   actualizarSplash();
 }
+
 function irCartas(){
   document.getElementById("main").style.display="none";
   document.getElementById("cartas-view").style.display="flex";
   renderCartasList();
 }
 async function entrarCartas(){
-  const btn=document.querySelector('[onclick="entrarCartas()"]');
+  const btn=document.getElementById("btn-cartas-main");
   if(btn){btn.disabled=true;btn.textContent="Cargando...";}
   try{
     await cargarApp();
@@ -672,7 +624,7 @@ async function entrarCartas(){
     document.getElementById("cartas-view").style.display="flex";
     renderCartasList();
   }catch(e){
-    if(btn){btn.disabled=false;btn.textContent="Cartas de lubricacion";}
+    if(btn){btn.disabled=false;btn.textContent="\uD83D\uDCC4 Cartas de lubricacion";}
     alert("Error al conectar:\n"+e.message);
   }
 }
@@ -682,9 +634,6 @@ function cerrarCartas(){
   else document.getElementById("splash").style.display="flex";
 }
 
-/* ============================================================
-   TABS & LIST
-   ============================================================ */
 function renderTabs(){
   document.getElementById("tabs-wrap").innerHTML=AREAS.map((area,i)=>
     `<button class="tab-btn${i===areaActiva?" active":""}" onclick="cambiarArea(${i})">${escapeHtml(area.nombre)}</button>`).join("");
@@ -724,9 +673,6 @@ function renderLista(){
 }
 function filtrar(){busqueda=document.getElementById("search-input").value.trim();renderLista();}
 
-/* ============================================================
-   DETAIL VIEW
-   ============================================================ */
 async function abrirDetalle(id,areaIdx){
   const area=AREAS[areaIdx];equipoActivo=area.items.find(e=>e.id===id);
   document.getElementById("main").style.display="none";
@@ -890,9 +836,6 @@ function renderDescripcion(det){
   </div>`;
 }
 
-/* ============================================================
-   DETAIL ACTIONS
-   ============================================================ */
 function agregarReferencia(categoria){
   if(!equipoActivo)return;const det=getDetalleState(equipoActivo.id);
   if(categoria==="equipo_placa")det.equipoPlaca.push(referenciaLocal(categoria));
@@ -1003,9 +946,6 @@ async function toggleCompletar(){
 }
 function actualizarPantallas(){if(equipoActivo)renderDetalle();renderLista();actualizarSplash();}
 
-/* ============================================================
-   CARGAR APP
-   ============================================================ */
 async function cargarApp(){
   const equiposResp=await apiGet({action:"getEquipos"});
   if(!equiposResp.ok)throw new Error(equiposResp.error||"No se pudieron cargar equipos");
@@ -1016,9 +956,6 @@ async function cargarApp(){
   actualizarSplash();renderTabs();renderLista();
 }
 
-/* ============================================================
-   CARTAS DE LUBRICACION — LISTA
-   ============================================================ */
 function todosLosEquipos(){
   const result=[];
   AREAS.forEach(a=>a.items.forEach(e=>result.push(e)));
@@ -1045,7 +982,7 @@ function renderCartasList(){
       <div class="carta-info">
         <div class="carta-tag">${escapeHtml(e.id||"SIN ID TAG")}</div>
         <div class="carta-nombre">${escapeHtml(e.nombre||"Sin nombre")}</div>
-        <div class="carta-meta">Area: ${escapeHtml(e.area||"")} &nbsp;·&nbsp; Criticidad: ${escapeHtml(e.crit||"C")} &nbsp;·&nbsp; Sistema: ${escapeHtml(e.sistema||"")}</div>
+        <div class="carta-meta">Area: ${escapeHtml(e.area||"")} &nbsp;&middot;&nbsp; Criticidad: ${escapeHtml(e.crit||"C")} &nbsp;&middot;&nbsp; Sistema: ${escapeHtml(e.sistema||"")}</div>
       </div>
       <span class="carta-status ${tieneCarta?"con-datos":"sin-datos"}">${tieneCarta?"Con datos":"Sin datos"}</span>
       <span class="chevron">&#8250;</span>
@@ -1053,9 +990,6 @@ function renderCartasList(){
   }).join("");
 }
 
-/* ============================================================
-   CARTA EDITOR — ABRIR
-   ============================================================ */
 function encontrarEquipo(idTag){
   for(const a of AREAS)for(const e of a.items)if(e.id===idTag)return e;
   return null;
@@ -1064,56 +998,39 @@ async function abrirCartaEditor(idTag){
   cartaActivaId=idTag;
   const equipo=encontrarEquipo(idTag);
   if(!equipo)return;
-
   document.getElementById("cartas-view").style.display="none";
   document.getElementById("carta-editor-view").style.display="flex";
   document.getElementById("ce-tag").textContent=idTag;
   document.getElementById("ce-nombre").textContent=equipo.nombre||"";
-
-  // Siempre limpiar foto cache para forzar recarga fresca del servidor
   delete CARTA_FOTO_MAP[idTag];
-
   document.getElementById("carta-container").innerHTML='<div class="loading-msg">Cargando carta de lubricacion...</div>';
-
-  // Una sola llamada: trae Excel (elementos) + foto completa del levantamiento en paralelo
-  const [rCarta, rDetalle] = await Promise.allSettled([
-    apiGet({action:"getCarta",   idTag}),
-    apiGet({action:"getDetalle", idTag})
+  const [rCarta,rDetalle]=await Promise.allSettled([
+    apiGet({action:"getCarta",idTag}),
+    apiGet({action:"getDetalle",idTag})
   ]);
-
-  // ── 1. Procesar datos del Excel ──────────────────────────
   if(rCarta.status==="fulfilled"&&rCarta.value.ok&&rCarta.value.data){
     const d=rCarta.value.data;
     CARTAS_DATA[idTag]={
-      planta:          (d.global&&d.global.planta)    ||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
-      direccion:       (d.global&&d.global.direccion) ||"Lampazos de Naranjo, N.L.",
-      recomendaciones: d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
+      planta:(d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
+      direccion:(d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
+      recomendaciones:d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
       firmas:{
-        reviso:   (d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
-        fecha:    new Date().toLocaleDateString("es-MX"),
-        autorizo: (d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
+        reviso:(d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
+        fecha:new Date().toLocaleDateString("es-MX"),
+        autorizo:(d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
       },
-      elementos: Array.isArray(d.elementos)&&d.elementos.length>0
-        ? d.elementos
-        : [{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
+      elementos:Array.isArray(d.elementos)&&d.elementos.length>0
+        ?d.elementos
+        :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
     };
-    // Foto desde getCarta (ya la incluye el AppScript)
-    if(d.fotoCompleta&&d.fotoCompleta.urlFoto){
-      CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
-    }
+    if(d.fotoCompleta&&d.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
   }else{
     CARTAS_DATA[idTag]=cartaDefault(equipo);
   }
-
-  // ── 2. Foto: reforzar con getDetalle si getCarta no la trajo ─
-  // getDetalle es la fuente más directa de la foto del levantamiento
   if(!CARTA_FOTO_MAP[idTag]){
     if(rDetalle.status==="fulfilled"&&rDetalle.value.ok&&rDetalle.value.data){
       const det=rDetalle.value.data;
-      if(det.fotoCompleta&&det.fotoCompleta.urlFoto){
-        CARTA_FOTO_MAP[idTag]=det.fotoCompleta.urlFoto;
-      }
-      // También guardar en detalleCache por si se abre el detalle después
+      if(det.fotoCompleta&&det.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=det.fotoCompleta.urlFoto;
       detalleCache[idTag]=detalleCache[idTag]||{
         fotoCompleta:det.fotoCompleta||null,
         equipoPlaca:Array.isArray(det.equipoPlaca)?det.equipoPlaca.map(mapReferenciaAPI):[],
@@ -1122,15 +1039,10 @@ async function abrirCartaEditor(idTag){
       };
     }
   }
-
-  // ── 3. Último recurso: cache local de esta sesión ────────
   if(!CARTA_FOTO_MAP[idTag]){
     const det=detalleCache[idTag];
-    if(det&&det.fotoCompleta&&det.fotoCompleta.urlFoto){
-      CARTA_FOTO_MAP[idTag]=det.fotoCompleta.urlFoto;
-    }
+    if(det&&det.fotoCompleta&&det.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=det.fotoCompleta.urlFoto;
   }
-
   renderCartaEditor(idTag,equipo);
 }
 function abrirCartaDesdeDetalle(){
@@ -1140,133 +1052,107 @@ function abrirCartaDesdeDetalle(){
 }
 function cerrarCartaEditor(){
   document.getElementById("carta-editor-view").style.display="none";
-  if(cartasBusqueda!==undefined&&document.getElementById("cartas-view")){
-    document.getElementById("cartas-view").style.display="flex";
-    renderCartasList();
-  }else{
-    document.getElementById("cartas-view").style.display="flex";
-    renderCartasList();
-  }
+  document.getElementById("cartas-view").style.display="flex";
+  renderCartasList();
 }
 
-/* ============================================================
-   CARTA DEFAULT
-   ============================================================ */
 function cartaDefault(equipo){
   return{
-    elementos:[
-      {nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""},
-    ],
-    recomendaciones:"",
-    firmas:{reviso:"",fecha:"",autorizo:""},
-    planta:"COVIA LAMPAZOS",
+    elementos:[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+    recomendaciones:"",firmas:{reviso:"",fecha:"",autorizo:""},
+    planta:"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
     direccion:"Lampazos de Naranjo, N.L."
   };
 }
 
-/* ============================================================
-   CARTA EDITOR — RENDER
-   ============================================================ */
 function renderCartaEditor(idTag,equipo){
   const carta=CARTAS_DATA[idTag];
   const fecha=new Date().toLocaleDateString("es-MX");
-  const fotoUrl=CARTA_FOTO_MAP[idTag]||"";  // siempre URL directa, sin prefijo
+  const fotoUrl=CARTA_FOTO_MAP[idTag]||"";
   const tieneFoto=!!fotoUrl;
-
   const elemRows=carta.elementos.map((el,i)=>renderElemRow(el,i,idTag)).join("");
-
   const fotoBadge=tieneFoto
     ?`<div class="crm-sync-badge">&#10003; Foto del equipo cargada desde el levantamiento CRM</div>`
-    :`<div style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;
-        background:#fff8ef;border:1px solid #ffe2af;color:#915b00;font-size:12px;font-weight:700;margin-bottom:10px">
-        &#9888; Sin foto de equipo — sube la foto completa en el levantamiento fotográfico y reaparecerá aquí
+    :`<div style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;background:#fff8ef;border:1px solid #ffe2af;color:#915b00;font-size:12px;font-weight:700;margin-bottom:10px">
+        &#9888; Sin foto de equipo &mdash; sube la foto completa en el levantamiento fotografico y reaparecera aqui
       </div>`;
-
   const html=`
   ${fotoBadge}
   <div class="carta-wrap" id="carta-wrap-${idTag}">
     <div class="c-header">
-      <div class="c-logo">
-        <div class="logo-box">COVIA<br>LAMPAZOS<br><span style="font-size:6pt;color:#c7d0f8;font-weight:400">MOLUB</span></div>
-      </div>
+      <div class="c-logo"><div class="logo-box">COVIA<br>LAMPAZOS<br><span style="font-size:6pt;color:#c7d0f8;font-weight:400">MOLUB</span></div></div>
       <div class="c-title-cell">
-        <div class="main-title">CARTA DE LUBRICACIÓN</div>
-        <div class="sub-title">SISTEMA DE GESTIÓN DE LUBRICACIÓN INDUSTRIAL · MOLUB</div>
+        <div class="main-title">CARTA DE LUBRICACI\u00D3N</div>
+        <div class="sub-title">SISTEMA DE GESTI\u00D3N DE LUBRICACI\u00D3N INDUSTRIAL \u00B7 MOLUB</div>
       </div>
       <div class="c-info">
-        <div class="c-info-row"><span class="c-info-lbl">PLANTA:</span><input class="c-info-val" id="ci-planta-${idTag}" value="${escapeAttr(carta.planta||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS")}"></div>
-        <div class="c-info-row"><span class="c-info-lbl">DIRECCIÓN:</span><input class="c-info-val" id="ci-dir-${idTag}" value="${escapeAttr(carta.direccion||"Lampazos de Naranjo, N.L.")}"></div>
+        <div class="c-info-row"><span class="c-info-lbl">PLANTA:</span><input class="c-info-val" id="ci-planta-${idTag}" value="${escapeAttr(carta.planta||"")}"></div>
+        <div class="c-info-row"><span class="c-info-lbl">DIRECCI\u00D3N:</span><input class="c-info-val" id="ci-dir-${idTag}" value="${escapeAttr(carta.direccion||"")}"></div>
         <div class="c-info-row"><span class="c-info-lbl">FECHA:</span><input class="c-info-val" id="ci-fecha-${idTag}" value="${escapeAttr(fecha)}" readonly></div>
       </div>
     </div>
-
     <div class="c-equip">
-      <div class="c-foto-cell" title="${tieneFoto?"Foto del levantamiento CRM":"Sin foto — cárgala en el levantamiento fotográfico"}">
+      <div class="c-foto-cell" title="${tieneFoto?"Foto del levantamiento CRM":"Sin foto"}">
         <div id="ceq-foto-wrap-${idTag}" style="position:relative">
           ${tieneFoto
             ?`<img src="${escapeHtml(fotoUrl)}" class="c-foto-img" alt="Foto equipo" style="width:72px;height:72px;object-fit:cover;border-radius:4px;border:2px solid #fff;display:block">
-               <div style="position:absolute;bottom:3px;right:3px;background:#1228ff;color:#fff;font-size:5pt;font-weight:900;padding:2px 5px;border-radius:3px;letter-spacing:.4px">CRM</div>`
+               <div style="position:absolute;bottom:3px;right:3px;background:#1228ff;color:#fff;font-size:5pt;font-weight:900;padding:2px 5px;border-radius:3px">CRM</div>`
             :`<div class="c-foto-placeholder">&#128247;<br><span style="font-size:5.5pt">FOTO<br>EQUIPO</span></div>`}
         </div>
       </div>
       <div class="c-datos">
         <div class="c-dato"><div class="c-dato-lbl">Nombre equipo</div><input class="c-dato-val" id="cd-nombre-${idTag}" value="${escapeAttr(equipo.nombre||"")}"></div>
         <div class="c-dato"><div class="c-dato-lbl">ID TAG</div><input class="c-dato-val" value="${escapeAttr(idTag)}" readonly></div>
-        <div class="c-dato"><div class="c-dato-lbl">Área</div><input class="c-dato-val" id="cd-area-${idTag}" value="${escapeAttr(equipo.area||"")}"></div>
+        <div class="c-dato"><div class="c-dato-lbl">\u00C1rea</div><input class="c-dato-val" id="cd-area-${idTag}" value="${escapeAttr(equipo.area||"")}"></div>
         <div class="c-dato"><div class="c-dato-lbl">Criticidad</div><input class="c-dato-val" id="cd-crit-${idTag}" value="${escapeAttr(equipo.crit||"C")}"></div>
         <div class="c-dato"><div class="c-dato-lbl">Sistema</div><input class="c-dato-val" id="cd-sis-${idTag}" value="${escapeAttr(equipo.sistema||"")}"></div>
         <div class="c-dato"><div class="c-dato-lbl">Elementos</div><input class="c-dato-val" id="cd-elems-${idTag}" value="${escapeAttr(carta.elementos.length+" puntos lubricacion")}" readonly></div>
       </div>
     </div>
-
-    <div class="elem-bar">⚙ ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACIÓN</div>
+    <div class="elem-bar">&#9881; ELEMENTOS TRIBОЛ\u00D3GICOS \u2014 PUNTOS DE LUBRICACI\u00D3N</div>
     <div class="elem-cols">
       <div class="elem-cols-foto" style="padding:5px 4px;text-align:center;font-size:6.5pt;font-weight:800;color:#fff;border-right:1px solid #1228ff">FOTO</div>
       <div class="elem-cols-data">
-        <span>Elemento</span><span>Descripción</span><span>Lubricante</span>
+        <span>Elemento</span><span>Descripci\u00F3n</span><span>Lubricante</span>
         <span>Lub.(g)</span><span>Bombazos</span><span>Frecuencia</span>
         <span>Tarea</span><span>Int. muestreo</span><span>Temp. ambiental</span>
       </div>
     </div>
     <div class="elem-list-c" id="elem-list-${idTag}">${elemRows}</div>
-
     <div style="padding:8px 10px;background:#f4f7ff;border:2px solid #08112d;border-top:none">
       <button class="btn-add-elem" onclick="agregarElemento('${safeJs(idTag)}')">+ Agregar punto de lubricacion</button>
     </div>
-
     <div class="c-rec-wrap">
-      <div class="c-rec-title">RECOMENDACIONES DE MONITOREO E INSPECCIÓN</div>
+      <div class="c-rec-title">RECOMENDACIONES DE MONITOREO E INSPECCI\u00D3N</div>
       <textarea class="c-rec-area" id="crec-${idTag}" rows="3" placeholder="Verificar nivel de aceite mensualmente...">${escapeHtml(carta.recomendaciones||"")}</textarea>
     </div>
-
     <div class="c-firmas-wrap">
       <div class="c-firmas-grid">
         <div class="c-firma-box">
-          <div class="c-firma-label">Revisó</div>
-          <div class="c-firma-title">Departamento Lubricación</div>
+          <div class="c-firma-label">Revis\u00F3</div>
+          <div class="c-firma-title">Departamento Lubricaci\u00F3n</div>
           <div class="c-firma-line"></div>
           <div class="c-firma-row"><span class="c-firma-lbl">Nombre:</span><input class="c-firma-inp" id="cf-reviso-${idTag}" placeholder="Nombre y firma" value="${escapeAttr(carta.firmas&&carta.firmas.reviso||"")}"></div>
         </div>
         <div class="c-firma-box">
-          <div class="c-firma-label">Fecha de actualización</div>
+          <div class="c-firma-label">Fecha de actualizaci\u00F3n</div>
           <div class="c-firma-title">Control de versiones</div>
           <div class="c-firma-line"></div>
           <div class="c-firma-row"><span class="c-firma-lbl">Fecha:</span><input class="c-firma-inp" id="cf-fecha-${idTag}" placeholder="dd/mm/aaaa" value="${escapeAttr(carta.firmas&&carta.firmas.fecha||fecha)}"></div>
         </div>
         <div class="c-firma-box">
-          <div class="c-firma-label">Autorizó</div>
-          <div class="c-firma-title">Autorización</div>
+          <div class="c-firma-label">Autoriz\u00F3</div>
+          <div class="c-firma-title">Autorizaci\u00F3n</div>
           <div class="c-firma-line"></div>
           <div class="c-firma-row"><span class="c-firma-lbl">Nombre:</span><input class="c-firma-inp" id="cf-autorizo-${idTag}" placeholder="Nombre y firma" value="${escapeAttr(carta.firmas&&carta.firmas.autorizo||"")}"></div>
         </div>
       </div>
     </div>
     <div class="c-footer-bar">
-      <span>COVIA LAMPAZOS · MOLUB · Generada el ${fecha}</span>
+      <span>COVIA LAMPAZOS &middot; MOLUB &middot; Generada el ${fecha}</span>
       <span>Operador: ${USUARIO_ACTUAL}</span>
     </div>
   </div>`;
-
   document.getElementById("carta-container").innerHTML=html;
   actualizarContadorElementos(idTag);
 }
@@ -1278,16 +1164,14 @@ function renderElemRow(el,i,idTag){
     <div class="ef-cell" onclick="document.getElementById('ef-foto-${idTag}-${i}').click()">
       <div class="ef-num">${i+1}</div>
       <div id="ef-wrap-${idTag}-${i}">
-        ${el.foto
-          ?`<img src="${escapeHtml(el.foto)}" class="ef-img" alt="Foto elem ${i+1}">`
-          :`<div class="ef-placeholder">&#128247;<br>FOTO</div>`}
+        ${el.foto?`<img src="${escapeHtml(el.foto)}" class="ef-img" alt="Foto elem ${i+1}">`:`<div class="ef-placeholder">&#128247;<br>FOTO</div>`}
       </div>
       <div class="ef-hover">Subir</div>
       <input type="file" id="ef-foto-${idTag}-${i}" accept="image/*" style="display:none" onchange="cargarFotoElem(event,'${safeJs(idTag)}',${i})">
     </div>
     <div class="ef-datos">
       <div class="ed"><div class="ed-lbl">Elemento</div><input class="ed-inp" value="${escapeAttr(el.nombre||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].nombre=this.value"></div>
-      <div class="ed"><div class="ed-lbl">Descripción</div><input class="ed-inp" value="${escapeAttr(el.desc||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].desc=this.value"></div>
+      <div class="ed"><div class="ed-lbl">Descripci\u00F3n</div><input class="ed-inp" value="${escapeAttr(el.desc||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].desc=this.value"></div>
       <div class="ed"><div class="ed-lbl">Lubricante</div><input class="ed-inp" value="${escapeAttr(el.lub||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].lub=this.value"></div>
       <div class="ed"><div class="ed-lbl">Lub.(g)</div><input class="ed-inp" type="number" id="eg-${idTag}-${i}" value="${escapeAttr(el.g||"")}" oninput="actualizarBombazos('${safeJs(idTag)}',${i},this.value)"></div>
       <div class="ed"><div class="ed-lbl">Bombazos</div><input class="ed-inp calc" id="eb-${idTag}-${i}" value="${b}" readonly></div>
@@ -1312,9 +1196,6 @@ function renderElemRow(el,i,idTag){
   </div>`;
 }
 
-/* ============================================================
-   CARTA EDITOR — ACCIONES
-   ============================================================ */
 function actualizarBombazos(idTag,i,g){
   const b=g&&parseFloat(g)>0?Math.round(parseFloat(g)/1.4):"";
   const el=document.getElementById(`eb-${idTag}-${i}`);
@@ -1356,76 +1237,52 @@ function cargarFotoElem(evt,idTag,i){
   };
   reader.readAsDataURL(file);evt.target.value="";
 }
-function cambiarFotoEquipoCarta(evt,idTag){
-  const file=evt.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    CARTA_FOTO_MAP[idTag]=e.target.result;
-    const wrap=document.getElementById(`ceq-foto-wrap-${idTag}`);
-    if(wrap)wrap.innerHTML=`<img src="${e.target.result}" class="c-foto-img" alt="Foto equipo" style="width:72px;height:72px;object-fit:cover;border-radius:4px;border:2px solid #fff;display:block">`;
-  };
-  reader.readAsDataURL(file);evt.target.value="";
-}
 
-/* ============================================================
-   RECARGAR CARTA (re-lee Excel)
-   ============================================================ */
 async function guardarCarta(){
-  // La fuente de datos es el Excel (ELEMENTOS_LUBRICACION).
-  // Este botón recarga la carta desde el servidor para reflejar cambios en el Excel.
   const idTag=cartaActivaId;if(!idTag)return;
   const equipo=encontrarEquipo(idTag);if(!equipo)return;
   const btn=document.querySelector(".btn-guardar-carta");
   if(btn){btn.disabled=true;btn.textContent="Recargando desde Excel...";}
   try{
-    // Forzar recarga borrando cache
     delete CARTAS_DATA[idTag];
     document.getElementById("carta-container").innerHTML='<div class="loading-msg">Actualizando desde Excel...</div>';
     const r=await apiGet({action:"getCarta",idTag});
     if(r.ok&&r.data){
       const d=r.data;
       CARTAS_DATA[idTag]={
-        planta:          (d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
-        direccion:       (d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
-        recomendaciones: d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
+        planta:(d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
+        direccion:(d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
+        recomendaciones:d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
         firmas:{
-          reviso:  (d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
-          fecha:   new Date().toLocaleDateString("es-MX"),
+          reviso:(d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
+          fecha:new Date().toLocaleDateString("es-MX"),
           autorizo:(d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
         },
         elementos:Array.isArray(d.elementos)&&d.elementos.length>0
           ?d.elementos
           :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
       };
-      if(d.fotoCompleta&&d.fotoCompleta.urlFoto)
-        CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
+      if(d.fotoCompleta&&d.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
     }else{
       CARTAS_DATA[idTag]=cartaDefault(equipo);
     }
     renderCartaEditor(idTag,equipo);
-    if(btn){btn.disabled=false;btn.textContent="&#128260; Recargar desde Excel";}
-    // Pequeño aviso no bloqueante
-    const container=document.getElementById("carta-container");
+    if(btn){btn.disabled=false;btn.textContent="\u{1F504} Recargar desde Excel";}
     const toast=document.createElement("div");
     toast.style.cssText="position:fixed;bottom:24px;right:24px;background:#08112d;color:#fff;padding:14px 22px;border-radius:16px;font-size:13px;font-weight:800;z-index:9999;box-shadow:0 16px 40px rgba(8,17,45,.3)";
-    toast.textContent="✓ Carta actualizada desde el Excel";
+    toast.textContent="\u2713 Carta actualizada desde el Excel";
     document.body.appendChild(toast);
     setTimeout(()=>toast.remove(),2800);
   }catch(e){
-    if(btn){btn.disabled=false;btn.textContent="&#128260; Recargar desde Excel";}
+    if(btn){btn.disabled=false;btn.textContent="\u{1F504} Recargar desde Excel";}
     alert("Error al recargar: "+e.message);
   }
 }
 
-/* ============================================================
-   IMPRIMIR CARTA
-   ============================================================ */
 function imprimirCarta(){
   const idTag=cartaActivaId;if(!idTag||!CARTAS_DATA[idTag])return;
   const carta=CARTAS_DATA[idTag];
   const equipo=encontrarEquipo(idTag)||{};
-
-  // Sync campos en vivo
   carta.planta=document.getElementById(`ci-planta-${idTag}`)?.value||"COVIA LAMPAZOS";
   carta.direccion=document.getElementById(`ci-dir-${idTag}`)?.value||"Lampazos de Naranjo, N.L.";
   carta.recomendaciones=document.getElementById(`crec-${idTag}`)?.value||"";
@@ -1433,12 +1290,10 @@ function imprimirCarta(){
   const firmaFecha=document.getElementById(`cf-fecha-${idTag}`)?.value||"";
   const firmaAutorizo=document.getElementById(`cf-autorizo-${idTag}`)?.value||"";
   const fecha=document.getElementById(`ci-fecha-${idTag}`)?.value||new Date().toLocaleDateString("es-MX");
-
   const fotoUrl=CARTA_FOTO_MAP[idTag]||"";
   const fotoEqHtml=fotoUrl
     ?`<img src="${fotoUrl}" style="width:72px;height:72px;object-fit:cover;border-radius:4px;border:2px solid #fff;display:block;">`
     :`<div style="width:72px;height:72px;border:2px dashed #c7d0f8;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#c7d0f8;text-align:center;">FOTO<br>EQUIPO</div>`;
-
   const filas=carta.elementos.map((el,i)=>{
     const gEl=document.getElementById(`eg-${idTag}-${i}`);
     const g=gEl?gEl.value:el.g||"";
@@ -1446,30 +1301,23 @@ function imprimirCarta(){
     const fotoElem=el.foto
       ?`<img src="${el.foto}" style="width:52px;height:52px;object-fit:cover;border-radius:3px;border:1.5px solid #fff;display:block;">`
       :`<div style="width:52px;height:52px;border:1.5px dashed #c7d0f8;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:6pt;color:#c7d0f8;text-align:center;">FOTO<br>PUNTO</div>`;
-    // get select values live if available
     const selRow=document.getElementById(`er-${idTag}-${i}`);
     const sels=selRow?selRow.querySelectorAll("select"):[];
     const fre=sels[0]?sels[0].value:el.frec||"";
     const tar=sels[1]?sels[1].value:el.tarea||"";
     return`<tr>
       <td style="background:#08112d;text-align:center;vertical-align:middle;padding:6px;">
-        <div style="color:#c7d0f8;font-size:7pt;font-weight:800;margin-bottom:4px;">${i+1}</div>
-        ${fotoElem}
+        <div style="color:#c7d0f8;font-size:7pt;font-weight:800;margin-bottom:4px;">${i+1}</div>${fotoElem}
       </td>
-      <td>${escapeHtml(el.nombre||"")}</td>
-      <td>${escapeHtml(el.desc||"")}</td>
+      <td>${escapeHtml(el.nombre||"")}</td><td>${escapeHtml(el.desc||"")}</td>
       <td>${escapeHtml(el.lub||"")}</td>
       <td style="text-align:center">${escapeHtml(String(g))}</td>
       <td style="text-align:center;color:#1228ff;font-weight:700">${escapeHtml(String(b))}</td>
-      <td style="text-align:center">${escapeHtml(fre)}</td>
-      <td>${escapeHtml(tar)}</td>
-      <td>${escapeHtml(el.int||"")}</td>
-      <td>${escapeHtml(el.temp||"")}</td>
+      <td style="text-align:center">${escapeHtml(fre)}</td><td>${escapeHtml(tar)}</td>
+      <td>${escapeHtml(el.int||"")}</td><td>${escapeHtml(el.temp||"")}</td>
     </tr>`;
   }).join("");
-
-  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
-<title>Carta - ${idTag}</title>
+  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Carta - ${idTag}</title>
 <style>
 @page{size:A4 landscape;margin:8mm}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1486,18 +1334,18 @@ body{font-family:Arial,sans-serif;font-size:8.5pt;color:#000}
 .il{font-weight:800;color:#08112d;min-width:68px;font-size:7pt}
 .iv{border-bottom:1.5px solid #08112d;flex:1;padding-bottom:1px;color:#08112d}
 .er{display:grid;grid-template-columns:88px 1fr;border:2px solid #08112d;border-top:none}
-.fc{border-right:1px solid #08112d;padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center}
+.fc{padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center;border-right:1px solid #08112d}
 .dc{padding:8px;background:#f8faff;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .dato{display:flex;flex-direction:column;gap:2px}
 .dl{font-size:6.5pt;font-weight:800;color:#0c1eaf;text-transform:uppercase}
 .dv{font-size:8pt;border-bottom:1px solid #c7d0f8;padding-bottom:1px;min-height:13px;color:#08112d}
-.dv.b{color:#0c1eaf;font-weight:700}
+.dv.b{color:#0c1eaf;font-weight:800}
 .eb{background:#08112d;color:#fff;padding:5px 10px;font-weight:900;font-size:8.5pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
 table{width:100%;border-collapse:collapse;border:2px solid #08112d;border-top:none;table-layout:fixed}
 th{background:#0c1eaf;color:#fff;font-size:7pt;font-weight:800;padding:4px 3px;border:1px solid #1228ff;text-align:center}
 td{font-size:7pt;padding:4px 3px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
 tr:nth-child(even) td{background:#f3f5ff}
-td:first-child{background:#08112d;text-align:center}
+td:first-child{background:#08112d!important;text-align:center}
 .rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff}
 .rt{font-weight:900;font-size:8.5pt;color:#08112d;margin-bottom:5px}
 .rb{font-size:7.5pt;min-height:28px;color:#333;line-height:1.5;white-space:pre-wrap}
@@ -1515,10 +1363,10 @@ td:first-child{background:#08112d;text-align:center}
 <div class="carta">
 <div class="hdr">
   <div class="lc"><div class="lb">COVIA<br>LAMPAZOS<br><span style="font-size:5.5pt;color:#c7d0f8;font-weight:400">MOLUB</span></div></div>
-  <div class="tc"><div class="mt">CARTA DE LUBRICACIÓN</div><div class="st">SISTEMA DE GESTIÓN DE LUBRICACIÓN INDUSTRIAL · MOLUB</div></div>
+  <div class="tc"><div class="mt">CARTA DE LUBRICACI\u00D3N</div><div class="st">SISTEMA DE GESTI\u00D3N DE LUBRICACI\u00D3N INDUSTRIAL \u00B7 MOLUB</div></div>
   <div class="ic">
-    <div class="ir"><span class="il">PLANTA:</span><span class="iv">${escapeHtml(carta.planta||"COVIA LAMPAZOS")}</span></div>
-    <div class="ir"><span class="il">DIRECCIÓN:</span><span class="iv">${escapeHtml(carta.direccion||"")}</span></div>
+    <div class="ir"><span class="il">PLANTA:</span><span class="iv">${escapeHtml(carta.planta||"")}</span></div>
+    <div class="ir"><span class="il">DIRECCI\u00D3N:</span><span class="iv">${escapeHtml(carta.direccion||"")}</span></div>
     <div class="ir"><span class="il">FECHA:</span><span class="iv">${escapeHtml(fecha)}</span></div>
   </div>
 </div>
@@ -1527,52 +1375,41 @@ td:first-child{background:#08112d;text-align:center}
   <div class="dc">
     <div class="dato"><div class="dl">Nombre equipo</div><div class="dv">${escapeHtml(equipo.nombre||"")}</div></div>
     <div class="dato"><div class="dl">ID TAG</div><div class="dv b">${escapeHtml(idTag)}</div></div>
-    <div class="dato"><div class="dl">Área</div><div class="dv">${escapeHtml(equipo.area||"")}</div></div>
+    <div class="dato"><div class="dl">\u00C1rea</div><div class="dv">${escapeHtml(equipo.area||"")}</div></div>
     <div class="dato"><div class="dl">Criticidad</div><div class="dv">${escapeHtml(equipo.crit||"C")}</div></div>
     <div class="dato"><div class="dl">Sistema</div><div class="dv">${escapeHtml(equipo.sistema||"")}</div></div>
     <div class="dato"><div class="dl">Elementos</div><div class="dv b">${carta.elementos.length} puntos lubricacion</div></div>
   </div>
 </div>
-<div class="eb">⚙ ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACIÓN</div>
+<div class="eb">&#9881; ELEMENTOS TRIBОЛ\u00D3GICOS \u2014 PUNTOS DE LUBRICACI\u00D3N</div>
 <table>
 <thead><tr>
-  <th style="width:8%">Foto<br>punto</th>
-  <th style="width:11%">Elemento</th>
-  <th style="width:12%">Descripción</th>
-  <th style="width:13%">Lubricante</th>
-  <th style="width:6%">Lub.(g)</th>
-  <th style="width:6%">Bombazos</th>
-  <th style="width:8%">Frecuencia</th>
-  <th style="width:8%">Tarea</th>
-  <th style="width:14%">Int. muestreo</th>
-  <th style="width:14%">Temp. ambiental</th>
+  <th style="width:8%">Foto<br>punto</th><th style="width:11%">Elemento</th>
+  <th style="width:12%">Descripci\u00F3n</th><th style="width:13%">Lubricante</th>
+  <th style="width:6%">Lub.(g)</th><th style="width:6%">Bombazos</th>
+  <th style="width:8%">Frecuencia</th><th style="width:8%">Tarea</th>
+  <th style="width:14%">Int. muestreo</th><th style="width:14%">Temp. ambiental</th>
 </tr></thead>
 <tbody>${filas}</tbody>
 </table>
-<div class="rw"><div class="rt">RECOMENDACIONES DE MONITOREO E INSPECCIÓN</div><div class="rb">${escapeHtml(carta.recomendaciones||"")}</div></div>
-<div class="fw">
-  <div class="fg">
-    <div class="fb"><div class="fla">Revisó</div><div class="fti">Departamento Lubricación</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaReviso)}</span></div></div>
-    <div class="fb"><div class="fla">Fecha de actualización</div><div class="fti">Control de versiones</div><div class="fli"></div><div class="fnr"><span class="fnl">Fecha:</span><span class="fnv">${escapeHtml(firmaFecha)}</span></div></div>
-    <div class="fb"><div class="fla">Autorizó</div><div class="fti">Autorización</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaAutorizo)}</span></div></div>
-  </div>
-</div>
+<div class="rw"><div class="rt">RECOMENDACIONES DE MONITOREO E INSPECCI\u00D3N</div><div class="rb">${escapeHtml(carta.recomendaciones||"")}</div></div>
+<div class="fw"><div class="fg">
+  <div class="fb"><div class="fla">Revis\u00F3</div><div class="fti">Departamento Lubricaci\u00F3n</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaReviso)}</span></div></div>
+  <div class="fb"><div class="fla">Fecha de actualizaci\u00F3n</div><div class="fti">Control de versiones</div><div class="fli"></div><div class="fnr"><span class="fnl">Fecha:</span><span class="fnv">${escapeHtml(firmaFecha)}</span></div></div>
+  <div class="fb"><div class="fla">Autoriz\u00F3</div><div class="fti">Autorizaci\u00F3n</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaAutorizo)}</span></div></div>
+</div></div>
 <div class="footer">
-  <span>COVIA LAMPAZOS · MOLUB · Generada el ${new Date().toLocaleString("es-MX")}</span>
+  <span>COVIA LAMPAZOS \u00B7 MOLUB \u00B7 Generada el ${new Date().toLocaleString("es-MX")}</span>
   <span>Operador: ${USUARIO_ACTUAL}</span>
 </div>
 </div>
 <script>window.onload=function(){window.print();}<\/script>
 </body></html>`;
-
   const win=window.open("","_blank","width=1200,height=800");
   if(win){win.document.write(html);win.document.close();}
   else alert("Permite ventanas emergentes para ver la carta.");
 }
 
-/* ============================================================
-   UTILIDADES
-   ============================================================ */
 function esperar(ms){return new Promise(r=>setTimeout(r,ms))}
 function escapeHtml(text){return String(text??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"','&quot;').replaceAll("'","&#039;");}
 function escapeAttr(text){return String(text??"").replace(/"/g,'&quot;').replace(/'/g,"&#039;")}
