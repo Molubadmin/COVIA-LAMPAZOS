@@ -463,7 +463,8 @@
       <div class="carta-editor-tag" id="ce-tag"></div>
       <div class="carta-editor-nombre" id="ce-nombre"></div>
       <div class="carta-editor-actions">
-        <button class="btn-guardar-carta" onclick="guardarCarta()">&#128260; Recargar desde Excel</button>
+        <button class="btn-guardar-carta" onclick="guardarCarta()">&#128190; Guardar carta</button>
+        <button class="btn-recargar-excel btn-imprimir-carta" onclick="recargarDesdeExcel()">&#128260; Recargar desde Excel</button>
         <button class="btn-imprimir-carta" onclick="imprimirCarta()">&#128424; Imprimir / PDF</button>
       </div>
     </div>
@@ -976,7 +977,10 @@ function renderCartasList(){
   });
   if(!filtrados.length){container.innerHTML='<div class="empty-msg">Sin resultados para la busqueda.</div>';return}
   container.innerHTML=filtrados.map(e=>{
-    const tieneCarta=!!(CARTAS_DATA[e.id]&&CARTAS_DATA[e.id].elementos&&CARTAS_DATA[e.id].elementos.length>0);
+    const cartaCache=CARTAS_DATA[e.id];
+    const tieneCarta=!!(cartaCache&&cartaCache.elementos&&cartaCache.elementos.length>0);
+    const guardadaCRM=!!(cartaCache&&cartaCache.origen==="crm");
+    const fechaBadge=cartaCache&&cartaCache.fechaGuardado?cartaCache.fechaGuardado:"";
     return`<div class="carta-row" onclick="abrirCartaEditor('${safeJs(e.id)}')">
       <div class="carta-icon">&#128196;</div>
       <div class="carta-info">
@@ -984,7 +988,7 @@ function renderCartasList(){
         <div class="carta-nombre">${escapeHtml(e.nombre||"Sin nombre")}</div>
         <div class="carta-meta">Area: ${escapeHtml(e.area||"")} &nbsp;&middot;&nbsp; Criticidad: ${escapeHtml(e.crit||"C")} &nbsp;&middot;&nbsp; Sistema: ${escapeHtml(e.sistema||"")}</div>
       </div>
-      <span class="carta-status ${tieneCarta?"con-datos":"sin-datos"}">${tieneCarta?"Con datos":"Sin datos"}</span>
+      <span class="carta-status ${guardadaCRM?"con-datos":tieneCarta?"sin-datos":"sin-datos"}">${guardadaCRM?("\u2713 Guardada"+(fechaBadge?" \u2014 "+fechaBadge:"")):tieneCarta?"Sin guardar":"Sin datos"}</span>
       <span class="chevron">&#8250;</span>
     </div>`;
   }).join("");
@@ -1010,25 +1014,28 @@ async function abrirCartaEditor(idTag){
   ]);
   if(rCarta.status==="fulfilled"&&rCarta.value.ok&&rCarta.value.data){
     const d=rCarta.value.data;
+    const desdeCRM=(d.origen==="crm");
+
     CARTAS_DATA[idTag]={
-      planta:(d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
-      direccion:(d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
-      recomendaciones:d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
-      firmas:{
-        reviso:(d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
-        fecha:new Date().toLocaleDateString("es-MX"),
+      planta:      desdeCRM ? (d.planta||"")          : ((d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS"),
+      direccion:   desdeCRM ? (d.direccion||"")       : ((d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L."),
+      recomendaciones: desdeCRM ? (d.recomendaciones||"") : (d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):""),
+      firmas: desdeCRM ? (d.firmas||{reviso:"",fecha:"",autorizo:""}) : {
+        reviso:  (d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
+        fecha:   new Date().toLocaleDateString("es-MX"),
         autorizo:(d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
       },
-      elementos:Array.isArray(d.elementos)&&d.elementos.length>0
+      elementos: Array.isArray(d.elementos)&&d.elementos.length>0
         ?d.elementos
-        :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
+        :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+      origen:        d.origen||"excel",
+      fechaGuardado: d.fechaGuardado||null
     };
-    // Foto principal del equipo para la carta
+    // Foto principal del equipo
     if(d.fotoCompleta&&d.fotoCompleta.urlFoto){
       CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
     }
-    // Distribuir fotos del levantamiento en los puntos de lubricación
-    // Cada foto individual (equipo + placa por separado) = un punto
+    // Distribuir fotos del levantamiento en los puntos
     if(Array.isArray(d.fotosReferencias)&&d.fotosReferencias.length>0&&CARTAS_DATA[idTag]){
       const fotosDisp=d.fotosReferencias;
       CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>{
@@ -1100,6 +1107,20 @@ function renderCartaEditor(idTag,equipo){
   const fotoUrl=CARTA_FOTO_MAP[idTag]||"";
   const tieneFoto=!!fotoUrl;
   const elemRows=carta.elementos.map((el,i)=>renderElemRow(el,i,idTag)).join("");
+  const desdeCRM=(carta.origen==="crm");
+  const fechaGuardado=carta.fechaGuardado||null;
+  // Actualizar botón guardar según estado
+  const btnG=document.querySelector(".btn-guardar-carta");
+  if(btnG){
+    if(desdeCRM&&fechaGuardado){
+      btnG.style.background="linear-gradient(135deg,#179b52,#107241)";
+      btnG.style.border="1.5px solid rgba(255,255,255,.35)";
+      btnG.textContent="\u2713 Guardada \u2014 "+fechaGuardado;
+    }else{
+      btnG.style.background="";btnG.style.border="";
+      btnG.textContent="\uD83D\uDCBE Guardar carta";
+    }
+  }
   const fotoBadge=tieneFoto
     ?`<div class="crm-sync-badge">&#10003; Foto del equipo cargada desde el levantamiento CRM</div>`
     :`<div style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;background:#fff8ef;border:1px solid #ffe2af;color:#915b00;font-size:12px;font-weight:700;margin-bottom:10px">
@@ -1267,14 +1288,63 @@ function cargarFotoElem(evt,idTag,i){
   reader.readAsDataURL(file);evt.target.value="";
 }
 
+/* ── GUARDAR CARTA en Google Sheets (CARTAS_GUARDADAS) ── */
 async function guardarCarta(){
+  const idTag=cartaActivaId;if(!idTag||!CARTAS_DATA[idTag])return;
+  const equipo=encontrarEquipo(idTag);if(!equipo)return;
+  const carta=CARTAS_DATA[idTag];
+  const btn=document.querySelector(".btn-guardar-carta");
+  const planta=document.getElementById(`ci-planta-${idTag}`)?.value||carta.planta||"";
+  const direccion=document.getElementById(`ci-dir-${idTag}`)?.value||carta.direccion||"";
+  const rec=document.getElementById(`crec-${idTag}`)?.value||carta.recomendaciones||"";
+  const reviso=document.getElementById(`cf-reviso-${idTag}`)?.value||"";
+  const fechaFirma=document.getElementById(`cf-fecha-${idTag}`)?.value||"";
+  const autorizo=document.getElementById(`cf-autorizo-${idTag}`)?.value||"";
+  const elementos=carta.elementos.map((el,i)=>{
+    const selRow=document.getElementById(`er-${idTag}-${i}`);
+    const sels=selRow?selRow.querySelectorAll("select"):[];
+    return{npunto:i+1,
+      nombre:document.querySelector(`#er-${idTag}-${i} .ed-inp`)?.value??el.nombre,
+      desc:el.desc,lub:el.lub,
+      g:document.getElementById(`eg-${idTag}-${i}`)?.value??el.g,
+      bombazos:document.getElementById(`eb-${idTag}-${i}`)?.value??el.bombazos,
+      frec:sels[0]?sels[0].value:el.frec,
+      tarea:sels[1]?sels[1].value:el.tarea,
+      int:el.int,temp:el.temp};
+  });
+  if(btn){btn.disabled=true;btn.textContent="Guardando...";}
+  try{
+    const r=await apiPost({action:"saveCarta",usuario:USUARIO_ACTUAL,idTag,
+      nombreEquipo:equipo.nombre||"",
+      carta:{planta,direccion,recomendaciones:rec,
+        firmas:{reviso,fecha:fechaFirma,autorizo},elementos}});
+    if(!r.ok)throw new Error(r.error||"No se pudo guardar");
+    CARTAS_DATA[idTag]={...carta,planta,direccion,recomendaciones:rec,
+      firmas:{reviso,fecha:fechaFirma,autorizo},
+      elementos,origen:"crm",fechaGuardado:r.fechaGuardado};
+    if(btn){
+      btn.disabled=false;
+      btn.style.background="linear-gradient(135deg,#179b52,#107241)";
+      btn.style.border="1.5px solid rgba(255,255,255,.35)";
+      btn.textContent="✓ Guardada — "+(r.fechaGuardado||new Date().toLocaleTimeString("es-MX"));
+    }
+    renderCartasList();
+  }catch(e){
+    if(btn){btn.disabled=false;btn.textContent="💾 Guardar carta";}
+    alert("Error al guardar: "+e.message);
+  }
+}
+
+/* ── RECARGAR DESDE EXCEL ── */
+async function recargarDesdeExcel(){
   const idTag=cartaActivaId;if(!idTag)return;
   const equipo=encontrarEquipo(idTag);if(!equipo)return;
-  const btn=document.querySelector(".btn-guardar-carta");
-  if(btn){btn.disabled=true;btn.textContent="Recargando desde Excel...";}
+  if(!confirm("\u00bfRecargar desde Excel? Se perder\u00e1n los cambios del CRM para este equipo."))return;
+  const btn=document.querySelector(".btn-recargar-excel");
+  if(btn){btn.disabled=true;btn.textContent="Recargando...";}
   try{
     delete CARTAS_DATA[idTag];
-    document.getElementById("carta-container").innerHTML='<div class="loading-msg">Actualizando desde Excel...</div>';
+    document.getElementById("carta-container").innerHTML='<div class="loading-msg">Recargando desde Excel...</div>';
     const r=await apiGet({action:"getCarta",idTag});
     if(r.ok&&r.data){
       const d=r.data;
@@ -1282,41 +1352,29 @@ async function guardarCarta(){
         planta:(d.global&&d.global.planta)||"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
         direccion:(d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
         recomendaciones:d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
-        firmas:{
-          reviso:(d.equipo&&d.equipo.reviso)||(d.global&&d.global.reviso)||"",
-          fecha:new Date().toLocaleDateString("es-MX"),
-          autorizo:(d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
-        },
+        firmas:{reviso:"",fecha:new Date().toLocaleDateString("es-MX"),autorizo:""},
         elementos:Array.isArray(d.elementos)&&d.elementos.length>0
-          ?d.elementos
-          :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
+          ?d.elementos:[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+        origen:"excel",fechaGuardado:null
       };
-      if(d.fotoCompleta&&d.fotoCompleta.urlFoto){
-        CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
+      if(d.fotoCompleta&&d.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
+      if(Array.isArray(d.fotosReferencias)&&d.fotosReferencias.length>0){
+        const fd=d.fotosReferencias;
+        CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>({...el,foto:el.foto||(fd[i]?fd[i].url:"")}));
       }
-      // Distribuir fotos en los puntos de lubricación
-      if(Array.isArray(d.fotosReferencias)&&d.fotosReferencias.length>0&&CARTAS_DATA[idTag]){
-        const fotosDisp=d.fotosReferencias;
-        CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>{
-          const fotoRef=fotosDisp[i];
-          return{...el, foto: el.foto||(fotoRef?fotoRef.url:"")};
-        });
-      }
-    }else{
-      CARTAS_DATA[idTag]=cartaDefault(equipo);
-    }
+    }else{ CARTAS_DATA[idTag]=cartaDefault(equipo); }
     renderCartaEditor(idTag,equipo);
-    if(btn){btn.disabled=false;btn.textContent="\u{1F504} Recargar desde Excel";}
+    if(btn){btn.disabled=false;btn.textContent="🔄 Recargar desde Excel";}
     const toast=document.createElement("div");
     toast.style.cssText="position:fixed;bottom:24px;right:24px;background:#08112d;color:#fff;padding:14px 22px;border-radius:16px;font-size:13px;font-weight:800;z-index:9999;box-shadow:0 16px 40px rgba(8,17,45,.3)";
-    toast.textContent="\u2713 Carta actualizada desde el Excel";
-    document.body.appendChild(toast);
-    setTimeout(()=>toast.remove(),2800);
+    toast.textContent="🔄 Recargada desde Excel";
+    document.body.appendChild(toast);setTimeout(()=>toast.remove(),2800);
   }catch(e){
-    if(btn){btn.disabled=false;btn.textContent="\u{1F504} Recargar desde Excel";}
-    alert("Error al recargar: "+e.message);
+    if(btn){btn.disabled=false;btn.textContent="🔄 Recargar desde Excel";}
+    alert("Error: "+e.message);
   }
 }
+
 
 function imprimirCarta(){
   const idTag=cartaActivaId;if(!idTag||!CARTAS_DATA[idTag])return;
