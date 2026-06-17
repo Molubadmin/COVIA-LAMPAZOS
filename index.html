@@ -1038,6 +1038,10 @@ async function abrirCartaEditor(idTag){
     // Distribuir fotos del levantamiento en los puntos
     if(Array.isArray(d.fotosReferencias)&&d.fotosReferencias.length>0&&CARTAS_DATA[idTag]){
       const fotosDisp=d.fotosReferencias;
+      // Si hay más fotos que elementos, agregar filas vacías para las fotos extra
+      while(CARTAS_DATA[idTag].elementos.length<fotosDisp.length){
+        CARTAS_DATA[idTag].elementos.push({nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""});
+      }
       CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>{
         const fotoRef=fotosDisp[i];
         return{...el, foto: el.foto||(fotoRef?fotoRef.url:"")};
@@ -1061,6 +1065,9 @@ async function abrirCartaEditor(idTag){
           if(r&&r.urlFotoPlaca&&r.categoria==="equipo_placa")fotosDetalle.push(r.urlFotoPlaca);
         });
         if(fotosDetalle.length>0){
+          while(CARTAS_DATA[idTag].elementos.length<fotosDetalle.length){
+            CARTAS_DATA[idTag].elementos.push({nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""});
+          }
           CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>({
             ...el,
             foto: el.foto || fotosDetalle[i] || ""
@@ -1360,6 +1367,9 @@ async function recargarDesdeExcel(){
       if(d.fotoCompleta&&d.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
       if(Array.isArray(d.fotosReferencias)&&d.fotosReferencias.length>0){
         const fd=d.fotosReferencias;
+        while(CARTAS_DATA[idTag].elementos.length<fd.length){
+          CARTAS_DATA[idTag].elementos.push({nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""});
+        }
         CARTAS_DATA[idTag].elementos=CARTAS_DATA[idTag].elementos.map((el,i)=>({...el,foto:el.foto||(fd[i]?fd[i].url:"")}));
       }
     }else{ CARTAS_DATA[idTag]=cartaDefault(equipo); }
