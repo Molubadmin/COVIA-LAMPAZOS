@@ -506,6 +506,227 @@
     .dash-carta-n.r{color:#c62828}
     .dash-carta-l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-top:4px;color:#5f6c8d}
 
+  
+    /* ══ TÉCNICO VIEWS ══ */
+    #tecnico-view{display:none;height:100%;flex-direction:column;overflow-y:auto;background:#f1f4fb}
+    #actividad-extra-view{display:none;height:100%;flex-direction:column;overflow:hidden}
+    #tarea-detalle-view{display:none;height:100%;flex-direction:column;overflow:hidden}
+    .tarea-card{background:#fff;border:1px solid #dde1f0;border-radius:20px;padding:0;
+      margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.2s}
+    .tarea-card:hover{border-color:rgba(18,40,255,.2);box-shadow:0 8px 24px rgba(8,17,45,.1)}
+    .tarea-card-head{padding:14px 16px;display:flex;align-items:center;gap:12px}
+    .tarea-card-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;
+      justify-content:center;font-size:18px;flex-shrink:0}
+    .tarea-card-icon.lub{background:#eef2ff}
+    .tarea-card-icon.ext{background:#fff3df}
+    .tarea-card-icon.done{background:#e9f7ef}
+    .tarea-card-icon.rec{background:#fdecec}
+    .tarea-card-info{flex:1;min-width:0}
+    .tarea-card-tag{font-size:14px;font-weight:900;color:#08112d}
+    .tarea-card-desc{font-size:12px;color:#5f6c8d;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tarea-card-meta{font-size:11px;color:#5f6c8d;margin-top:4px;font-weight:600}
+    .tarea-status{font-size:10px;padding:6px 11px;border-radius:999px;font-weight:800;flex-shrink:0}
+    .ts-pend{background:#fff3df;color:#854f0b;border:1px solid rgba(133,79,11,.15)}
+    .ts-done{background:#e9f7ef;color:#0f6e56;border:1px solid rgba(23,155,82,.15)}
+    .ts-val{background:#eef2ff;color:#0c447c;border:1px solid rgba(18,40,255,.15)}
+    .ts-rec{background:#fdecec;color:#a32d2d;border:1px solid rgba(198,40,40,.15)}
+    /* Detalle tarea */
+    .det-topbar{background:linear-gradient(135deg,#08112d,#0b2590,#1228ff);color:#fff;
+      padding:16px;display:flex;gap:12px;align-items:flex-start;flex-shrink:0}
+    .det-scroll{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+    .det-section-lbl{font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;
+      letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .det-section-lbl::after{content:"";flex:1;height:1px;background:#dde1f0}
+    .det-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .det-data-box{background:#f8faff;border:1px solid #eef2ff;border-radius:14px;padding:12px}
+    .det-data-lbl{font-size:10px;font-weight:700;color:#5f6c8d;text-transform:uppercase;letter-spacing:.5px}
+    .det-data-val{font-size:16px;font-weight:900;color:#08112d;margin-top:4px}
+    .det-desc-box{background:#f8faff;border:1px solid #eef2ff;border-radius:14px;padding:14px;
+      font-size:13px;color:#182033;line-height:1.6}
+    .det-foto-box{border-radius:14px;overflow:hidden;background:#f1f4fb;min-height:140px;
+      display:flex;align-items:center;justify-content:center;color:#5f6c8d;font-size:13px;
+      border:1px solid #dde1f0;flex-direction:column;gap:6px}
+    .det-foto-box img{width:100%;height:100%;object-fit:cover;display:block}
+    .det-actions{display:flex;gap:10px;flex-shrink:0;padding:14px;border-top:1px solid #eef2ff}
+    .btn-aprobar{flex:1;padding:14px;border:none;border-radius:16px;background:#179b52;
+      color:#fff;font-size:14px;font-weight:800;cursor:pointer}
+    .btn-rechazar{flex:1;padding:14px;border:1px solid rgba(198,40,40,.3);border-radius:16px;
+      background:#fdecec;color:#c62828;font-size:14px;font-weight:800;cursor:pointer}
+    .btn-marcar-listo{width:100%;padding:14px;border:none;border-radius:16px;
+      background:linear-gradient(135deg,#1228ff,#0c1eaf);color:#fff;
+      font-size:14px;font-weight:800;cursor:pointer}
+    /* Actividad extra form */
+    .ae-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
+    .ae-field label{display:block;font-size:11px;font-weight:800;color:#08112d;
+      margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .ae-field input,.ae-field textarea,.ae-field select{width:100%;padding:12px 14px;
+      border:1.5px solid #dbe1f0;border-radius:14px;font-size:14px;font-family:inherit;
+      background:#fbfcff;outline:none;color:#182033}
+    .ae-field input:focus,.ae-field textarea:focus,.ae-field select:focus{border-color:#1228ff}
+    .ae-field textarea{min-height:90px;resize:vertical;line-height:1.5}
+    .ae-upload{border:2px dashed #c7d0f8;border-radius:16px;padding:20px;text-align:center;
+      color:#5f6c8d;font-size:13px;cursor:pointer;background:#f8faff;font-weight:600}
+    .ae-upload-icon{font-size:28px;margin-bottom:6px}
+    .btn-enviar-ae{width:100%;padding:15px;border:none;border-radius:16px;
+      background:linear-gradient(135deg,#1228ff,#0c1eaf);color:#fff;
+      font-size:15px;font-weight:900;cursor:pointer;letter-spacing:.5px}
+    .ae-nota{font-size:11px;color:#5f6c8d;text-align:center;margin-top:4px}
+    /* Asignaciones supervisor */
+    #asignaciones-view{display:none;height:100%;flex-direction:column;overflow:hidden}
+    .asig-tecnico-card{background:#fff;border:1px solid #dde1f0;border-radius:18px;
+      padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+    .asig-tecnico-card:hover{border-color:rgba(18,40,255,.2)}
+    .asig-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
+      justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+    .asig-avatar.mec{background:#eef2ff;color:#0c447c}
+    .asig-avatar.elec{background:#fff3df;color:#854f0b}
+    .notif-bar{background:#fff3df;border:1px solid rgba(133,79,11,.2);border-radius:16px;
+      padding:12px 16px;display:flex;gap:12px;align-items:center;margin-bottom:12px}
+
+  
+    /* ══ MOBILE RESPONSIVE ══ */
+    @media(max-width:640px){
+      /* App shell full screen on mobile */
+      #app-shell.visible{flex-direction:column;height:100vh}
+      
+      /* Sidebar becomes bottom nav on mobile */
+      .sidebar{
+        width:100%;height:auto;flex-direction:row;flex-shrink:0;
+        background:linear-gradient(90deg,#08112d,#0c1eaf);
+        order:2;border-top:1px solid rgba(255,255,255,.15);
+        position:relative;overflow-x:auto
+      }
+      .sidebar::after{display:none}
+      .sidebar-logo{display:none}
+      .sidebar-user{display:none}
+      .sidebar-nav{
+        flex-direction:row;padding:6px 8px;gap:2px;
+        flex:1;overflow-x:auto;align-items:stretch
+      }
+      .sidebar-nav::-webkit-scrollbar{display:none}
+      .nav-item{
+        flex-direction:column;padding:6px 10px;border-radius:10px;
+        min-width:64px;gap:2px;font-size:10px;text-align:center;
+        align-items:center;justify-content:center;flex-shrink:0
+      }
+      .nav-item-icon{width:28px;height:28px;font-size:16px}
+      .nav-divider{display:none}
+      .sidebar-bottom{
+        padding:6px 8px;border-top:none;border-left:1px solid rgba(255,255,255,.1)
+      }
+      .btn-logout{
+        flex-direction:column;padding:6px 10px;border-radius:10px;
+        min-width:56px;gap:2px;font-size:10px;text-align:center;align-items:center
+      }
+      .btn-logout span:first-child{font-size:16px}
+      
+      /* Content area full width */
+      .content-area{order:1;flex:1;overflow:hidden}
+      
+      /* Dashboard mobile */
+      .dash-cards{grid-template-columns:repeat(3,1fr);gap:8px}
+      .dash-card{padding:12px 8px}
+      .dash-card-n{font-size:24px}
+      .dash-card-l{font-size:9px}
+      .dash-cartas-resumen{gap:8px}
+      .dash-header{padding:16px}
+      .dash-title{font-size:18px}
+      .dash-total-n{font-size:30px}
+      .dash-body{padding:12px;gap:12px}
+      
+      /* Top bar mobile */
+      .top-bar{border-radius:18px;padding:16px}
+      .top-bar{flex-direction:column;align-items:stretch;gap:10px}
+      .top-right{text-align:left}
+      .prog-bar-wrap{width:100%;margin-left:0}
+      
+      /* Cards mobile */
+      .entry-grid{grid-template-columns:1fr}
+      .stats-grid{grid-template-columns:1fr 1fr 1fr}
+      .hero-shell{grid-template-columns:1fr}
+      
+      /* Tarea detalle mobile */
+      .det-topbar{padding:12px 14px;gap:10px}
+      .det-actions{padding:10px 14px;gap:8px}
+      .btn-aprobar,.btn-rechazar,.btn-marcar-listo{padding:12px;font-size:13px}
+      .det-data-grid{grid-template-columns:1fr 1fr}
+      
+      /* Actividad extra mobile */
+      .ae-body{padding:12px;gap:10px}
+      .ae-field input,.ae-field textarea,.ae-field select{font-size:16px}
+      
+      /* Carta editor mobile */
+      #carta-editor-view{padding:10px}
+      .carta-editor-topbar{padding:14px}
+      .c-header{grid-template-columns:80px 1fr}
+      .c-info{display:none}
+      .elem-cols-data,.ef-datos{grid-template-columns:1fr 1fr 1fr}
+      
+      /* Login mobile */
+      .login-card{padding:28px 22px}
+      .login-title{font-size:20px}
+      
+      /* Lista equipos mobile */
+      .equip-row,.carta-row,.realizada-row{padding:12px}
+      .equip-tag{font-size:15px}
+      
+      /* Asignaciones mobile */
+      .det-section-lbl{font-size:10px}
+    }
+    
+    @media(max-width:380px){
+      .dash-cards{grid-template-columns:1fr 1fr}
+      .dash-card-n{font-size:20px}
+      .nav-item{min-width:52px;padding:5px 6px;font-size:9px}
+    }
+
+  
+    /* ══ MODAL ASIGNAR TAREA ══ */
+    .modal-overlay{position:fixed;inset:0;z-index:9998;background:rgba(8,17,45,.6);
+      backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center}
+    .modal-overlay.hidden{display:none}
+    .modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:600px;
+      padding:0;overflow:hidden;
+      animation:slideUp .25s ease}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .modal-handle{width:40px;height:4px;background:#dde1f0;border-radius:999px;
+      margin:12px auto 0;flex-shrink:0}
+    .modal-head{background:linear-gradient(135deg,#08112d,#0b2590,#1228ff);
+      color:#fff;padding:18px 20px 20px;flex-shrink:0}
+    .modal-title{font-size:17px;font-weight:900}
+    .modal-sub{font-size:11px;opacity:.85;margin-top:3px}
+    .modal-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px;
+      overflow-y:auto;max-height:60vh}
+    .modal-field label{display:block;font-size:11px;font-weight:800;color:#08112d;
+      margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .modal-field input,.modal-field textarea,.modal-field select{
+      width:100%;padding:13px 14px;border:1.5px solid #dbe1f0;border-radius:14px;
+      font-size:15px;font-family:inherit;background:#fbfcff;outline:none;color:#182033}
+    .modal-field input:focus,.modal-field textarea:focus,.modal-field select:focus{
+      border-color:#1228ff;box-shadow:0 0 0 3px rgba(18,40,255,.08)}
+    .modal-field textarea{min-height:90px;resize:vertical;line-height:1.5}
+    .modal-footer{padding:14px 20px 20px;display:flex;gap:10px;flex-shrink:0;
+      border-top:1px solid #f1f4fb}
+    .btn-modal-cancel{flex:1;padding:14px;border:1.5px solid #dde1f0;border-radius:16px;
+      background:#fff;color:#5f6c8d;font-size:14px;font-weight:800;cursor:pointer}
+    .btn-modal-send{flex:2;padding:14px;border:none;border-radius:16px;
+      background:linear-gradient(135deg,#1228ff,#0c1eaf);color:#fff;
+      font-size:14px;font-weight:900;cursor:pointer}
+    .tecnico-perfil-card{background:linear-gradient(135deg,#08112d,#0c1eaf);
+      border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:center;margin-bottom:4px}
+    .tecnico-perfil-avatar{width:44px;height:44px;border-radius:50%;
+      background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;
+      font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
+    .tecnico-perfil-nombre{font-size:15px;font-weight:900;color:#fff}
+    .tecnico-perfil-puesto{font-size:11px;color:rgba(199,208,248,.8);margin-top:2px}
+    .tarea-historial-item{background:#f8faff;border:1px solid #eef2ff;border-radius:14px;
+      padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+    .tarea-hist-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+    .tarea-hist-dot.pend{background:#d97706}
+    .tarea-hist-dot.comp{background:#1228ff}
+    .tarea-hist-dot.apr{background:#179b52}
+    .tarea-hist-dot.rec{background:#c62828}
+
   </style>
 </head>
 <body>
@@ -544,23 +765,7 @@
       <div class="sidebar-user-rol" id="sidebar-rol">ROL</div>
     </div>
     <div class="sidebar-nav" id="sidebar-nav">
-      <div class="nav-item" id="nav-dashboard" onclick="navTo('dashboard')">
-        <div class="nav-item-icon">&#128200;</div>
-        <span>Dashboard</span>
-      </div>
-      <div class="nav-item" id="nav-planta" onclick="navTo('planta')">
-        <div class="nav-item-icon">&#127981;</div>
-        <span>Ingresar a planta</span>
-      </div>
-      <div class="nav-item" id="nav-cartas" onclick="navTo('cartas')">
-        <div class="nav-item-icon">&#128196;</div>
-        <span>Cartas de lubricación</span>
-      </div>
-      <div class="nav-divider"></div>
-      <div class="nav-item" id="nav-realizadas" onclick="navTo('realizadas')">
-        <div class="nav-item-icon">&#9989;</div>
-        <span>Cartas realizadas</span>
-      </div>
+      <!-- Nav items se generan dinámicamente según rol en renderSidebar() -->
     </div>
     <div class="sidebar-bottom">
       <button class="btn-logout" onclick="cerrarSesion()">
@@ -702,6 +907,77 @@
   <!-- contenido generado dinámicamente por renderDashboard() -->
 </div>
 
+<!-- ══ TÉCNICO: MIS ACTIVIDADES ══ -->
+<div id="tecnico-view"></div>
+
+<!-- ══ TÉCNICO: ACTIVIDAD EXTRA ══ -->
+<div id="actividad-extra-view">
+  <div class="det-topbar">
+    <button class="btn-back" onclick="navTo('tecnico-tareas')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:9px 12px;border-radius:13px;font-size:20px;cursor:pointer">&#8592;</button>
+    <div>
+      <div style="font-size:18px;font-weight:900">ACTIVIDAD EXTRA</div>
+      <div style="font-size:11px;opacity:.85;margin-top:2px">Registrar trabajo adicional realizado</div>
+    </div>
+  </div>
+  <div class="ae-body">
+    <div class="ae-field">
+      <label>Equipo (ID TAG o nombre)</label>
+      <input type="text" id="ae-equipo" placeholder="Ej: BTR-6320, VEN-5118...">
+    </div>
+    <div class="ae-field">
+      <label>Tipo de actividad</label>
+      <select id="ae-tipo">
+        <option value="">Selecciona el tipo...</option>
+        <option>Mantenimiento mecánico</option>
+        <option>Mantenimiento eléctrico</option>
+        <option>Inspección visual</option>
+        <option>Reparación correctiva</option>
+        <option>Cambio de componente</option>
+        <option>Ajuste y calibración</option>
+        <option>Limpieza técnica</option>
+        <option>Otro</option>
+      </select>
+    </div>
+    <div class="ae-field">
+      <label>Descripción de la actividad</label>
+      <textarea id="ae-desc" placeholder="¿Qué encontraste? ¿Qué hiciste? ¿Cómo quedó el equipo?"></textarea>
+    </div>
+    <div class="ae-field">
+      <label>Foto de evidencia (opcional)</label>
+      <div class="ae-upload" onclick="document.getElementById('ae-foto-input').click()">
+        <div class="ae-upload-icon">&#128247;</div>
+        <div id="ae-foto-label">Tomar foto o subir imagen</div>
+      </div>
+      <input type="file" id="ae-foto-input" accept="image/*" capture="environment" style="display:none" onchange="seleccionarFotoAE(event)">
+    </div>
+    <button class="btn-enviar-ae" onclick="enviarActividadExtra()">Enviar actividad &#8594;</button>
+    <div class="ae-nota">El supervisor recibirá notificación por email al enviar</div>
+  </div>
+</div>
+
+<!-- ══ DETALLE DE TAREA ══ -->
+<div id="tarea-detalle-view">
+  <div class="det-topbar">
+    <button class="btn-back" id="btn-back-tarea" onclick="cerrarDetalleTarea()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:9px 12px;border-radius:13px;font-size:20px;cursor:pointer">&#8592;</button>
+    <div style="flex:1">
+      <div id="det-tarea-tag" style="font-size:18px;font-weight:900"></div>
+      <div id="det-tarea-nombre" style="font-size:12px;opacity:.85;margin-top:2px"></div>
+    </div>
+    <div id="det-tarea-status-badge"></div>
+  </div>
+  <div class="det-scroll" id="det-tarea-body"></div>
+  <div class="det-actions" id="det-tarea-actions"></div>
+</div>
+
+<!-- ══ ASIGNACIONES (SUPERVISOR) ══ -->
+<div id="asignaciones-view">
+  <div class="det-topbar" style="flex-direction:column;gap:0">
+    <div style="font-size:18px;font-weight:900">ASIGNACIONES</div>
+    <div style="font-size:11px;opacity:.8;margin-top:2px">Panel de supervisión · Actividades del equipo</div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:14px" id="asignaciones-body"></div>
+</div>
+
 <div id="carta-editor-view">
   <div class="carta-editor-topbar">
     <button class="btn-back" onclick="cerrarCartaEditor()">&#8592;</button>
@@ -724,6 +1000,16 @@ const LOGO_BASE64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeQAAACACAYAAAD
 const API_URL="https://script.google.com/macros/s/AKfycbyw-rFRKj_MWSqZysrSttIP7VJHsGWYIaKSM-4rVhnQTO8NTcokyGpe5VhJsMKyQADg/exec";
 // getUsuarioActual() es dinámico según la sesión
 function getUsuarioActual(){ return USUARIO_SESION||"OPERADOR"; }
+function getNombreUsuario(){ 
+  const u=USUARIOS_TEST[USUARIO_SESION.toLowerCase()];
+  return u&&u.nombre ? u.nombre : USUARIO_SESION.toUpperCase();
+}
+function getPuestoUsuario(){
+  const u=USUARIOS_TEST[USUARIO_SESION.toLowerCase()];
+  return u&&u.puesto ? u.puesto : ROL_SESION;
+}
+function esSupervisor(){ return ["ADMIN","SUPERVISOR"].includes(ROL_SESION); }
+function esTecnico(){ return ["TECNICO_MEC","TECNICO_ELC"].includes(ROL_SESION); }
 const IMG_MAX_PX=1080;
 const IMG_QUALITY=0.72;
 let AREAS=[],areaActiva=0,busqueda="",equipoActivo=null,estadoMap={},detalleCache={},subiendoFoto=false;
@@ -1348,6 +1634,20 @@ const USUARIOS_TEST = {
   "scorral":    { pw: "SCD-2026!",   rol: "ADMIN" },
   "jbetancourt":{ pw: "JBT-2026!",   rol: "SUPERVISOR" },
   "yorozco":    { pw: "YOR-2026!",   rol: "ADMIN" },
+  // Técnicos mecánicos
+  "abuenrostro": { pw: "AB-2026",  rol: "TECNICO_MEC", nombre: "Alfredo Buenrostro",  puesto: "Mecánico" },
+  "prodriguez":  { pw: "PR-2026",  rol: "TECNICO_MEC", nombre: "Pedro Rodriguez",      puesto: "Mecánico" },
+  "jcruz":       { pw: "JC-2026",  rol: "TECNICO_MEC", nombre: "Jaime Cruz Oliverio",  puesto: "Mecánico" },
+  "glopez":      { pw: "GL-2026",  rol: "TECNICO_MEC", nombre: "Guillermo Lopez",      puesto: "Mecánico" },
+  "pnavarro":    { pw: "PN-2026",  rol: "TECNICO_MEC", nombre: "Pedro Navarro",        puesto: "Mecánico" },
+  "dmata":       { pw: "DM-2026",  rol: "TECNICO_MEC", nombre: "David Mata",           puesto: "Mecánico" },
+  "jhernandez":  { pw: "JH-2026",  rol: "TECNICO_MEC", nombre: "Julian Hernandez",     puesto: "Mecánico" },
+  "azamora":     { pw: "AZ-2026",  rol: "TECNICO_MEC", nombre: "Amado Zamora",         puesto: "Mecánico" },
+  "psantos":     { pw: "PS-2026",  rol: "TECNICO_MEC", nombre: "Pedro Santos",         puesto: "Mecánico" },
+  // Técnicos eléctricos
+  "hrivera":     { pw: "HR-2026",  rol: "TECNICO_ELC", nombre: "Hector Rivera",        puesto: "Eléctrico" },
+  "jgrodriguez": { pw: "JGR-2026", rol: "TECNICO_ELC", nombre: "Jose Gpe Rodriguez",   puesto: "Eléctrico" },
+  "agonzalez":   { pw: "AG-2026",  rol: "TECNICO_ELC", nombre: "Alan Gonzalez",        puesto: "Eléctrico" },
 };
 
 async function iniciarSesion(){
@@ -1402,12 +1702,21 @@ async function iniciarSesion(){
   if(loginOk){
     USUARIO_SESION = usuarioFinal;
     ROL_SESION     = rolFinal;
-    document.getElementById("sidebar-username").textContent = USUARIO_SESION.toUpperCase();
-    document.getElementById("sidebar-rol").textContent      = ROL_SESION;
+    const uData = USUARIOS_TEST[usuarioFinal.toLowerCase()];
+    const displayName = uData&&uData.nombre ? uData.nombre : USUARIO_SESION.toUpperCase();
+    const displayRol  = uData&&uData.puesto ? uData.puesto : ROL_SESION;
+    document.getElementById("sidebar-username").textContent = displayName;
+    document.getElementById("sidebar-rol").textContent      = displayRol;
+    renderSidebar();
+    // Mostrar dashboard inmediatamente, cargar datos en segundo plano
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("app-shell").classList.add("visible");
-    try{ await cargarApp(); }catch(e){ console.warn("Sin datos del servidor:", e.message); }
-    navTo("dashboard");
+    // Técnicos van a sus tareas, supervisores al dashboard
+    const primerNav = esTecnico() ? "tecnico-tareas" : "dashboard";
+    navTo(primerNav);
+    // Cargar datos en background
+    cargarApp().then(()=>{ if(navActual==="dashboard") renderDashboard(); })
+      .catch(e=>console.warn("Sin datos del servidor:", e.message));
   }else{
     err.textContent="Usuario o contraseña incorrectos";
     err.classList.add("visible");
@@ -1481,6 +1790,8 @@ function renderDashboard(){
   const dv = document.getElementById("dashboard-view");
   if(!dv) return;
 
+  // If no data yet, show loading skeleton but still render
+  const cargando = AREAS.length === 0;
   const tot  = totalEquipos();
   const done = totalCompletados();
   const pend = tot - done;
@@ -1565,7 +1876,13 @@ function renderDashboard(){
 
       <div>
         <div class="dash-section-title">&#127981; Avance por área</div>
-        <div class="dash-areas">${AREAS.length>0?areasHtml:'<div style="text-align:center;padding:20px;color:#5f6c8d;font-size:13px">Cargando datos de áreas...</div>'}</div>
+        <div class="dash-areas" id="dash-areas-list">${AREAS.length>0?areasHtml:`<div style="display:flex;flex-direction:column;gap:8px">
+          ${['SECADOR ENFRIADOR','MOLINO 1','MOLINO 2','MIC Y MF3','MOLINO 4','TAS'].map(a=>`
+          <div class="dash-area-row" style="opacity:.4">
+            <div class="dash-area-top"><span class="dash-area-name">${a}</span><span class="dash-area-nums" style="font-size:10px;color:#5f6c8d">Cargando...</span></div>
+            <div class="dash-area-bar"><div class="dash-area-fill" style="width:0%;background:#dde1f0"></div></div>
+          </div>`).join("")}
+        </div>`}</div>
       </div>
 
       <button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>
@@ -1581,6 +1898,616 @@ function renderDashboard(){
   });
 }
 
+
+/* ══════════════════════════════════════════════════
+   SIDEBAR DINÁMICO POR ROL
+   ══════════════════════════════════════════════════ */
+function renderSidebar(){
+  const nav = document.getElementById("sidebar-nav");
+  if(!nav) return;
+  if(esTecnico()){
+    nav.innerHTML = `
+      <div class="nav-item" id="nav-tecnico-tareas" onclick="navTo('tecnico-tareas')">
+        <div class="nav-item-icon">&#128203;</div><span>Mis actividades</span>
+      </div>
+      <div class="nav-item" id="nav-actividad-extra" onclick="navTo('actividad-extra')">
+        <div class="nav-item-icon">&#10133;</div><span>Actividad extra</span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" id="nav-realizadas" onclick="navTo('realizadas')">
+        <div class="nav-item-icon">&#9989;</div><span>Cartas realizadas</span>
+      </div>`;
+  }else{
+    // Supervisores operativos (ecerda, jlcapetillo, esantiago) NO ven cartas de lubricación
+    // Solo ven cartas realizadas + asignaciones + dashboard
+    const esSupervisorOperativo = ["ecerda","jlcapetillo","esantiago"].includes(USUARIO_SESION.toLowerCase());
+    nav.innerHTML = `
+      <div class="nav-item" id="nav-dashboard" onclick="navTo('dashboard')">
+        <div class="nav-item-icon">&#128200;</div><span>Dashboard</span>
+      </div>
+      ${!esSupervisorOperativo?`
+      <div class="nav-item" id="nav-planta" onclick="navTo('planta')">
+        <div class="nav-item-icon">&#127981;</div><span>Ingresar a planta</span>
+      </div>
+      <div class="nav-item" id="nav-cartas" onclick="navTo('cartas')">
+        <div class="nav-item-icon">&#128196;</div><span>Cartas de lubricación</span>
+      </div>`:""}
+      ${esSupervisor()||ROL_SESION==="ADMIN"?`
+      <div class="nav-item" id="nav-asignaciones" onclick="navTo('asignaciones')">
+        <div class="nav-item-icon">&#128203;</div><span>Asignaciones</span>
+        <span id="badge-asignaciones" style="display:none;background:#c62828;color:#fff;border-radius:999px;font-size:9px;font-weight:800;padding:2px 6px;margin-left:auto"></span>
+      </div>`:""}
+      <div class="nav-divider"></div>
+      <div class="nav-item" id="nav-realizadas" onclick="navTo('realizadas')">
+        <div class="nav-item-icon">&#9989;</div><span>Cartas realizadas</span>
+      </div>`;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   STORAGE LOCAL PARA ACTIVIDADES (simulado con localStorage-like Map)
+   ══════════════════════════════════════════════════ */
+let ACTIVIDADES_EXTRA = [];  // { id, usuario, nombre, puesto, equipo, tipo, desc, fotoUrl, fecha, status, validadoPor }
+let TAREAS_ASIGNADAS  = [];  // { id, asignadoPor, asignadoA, carta, equipo, fecha, status, notas }
+let _tareaActivaId = null;
+let _volverDeDetalle = "tecnico-tareas";
+
+/* ══════════════════════════════════════════════════
+   NAVTO AMPLIADO
+   ══════════════════════════════════════════════════ */
+const _origNavTo = navTo;
+// Override navTo to add new sections
+const _allViewIds = ["dashboard-view","main","detail-view","cartas-view","carta-editor-view",
+  "realizadas-view","tecnico-view","actividad-extra-view","tarea-detalle-view","asignaciones-view","splash"];
+
+async function navTo(seccion){
+  navActual = seccion;
+  // Update active state
+  const navIds = ["dashboard","planta","cartas","realizadas","nav-dashboard","nav-planta",
+    "nav-cartas","nav-realizadas","nav-tecnico-tareas","nav-actividad-extra","nav-asignaciones"];
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  const activeNav = document.getElementById("nav-"+seccion) || document.getElementById("nav-"+seccion.replace("tecnico-tareas","tecnico-tareas"));
+  if(activeNav) activeNav.classList.add('active');
+
+  // Move all views into content-area and hide
+  const ca = document.getElementById("content-area");
+  _allViewIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.style.display="none"; if(ca&&el.parentElement!==ca) ca.appendChild(el); }
+  });
+
+  if(seccion==="dashboard"){
+    document.getElementById("dashboard-view").style.display="flex";
+    renderDashboard();
+  }else if(seccion==="planta"){
+    document.getElementById("main").style.display="flex"; renderLista();
+  }else if(seccion==="cartas"){
+    document.getElementById("cartas-view").style.display="flex"; renderCartasList();
+  }else if(seccion==="realizadas"){
+    document.getElementById("realizadas-view").style.display="flex"; renderRealizadasList();
+  }else if(seccion==="tecnico-tareas"){
+    document.getElementById("tecnico-view").style.display="flex"; renderTecnicoView();
+  }else if(seccion==="actividad-extra"){
+    document.getElementById("actividad-extra-view").style.display="flex";
+  }else if(seccion==="tarea-detalle"){
+    document.getElementById("tarea-detalle-view").style.display="flex";
+  }else if(seccion==="asignaciones"){
+    document.getElementById("asignaciones-view").style.display="flex"; renderAsignaciones();
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   VISTA TÉCNICO — MIS ACTIVIDADES
+   ══════════════════════════════════════════════════ */
+function renderTecnicoView(){
+  const dv = document.getElementById("tecnico-view");
+  if(!dv) return;
+  const nombre = getNombreUsuario();
+  const puesto = getPuestoUsuario();
+
+  // Filtrar tareas y actividades del usuario actual
+  const misTareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===USUARIO_SESION);
+  const misExtras = ACTIVIDADES_EXTRA.filter(a=>a.usuario===USUARIO_SESION);
+
+  const pendientes = misTareas.filter(t=>t.status==="pendiente");
+  const completadas = misTareas.filter(t=>t.status!=="pendiente");
+
+  dv.innerHTML = `
+    <div style="background:linear-gradient(135deg,#08112d,#0b2590,#1228ff);color:#fff;padding:18px 16px;flex-shrink:0">
+      <div style="font-size:18px;font-weight:900">MIS ACTIVIDADES</div>
+      <div style="font-size:11px;opacity:.85;margin-top:2px">${escapeHtml(nombre)} · ${escapeHtml(puesto)}</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px">
+      ${pendientes.length===0&&misExtras.length===0?`
+        <div style="text-align:center;padding:40px 20px">
+          <div style="font-size:48px;margin-bottom:14px">📋</div>
+          <div style="font-size:16px;font-weight:900;color:#08112d;margin-bottom:6px">Sin actividades asignadas</div>
+          <div style="font-size:13px;color:#5f6c8d;line-height:1.6">Cuando el supervisor te asigne una tarea,<br>aparecerá aquí.</div>
+        </div>`:`
+        ${pendientes.length>0?`
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Pendientes (${pendientes.length})</div>
+          ${pendientes.map(t=>renderTareaCard(t)).join("")}
+        </div>`:""}
+        ${completadas.length>0?`
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Completadas</div>
+          ${completadas.map(t=>renderTareaCard(t)).join("")}
+        </div>`:""}
+        ${misExtras.length>0?`
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Actividades extra registradas</div>
+          ${misExtras.map(a=>renderActividadCard(a)).join("")}
+        </div>`:""}
+      `}
+      <button onclick="navTo('actividad-extra')" style="width:100%;padding:14px;border:2px dashed #c7d0f8;border-radius:18px;background:#f8faff;color:#0c1eaf;font-size:14px;font-weight:800;cursor:pointer">&#10133; Registrar actividad extra</button>
+    </div>
+  `;
+}
+
+function renderTareaCard(t){
+  const statusMap = {
+    pendiente:  {cls:"ts-pend", label:"Pendiente"},
+    completada: {cls:"ts-val",  label:"En revisión"},
+    aprobada:   {cls:"ts-done", label:"Aprobada ✓"},
+    rechazada:  {cls:"ts-rec",  label:"Rechazada"},
+  };
+  const s = statusMap[t.status]||statusMap.pendiente;
+  const prioLabel = {urgente:"🔴 ",alta:"🟡 ",baja:"🔵 "}[t.prioridad||"normal"]||"";
+  const iconLub   = t.carta ? "&#128196;" : "&#128203;";  // carta vs tarea general
+  return `<div class="tarea-card" onclick="abrirDetalleTarea('${safeJs(t.id)}','tecnico-tareas')">
+    <div class="tarea-card-head">
+      <div class="tarea-card-icon lub">${iconLub}</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${prioLabel}${escapeHtml(t.desc||t.carta||"Tarea asignada").slice(0,50)}${(t.desc||"").length>50?"...":""}</div>
+        ${t.equipo?'<div class="tarea-card-desc">&#128205; '+escapeHtml(t.equipo)+'</div>':""}
+        <div class="tarea-card-meta">&#128100; ${escapeHtml(t.asignadoPorNombre||t.asignadoPor)} · ${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div>
+        ${t.fechaLimite?'<div style="font-size:10px;color:#c62828;font-weight:700;margin-top:2px">&#128197; Límite: '+escapeHtml(t.fechaLimite)+'</div>':""}
+      </div>
+      <span class="tarea-status ${s.cls}">${s.label}</span>
+    </div>
+  </div>`;
+}
+
+function renderActividadCard(a){
+  const statusMap = {
+    pendiente:  {cls:"ts-pend", label:"En revisión"},
+    aprobada:   {cls:"ts-done", label:"Aprobada ✓"},
+    rechazada:  {cls:"ts-rec",  label:"Rechazada"},
+  };
+  const s = statusMap[a.status]||statusMap.pendiente;
+  return `<div class="tarea-card" onclick="abrirDetalleActividad('${a.id}','tecnico-tareas')">
+    <div class="tarea-card-head">
+      <div class="tarea-card-icon ext">&#128295;</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(a.equipo||"Sin equipo")}</div>
+        <div class="tarea-card-desc">${escapeHtml(a.tipo||"")} · ${escapeHtml(a.desc||"").slice(0,60)}...</div>
+        <div class="tarea-card-meta">${escapeHtml(a.fecha||"")}</div>
+      </div>
+      <span class="tarea-status ${s.cls}">${s.label}</span>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   ACTIVIDAD EXTRA — ENVIAR
+   ══════════════════════════════════════════════════ */
+let _aeBase64 = ""; let _aeMime = "";
+async function seleccionarFotoAE(evt){
+  const file = evt.target.files[0]; if(!file) return;
+  const {base64, mimeType, dataUrl} = await comprimirImagen(file);
+  _aeBase64 = base64; _aeMime = mimeType;
+  document.getElementById("ae-foto-label").innerHTML='<span style="color:#179b52;font-weight:700">✓ Foto lista</span>';
+}
+
+async function enviarActividadExtra(){
+  const equipo = document.getElementById("ae-equipo").value.trim();
+  const tipo   = document.getElementById("ae-tipo").value;
+  const desc   = document.getElementById("ae-desc").value.trim();
+  if(!equipo||!tipo||!desc){ alert("Completa equipo, tipo y descripción"); return; }
+  const btn = document.querySelector(".btn-enviar-ae");
+  btn.disabled=true; btn.textContent="Enviando...";
+  const actividad = {
+    id: "AE-"+Date.now(),
+    usuario: USUARIO_SESION,
+    nombre: getNombreUsuario(),
+    puesto: getPuestoUsuario(),
+    equipo, tipo, desc,
+    base64: _aeBase64, mimeType: _aeMime,
+    fecha: new Date().toLocaleDateString("es-MX"),
+    hora: new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
+    status: "pendiente"
+  };
+  // Save to AppScript
+  try{
+    const r = await apiPost({action:"saveActividadExtra", ...actividad});
+    if(r&&r.ok) actividad.fotoUrl = r.fotoUrl||"";
+  }catch(e){ console.warn("API no disponible, guardando local"); }
+  ACTIVIDADES_EXTRA.push(actividad);
+  // Reset form
+  document.getElementById("ae-equipo").value="";
+  document.getElementById("ae-tipo").value="";
+  document.getElementById("ae-desc").value="";
+  document.getElementById("ae-foto-label").textContent="Tomar foto o subir imagen";
+  _aeBase64=""; _aeMime="";
+  btn.disabled=false; btn.textContent="Enviar actividad →";
+  alert("✓ Actividad enviada. El supervisor será notificado.");
+  navTo("tecnico-tareas");
+}
+
+/* ══════════════════════════════════════════════════
+   DETALLE DE TAREA / ACTIVIDAD
+   ══════════════════════════════════════════════════ */
+function abrirDetalleTarea(id, origen){
+  _tareaActivaId = id; _volverDeDetalle = origen;
+  const t = TAREAS_ASIGNADAS.find(x=>x.id===id);
+  if(!t) return;
+  const prioLabel2 = {urgente:"🔴 Urgente · ",alta:"🟡 Alta · ",baja:"🔵 Baja · ",normal:""}[t.prioridad||"normal"]||"";
+  document.getElementById("det-tarea-tag").textContent = (t.desc||t.carta||"Tarea asignada").slice(0,60);
+  document.getElementById("det-tarea-nombre").textContent = prioLabel2 + (t.asignadoPorNombre||t.asignadoPor) + " → " + (t.asignadoANombre||t.asignadoA);
+  const statusMap = {
+    pendiente:"Pendiente",completada:"En revisión",aprobada:"Aprobada ✓",rechazada:"Rechazada"
+  };
+  document.getElementById("det-tarea-status-badge").innerHTML=
+    `<span class="tarea-status ts-pend">${statusMap[t.status]||"Pendiente"}</span>`;
+
+  const esMia = t.asignadoA === USUARIO_SESION;
+  const prioBadge = {urgente:"🔴 Urgente",alta:"🟡 Alta",baja:"🔵 Baja",normal:"🟢 Normal"}[t.prioridad||"normal"]||"Normal";
+  document.getElementById("det-tarea-body").innerHTML = `
+    <div>
+      <div class="det-section-lbl">Información de la tarea</div>
+      <div class="det-data-grid">
+        <div class="det-data-box"><div class="det-data-lbl">Asignado por</div><div class="det-data-val" style="font-size:13px">${escapeHtml(t.asignadoPorNombre||t.asignadoPor||"")}</div></div>
+        <div class="det-data-box"><div class="det-data-lbl">Fecha</div><div class="det-data-val" style="font-size:13px">${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div></div>
+        <div class="det-data-box"><div class="det-data-lbl">Prioridad</div><div class="det-data-val" style="font-size:13px">${prioBadge}</div></div>
+        ${t.equipo?'<div class="det-data-box"><div class="det-data-lbl">Equipo / Área</div><div class="det-data-val" style="font-size:13px">'+escapeHtml(t.equipo)+'</div></div>':""}
+        ${t.fechaLimite?'<div class="det-data-box" style="border-color:rgba(198,40,40,.25)"><div class="det-data-lbl" style="color:#c62828">Fecha límite</div><div class="det-data-val" style="font-size:13px;color:#c62828">'+escapeHtml(t.fechaLimite)+'</div></div>':""}
+      </div>
+    </div>
+    <div>
+      <div class="det-section-lbl">Descripción de la tarea</div>
+      <div class="det-desc-box" style="line-height:1.7;font-size:14px">${escapeHtml(t.desc||t.carta||"Sin descripción adicional")}</div>
+    </div>
+    ${t.notas?'<div><div class="det-section-lbl">Notas adicionales</div><div class="det-desc-box">'+escapeHtml(t.notas)+'</div></div>':""}
+  `;
+
+  const actions = document.getElementById("det-tarea-actions");
+  if(esMia && t.status==="pendiente"){
+    actions.innerHTML='<button class="btn-marcar-listo" onclick="marcarTareaLista()">&#10003; Marcar como completada</button>';
+  }else if(!esMia && (esSupervisor()||ROL_SESION==="ADMIN") && t.status==="completada"){
+    actions.innerHTML=`<button class="btn-aprobar" onclick="validarTarea('aprobada')">&#10003; Aprobar tarea</button>
+    <button class="btn-rechazar" onclick="validarTarea('rechazada')">&#10007; Rechazar</button>`;
+  }else{ actions.innerHTML=""; }
+  navTo("tarea-detalle");
+}
+
+function abrirDetalleActividad(id, origen){
+  _tareaActivaId = "AE-"+id.replace("AE-",""); _volverDeDetalle = origen;
+  const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
+  if(!a) return;
+  document.getElementById("det-tarea-tag").textContent = a.equipo||"Sin equipo";
+  document.getElementById("det-tarea-nombre").textContent = (a.nombre||"") + " · " + (a.puesto||"");
+  document.getElementById("det-tarea-status-badge").innerHTML=
+    `<span class="tarea-status ts-pend">${a.status==="aprobada"?"Aprobada ✓":a.status==="rechazada"?"Rechazada":"En revisión"}</span>`;
+
+  document.getElementById("det-tarea-body").innerHTML = `
+    <div>
+      <div class="det-section-lbl">Datos de la actividad</div>
+      <div class="det-data-grid">
+        <div class="det-data-box"><div class="det-data-lbl">Equipo</div><div class="det-data-val">${escapeHtml(a.equipo||"")}</div></div>
+        <div class="det-data-box"><div class="det-data-lbl">Tipo</div><div class="det-data-val" style="font-size:12px">${escapeHtml(a.tipo||"")}</div></div>
+        <div class="det-data-box"><div class="det-data-lbl">Técnico</div><div class="det-data-val" style="font-size:12px">${escapeHtml(a.nombre||"")}</div></div>
+        <div class="det-data-box"><div class="det-data-lbl">Fecha</div><div class="det-data-val">${escapeHtml(a.fecha||"")} ${escapeHtml(a.hora||"")}</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="det-section-lbl">Descripción del técnico</div>
+      <div class="det-desc-box">${escapeHtml(a.desc||"Sin descripción")}</div>
+    </div>
+    <div>
+      <div class="det-section-lbl">Foto de evidencia</div>
+      <div class="det-foto-box">${a.fotoUrl?`<img src="${escapeHtml(a.fotoUrl)}" alt="Evidencia">`:
+        (a.base64?`<img src="data:${a.mimeType};base64,${a.base64}" alt="Evidencia">`:
+        '<span style="font-size:24px">📷</span><span>Sin foto adjunta</span>')}</div>
+    </div>
+  `;
+
+  const actions = document.getElementById("det-tarea-actions");
+  const puedoValidar = (esSupervisor()||ROL_SESION==="ADMIN") && a.status==="pendiente";
+  if(puedoValidar){
+    actions.innerHTML=`<button class="btn-aprobar" onclick="validarActividad('${escapeAttr(id)}','aprobada')">&#10003; Aprobar</button>
+    <button class="btn-rechazar" onclick="validarActividad('${escapeAttr(id)}','rechazada')">&#10007; Rechazar</button>`;
+  }else{ actions.innerHTML=""; }
+  navTo("tarea-detalle");
+}
+
+function cerrarDetalleTarea(){ navTo(_volverDeDetalle||"tecnico-tareas"); }
+
+function marcarTareaLista(){
+  const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
+  if(t){ t.status="completada"; alert("✓ Tarea marcada como completada. El supervisor la revisará."); }
+  cerrarDetalleTarea();
+}
+
+function validarTarea(status){
+  const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
+  if(t){ t.status=status; t.validadoPor=USUARIO_SESION; }
+  alert(status==="aprobada"?"✓ Tarea aprobada":"Tarea rechazada.");
+  cerrarDetalleTarea();
+}
+
+function validarActividad(id, status){
+  const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
+  if(a){ a.status=status; a.validadoPor=USUARIO_SESION; 
+    // Save to AppScript
+    apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION})
+      .catch(e=>console.warn("API no disponible"));
+  }
+  alert(status==="aprobada"?"✓ Actividad aprobada":"Actividad rechazada.");
+  cerrarDetalleTarea();
+}
+
+/* ══════════════════════════════════════════════════
+   ASIGNACIONES (SUPERVISOR)
+   ══════════════════════════════════════════════════ */
+const TECNICOS_LIST = [
+  {u:"abuenrostro",n:"Alfredo Buenrostro",p:"Mecánico",t:"mec"},
+  {u:"prodriguez",n:"Pedro Rodriguez",p:"Mecánico",t:"mec"},
+  {u:"jcruz",n:"Jaime Cruz Oliverio",p:"Mecánico",t:"mec"},
+  {u:"glopez",n:"Guillermo Lopez",p:"Mecánico",t:"mec"},
+  {u:"pnavarro",n:"Pedro Navarro",p:"Mecánico",t:"mec"},
+  {u:"dmata",n:"David Mata",p:"Mecánico",t:"mec"},
+  {u:"jhernandez",n:"Julian Hernandez",p:"Mecánico",t:"mec"},
+  {u:"azamora",n:"Amado Zamora",p:"Mecánico",t:"mec"},
+  {u:"psantos",n:"Pedro Santos",p:"Mecánico",t:"mec"},
+  {u:"hrivera",n:"Hector Rivera",p:"Eléctrico",t:"elec"},
+  {u:"jgrodriguez",n:"Jose Gpe Rodriguez",p:"Eléctrico",t:"elec"},
+  {u:"agonzalez",n:"Alan Gonzalez",p:"Eléctrico",t:"elec"},
+];
+
+function renderAsignaciones(){
+  const body = document.getElementById("asignaciones-body");
+  if(!body) return;
+
+  const pendVal    = ACTIVIDADES_EXTRA.filter(a=>a.status==="pendiente");
+  const tareasPend = TAREAS_ASIGNADAS.filter(t=>t.status==="completada");
+
+  body.innerHTML = `
+    ${pendVal.length>0||tareasPend.length>0?`
+    <div class="notif-bar" style="margin-bottom:14px">
+      <span style="font-size:22px">&#128276;</span>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#633806">
+          ${[pendVal.length>0?pendVal.length+" actividad"+(pendVal.length!==1?"es extra":"extra"):"",
+             tareasPend.length>0?tareasPend.length+" tarea"+(tareasPend.length!==1?"s":"")+" completada"+(tareasPend.length!==1?"s":""):""]
+             .filter(Boolean).join(" · ")} pendiente${(pendVal.length+tareasPend.length)!==1?"s":""} de validar
+        </div>
+        <div style="font-size:11px;color:#854f0b;margin-top:2px">Toca una actividad para revisarla y aprobarla o rechazarla</div>
+      </div>
+    </div>`:""}
+    ${pendVal.length>0?`
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">
+      &#128295; Actividades extra — pendientes de validar
+    </div>
+    ${pendVal.map(a=>renderActividadCardSupervisor(a)).join("")}`:""}
+    ${tareasPend.length>0?`
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px">
+      &#128203; Tareas asignadas — completadas por validar
+    </div>
+    ${tareasPend.map(t=>renderTareaCardSupervisor(t)).join("")}`:""}
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px">
+      &#128101; Equipo de trabajo — toca un nombre para asignar tarea
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:11px;font-weight:700;color:#08112d;background:#eef2ff;border-radius:10px;padding:8px 14px;border:1px solid #c7d0f8">
+        &#128274; Mecánicos
+      </div>
+      ${TECNICOS_LIST.filter(tc=>tc.t==="mec").map(tc=>renderTecnicoAsigCard(tc)).join("")}
+      <div style="font-size:11px;font-weight:700;color:#854f0b;background:#fff3df;border-radius:10px;padding:8px 14px;border:1px solid rgba(133,79,11,.2);margin-top:4px">
+        &#9889; Eléctricos
+      </div>
+      ${TECNICOS_LIST.filter(tc=>tc.t==="elec").map(tc=>renderTecnicoAsigCard(tc)).join("")}
+    </div>
+  `;
+
+  // Badge de pendientes
+  const badge = document.getElementById("badge-asignaciones");
+  if(badge){
+    const total = pendVal.length + tareasPend.length;
+    badge.style.display = total>0?"inline":"none";
+    badge.textContent = total;
+  }
+}
+
+function renderTecnicoAsigCard(tc){
+  const activas   = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="pendiente").length;
+  const completadas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="completada").length;
+  const initials  = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
+  const colorMec  = {bg:"#eef2ff",fg:"#0c447c"};
+  const colorElec = {bg:"#fff3df",fg:"#854f0b"};
+  const color     = tc.t==="elec"?colorElec:colorMec;
+  return `<div class="tarea-card" onclick="abrirModalAsignar('${safeJs(tc.u)}')" style="margin-bottom:0">
+    <div class="tarea-card-head" style="padding:14px 16px">
+      <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(tc.n)}</div>
+        <div class="tarea-card-desc">${tc.p}${activas>0?" · "+activas+" tarea"+(activas!==1?"s":"")+" activa"+(activas!==1?"s":""):""}${completadas>0?" · "+completadas+" por validar":""}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+        ${activas>0?'<span class="tarea-status ts-pend">'+activas+' activa'+(activas!==1?"s":"")+'</span>':""}
+        ${completadas>0?'<span class="tarea-status ts-val">'+completadas+' validar</span>':""}
+        ${activas===0&&completadas===0?'<span style="font-size:11px;color:#5f6c8d">Sin tareas</span>':""}
+      </div>
+      <span style="color:#1228ff;font-size:18px;font-weight:900;flex-shrink:0;margin-left:6px">&#8250;</span>
+    </div>
+  </div>`;
+}
+function renderActividadCardSupervisor(a){
+  return `<div class="tarea-card" onclick="abrirDetalleActividad('${escapeAttr(a.id)}','asignaciones')">
+    <div class="tarea-card-head">
+      <div class="tarea-card-icon ext">&#128295;</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(a.nombre||"")} · ${escapeHtml(a.puesto||"")}</div>
+        <div class="tarea-card-desc">${escapeHtml(a.equipo||"")} · ${escapeHtml(a.tipo||"")}</div>
+        <div class="tarea-card-meta">${escapeHtml(a.desc||"").slice(0,80)}...</div>
+      </div>
+      <span class="tarea-status ts-pend">Validar</span>
+    </div>
+  </div>`;
+}
+
+function renderTareaCardSupervisor(t){
+  return `<div class="tarea-card" onclick="abrirDetalleTarea('${escapeAttr(t.id)}','asignaciones')">
+    <div class="tarea-card-head">
+      <div class="tarea-card-icon lub">&#128196;</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(t.asignadoANombre||t.asignadoA||"")}</div>
+        <div class="tarea-card-desc">${escapeHtml(t.equipo||"")} · ${escapeHtml(t.carta||"")}</div>
+        <div class="tarea-card-meta">Completada · Pendiente de validación</div>
+      </div>
+      <span class="tarea-status ts-val">Revisar</span>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   MODAL ASIGNAR TAREA
+   ══════════════════════════════════════════════════ */
+let _tecnicoActivoModal = null;
+
+function abrirModalAsignar(usuarioTecnico){
+  const tc = TECNICOS_LIST.find(t=>t.u===usuarioTecnico);
+  if(!tc) return;
+  _tecnicoActivoModal = tc;
+
+  // Limpiar form
+  document.getElementById("modal-tarea-desc").value   = "";
+  document.getElementById("modal-tarea-equipo").value = "";
+  document.getElementById("modal-tarea-prioridad").value = "normal";
+  document.getElementById("modal-tarea-fecha").value  = "";
+
+  // Header
+  document.getElementById("modal-tecnico-title").textContent = "Asignar tarea a " + tc.n.split(" ")[0];
+  document.getElementById("modal-tecnico-sub").textContent   = tc.p + " — escribe qué necesitas que haga";
+
+  // Perfil card
+  const initials = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
+  const colorBg  = tc.t==="elec"?"#fff3df":"#eef2ff";
+  const colorFg  = tc.t==="elec"?"#854f0b":"#0c447c";
+  document.getElementById("modal-tecnico-perfil").innerHTML = `
+    <div class="tecnico-perfil-card">
+      <div class="tecnico-perfil-avatar" style="background:${colorBg};color:${colorFg}">${escapeHtml(initials)}</div>
+      <div>
+        <div class="tecnico-perfil-nombre">${escapeHtml(tc.n)}</div>
+        <div class="tecnico-perfil-puesto">${tc.p} &nbsp;·&nbsp; ${tc.t==="elec"?"Eléctrico":"Mecánico"}</div>
+      </div>
+    </div>
+  `;
+
+  // Historial de tareas del técnico
+  const susTareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===usuarioTecnico).slice(-5).reverse();
+  document.getElementById("modal-historial-section").innerHTML = susTareas.length>0 ? `
+    <div>
+      <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">
+        Tareas recientes asignadas
+      </div>
+      ${susTareas.map(t=>{
+        const dotClass = t.status==="pendiente"?"pend":t.status==="completada"?"comp":t.status==="aprobada"?"apr":"rec";
+        const label    = t.status==="pendiente"?"Pendiente":t.status==="completada"?"Completada · pendiente validar":t.status==="aprobada"?"Aprobada ✓":"Rechazada";
+        return `<div class="tarea-historial-item">
+          <div class="tarea-hist-dot ${dotClass}"></div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:700;color:#08112d">${escapeHtml(t.desc||"Sin descripción").slice(0,70)}${(t.desc||"").length>70?"...":""}</div>
+            ${t.equipo?'<div style="font-size:11px;color:#5f6c8d;margin-top:2px">&#128205; '+escapeHtml(t.equipo)+'</div>':""} 
+            <div style="font-size:10px;color:#5f6c8d;margin-top:2px">${escapeHtml(t.fecha||"")} · ${label}</div>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+  ` : "";
+
+  document.getElementById("modal-asignar-overlay").classList.remove("hidden");
+  // Focus on textarea
+  setTimeout(()=>document.getElementById("modal-tarea-desc").focus(), 150);
+}
+
+function cerrarModalAsignar(evt){
+  if(evt && evt.target !== document.getElementById("modal-asignar-overlay")) return;
+  document.getElementById("modal-asignar-overlay").classList.add("hidden");
+  _tecnicoActivoModal = null;
+}
+
+function enviarTareaAsignada(){
+  if(!_tecnicoActivoModal) return;
+  const desc  = document.getElementById("modal-tarea-desc").value.trim();
+  const equipo= document.getElementById("modal-tarea-equipo").value.trim();
+  const prio  = document.getElementById("modal-tarea-prioridad").value;
+  const fecha = document.getElementById("modal-tarea-fecha").value;
+
+  if(!desc){ 
+    document.getElementById("modal-tarea-desc").focus();
+    document.getElementById("modal-tarea-desc").style.borderColor="#c62828";
+    setTimeout(()=>document.getElementById("modal-tarea-desc").style.borderColor="",2000);
+    return;
+  }
+
+  const tc  = _tecnicoActivoModal;
+  const btn = document.querySelector(".btn-modal-send");
+  btn.disabled = true;
+  btn.textContent = "Asignando...";
+
+  const tarea = {
+    id:               "T-"+Date.now(),
+    asignadoPor:      USUARIO_SESION,
+    asignadoPorNombre: getNombreUsuario(),
+    asignadoA:        tc.u,
+    asignadoANombre:  tc.n,
+    puesto:           tc.p,
+    desc,
+    equipo,
+    prioridad: prio,
+    fechaLimite: fecha,
+    carta:     "",
+    notas:     "",
+    fecha:     new Date().toLocaleDateString("es-MX"),
+    hora:      new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
+    status:    "pendiente"
+  };
+
+  // Guardar en AppScript
+  apiPost({ action:"saveTareaAsignada",
+    id:           tarea.id,
+    asignadoPor:  tarea.asignadoPor,
+    asignadoPorNombre: tarea.asignadoPorNombre,
+    asignadoA:    tarea.asignadoA,
+    asignadoANombre: tarea.asignadoANombre,
+    puesto:       tarea.puesto,
+    desc:         tarea.desc,
+    equipo:       tarea.equipo,
+    prioridad:    tarea.prioridad,
+    fechaLimite:  tarea.fechaLimite,
+    fecha:        tarea.fecha,
+    hora:         tarea.hora
+  }).catch(e=>console.warn("API no disponible:", e.message));
+
+  TAREAS_ASIGNADAS.push(tarea);
+
+  btn.disabled = false;
+  btn.textContent = "Asignar tarea →";
+  document.getElementById("modal-asignar-overlay").classList.add("hidden");
+  _tecnicoActivoModal = null;
+
+  // Toast de confirmación
+  const toast = document.createElement("div");
+  const prioLabel = {normal:"",urgente:"🔴 ",alta:"🟡 ",baja:"🔵 "}[prio]||"";
+  toast.style.cssText = "position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#08112d;color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:800;z-index:9999;box-shadow:0 16px 40px rgba(8,17,45,.4);white-space:nowrap;max-width:90vw;text-align:center";
+  toast.textContent = prioLabel + "✓ Tarea asignada a " + tc.n.split(" ")[0];
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 2800);
+
+  // Actualizar vista
+  renderAsignaciones();
+}
 async function cargarApp(){
   const equiposResp=await apiGet({action:"getEquipos"});
   if(!equiposResp.ok)throw new Error(equiposResp.error||"No se pudieron cargar equipos");
@@ -2191,6 +3118,47 @@ td:first-child{background:#08112d!important;text-align:center}
 </div>
 </div>
 <script>window.onload=function(){window.print();}<\/script>
+
+<!-- ══ MODAL: ASIGNAR TAREA ══ -->
+<div class="modal-overlay hidden" id="modal-asignar-overlay" onclick="cerrarModalAsignar(event)">
+  <div class="modal-sheet" id="modal-asignar-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title" id="modal-tecnico-title">Asignar tarea</div>
+      <div class="modal-sub" id="modal-tecnico-sub">Escribe la tarea que necesitas que realice</div>
+    </div>
+    <div class="modal-body">
+      <div id="modal-tecnico-perfil"></div>
+      <div class="modal-field">
+        <label>¿Qué necesitas que haga?</label>
+        <textarea id="modal-tarea-desc" placeholder="Ej: Revisar vibración en reductor BTR-6320, cambiar filtro de aceite en MOT-3301, limpiar tablero eléctrico área 2..." rows="4"></textarea>
+      </div>
+      <div class="modal-field">
+        <label>Equipo o área (opcional)</label>
+        <input type="text" id="modal-tarea-equipo" placeholder="Ej: BTR-6320, Área Molienda, Planta general...">
+      </div>
+      <div class="modal-field">
+        <label>Prioridad</label>
+        <select id="modal-tarea-prioridad">
+          <option value="normal">Normal</option>
+          <option value="urgente">🔴 Urgente</option>
+          <option value="alta">🟡 Alta</option>
+          <option value="baja">🔵 Baja</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>Fecha límite (opcional)</label>
+        <input type="date" id="modal-tarea-fecha">
+      </div>
+      <div id="modal-historial-section"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="cerrarModalAsignar()">Cancelar</button>
+      <button class="btn-modal-send" onclick="enviarTareaAsignada()">Asignar tarea →</button>
+    </div>
+  </div>
+</div>
+
 </body></html>`;
   const win=window.open("","_blank","width=1200,height=800");
   if(win){win.document.write(html);win.document.close();}
