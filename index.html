@@ -1322,13 +1322,20 @@ async function iniciarSesion(){
       loginOk      = true;
       usuarioFinal = r.usuario || usuario;
       rolFinal     = r.rol     || "OPERADOR";
-    }else if(r.ok && !r.acceso){
-      // API respondió pero credenciales incorrectas
-      loginOk = false;
+    }else{
+      // API dijo que no — intentar con tabla local como respaldo
+      const userTest2 = USUARIOS_TEST[usuario.toLowerCase()];
+      if(userTest2 && userTest2.pw === pw){
+        loginOk      = true;
+        usuarioFinal = usuario;
+        rolFinal     = userTest2.rol;
+      }else{
+        loginOk = false;
+      }
     }
   }catch(apiErr){
-    // Sin conexión al servidor — usar tabla local de prueba
-    console.warn("API no disponible, usando login local:", apiErr.message);
+    // Sin conexión — usar tabla local
+    console.warn("API no disponible:", apiErr.message);
     const userTest = USUARIOS_TEST[usuario.toLowerCase()];
     if(userTest && userTest.pw === pw){
       loginOk      = true;
