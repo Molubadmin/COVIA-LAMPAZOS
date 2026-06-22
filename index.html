@@ -453,6 +453,59 @@
     #app-shell.visible ~ #carta-editor-view,
     #app-shell.visible ~ #realizadas-view { display:none !important }
 
+  
+    /* ══ DASHBOARD ══ */
+    #dashboard-view{display:none;height:100%;flex-direction:column;overflow-y:auto;background:#f1f4fb}
+    .dash-header{background:linear-gradient(135deg,#08112d 0%,#0b2590 60%,#1228ff 100%);
+      color:#fff;padding:22px 24px 20px;flex-shrink:0;position:relative;overflow:hidden}
+    .dash-header::after{content:"";position:absolute;width:200px;height:200px;right:-40px;
+      bottom:-80px;border-radius:50%;background:rgba(255,255,255,.06)}
+    .dash-header-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+    .dash-welcome{font-size:13px;opacity:.8;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+    .dash-title{font-size:22px;font-weight:900;letter-spacing:.8px}
+    .dash-date{font-size:11px;opacity:.7;margin-top:3px}
+    .dash-total-badge{text-align:right;position:relative;z-index:1}
+    .dash-total-n{font-size:38px;font-weight:900;line-height:1}
+    .dash-total-l{font-size:10px;opacity:.75;text-transform:uppercase;letter-spacing:1px}
+    .dash-prog-wrap{margin-top:14px;position:relative;z-index:1}
+    .dash-prog-label{display:flex;justify-content:space-between;font-size:11px;opacity:.85;margin-bottom:6px}
+    .dash-prog-bar{height:8px;background:rgba(255,255,255,.2);border-radius:999px;overflow:hidden}
+    .dash-prog-fill{height:100%;background:#fff;border-radius:999px;transition:width .6s ease}
+    .dash-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+    .dash-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .dash-card{background:#fff;border:1px solid #dde1f0;border-radius:20px;padding:16px;
+      box-shadow:0 4px 12px rgba(8,17,45,.06)}
+    .dash-card-n{font-size:30px;font-weight:900;color:#08112d;line-height:1}
+    .dash-card-n.verde{color:#179b52}
+    .dash-card-n.rojo{color:#c62828}
+    .dash-card-n.azul{color:#1228ff}
+    .dash-card-l{font-size:11px;color:#5f6c8d;text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-top:6px}
+    .dash-card-icon{font-size:22px;margin-bottom:8px}
+    .dash-section-title{font-size:12px;font-weight:800;color:#08112d;text-transform:uppercase;
+      letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .dash-section-title::after{content:"";flex:1;height:1px;background:#dde1f0}
+    .dash-areas{display:flex;flex-direction:column;gap:8px}
+    .dash-area-row{background:#fff;border:1px solid #dde1f0;border-radius:14px;padding:12px 14px}
+    .dash-area-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .dash-area-name{font-size:13px;font-weight:700;color:#08112d}
+    .dash-area-nums{font-size:11px;color:#5f6c8d;font-weight:600}
+    .dash-area-bar{height:6px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    .dash-area-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#1228ff,#4f8dff);transition:width .5s ease}
+    .dash-area-fill.completo{background:linear-gradient(90deg,#179b52,#42d07c)}
+    .dash-btn-entrar{width:100%;padding:16px;border:none;border-radius:18px;
+      background:linear-gradient(135deg,#1228ff,#0c1eaf);color:#fff;
+      font-size:15px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;
+      cursor:pointer;box-shadow:0 14px 28px rgba(18,40,255,.2);margin-top:4px}
+    .dash-btn-entrar:hover{transform:translateY(-1px);box-shadow:0 18px 32px rgba(18,40,255,.28)}
+    .dash-cartas-resumen{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .dash-carta-card{background:#fff;border-radius:16px;padding:14px;border:1px solid #dde1f0;text-align:center}
+    .dash-carta-card.done{border-color:rgba(23,155,82,.3);background:linear-gradient(180deg,#fff,#f3fbf6)}
+    .dash-carta-card.pend{border-color:rgba(198,40,40,.2);background:linear-gradient(180deg,#fff,#fff9f9)}
+    .dash-carta-n{font-size:28px;font-weight:900}
+    .dash-carta-n.g{color:#179b52}
+    .dash-carta-n.r{color:#c62828}
+    .dash-carta-l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-top:4px;color:#5f6c8d}
+
   </style>
 </head>
 <body>
@@ -491,7 +544,11 @@
       <div class="sidebar-user-rol" id="sidebar-rol">ROL</div>
     </div>
     <div class="sidebar-nav" id="sidebar-nav">
-      <div class="nav-item active" id="nav-planta" onclick="navTo('planta')">
+      <div class="nav-item" id="nav-dashboard" onclick="navTo('dashboard')">
+        <div class="nav-item-icon">&#128200;</div>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" id="nav-planta" onclick="navTo('planta')">
         <div class="nav-item-icon">&#127981;</div>
         <span>Ingresar a planta</span>
       </div>
@@ -577,7 +634,6 @@
       <div class="prog-l" id="m-total">/ 0 equipos</div>
       <div class="prog-bar-wrap"><div class="prog-bar-fill" id="m-bar"></div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn-inicio" onclick="irInicio()">Volver al inicio</button>
         <button class="btn-cartas-nav" onclick="irCartas()">&#128196; Cartas de lubricacion</button>
       </div>
     </div>
@@ -640,6 +696,10 @@
     <input type="text" id="realizadas-search" placeholder="Buscar por ID TAG, nombre o area..." oninput="filtrarRealizadas()">
   </div>
   <div id="realizadas-list"></div>
+</div>
+
+<div id="dashboard-view">
+  <!-- contenido generado dinámicamente por renderDashboard() -->
 </div>
 
 <div id="carta-editor-view">
@@ -807,12 +867,7 @@ function irInicio(){
 }
 
 function irCartas(){
-  if(document.getElementById("app-shell").classList.contains("visible")){
-    navTo("cartas"); return;
-  }
-  document.getElementById("main").style.display="none";
-  document.getElementById("cartas-view").style.display="flex";
-  renderCartasList();
+  navTo("cartas");
 }
 async function entrarCartas(){
   const btn=document.getElementById("btn-cartas-main");
@@ -1352,7 +1407,7 @@ async function iniciarSesion(){
     document.getElementById("login-screen").classList.add("hidden");
     document.getElementById("app-shell").classList.add("visible");
     try{ await cargarApp(); }catch(e){ console.warn("Sin datos del servidor:", e.message); }
-    navTo("planta");
+    navTo("dashboard");
   }else{
     err.textContent="Usuario o contraseña incorrectos";
     err.classList.add("visible");
@@ -1384,14 +1439,14 @@ let navActual = "";
 
 async function navTo(seccion){
   navActual = seccion;
-  // Update active state
-  ["planta","cartas","realizadas"].forEach(s=>{
+  // Update active state in sidebar
+  ["dashboard","planta","cartas","realizadas"].forEach(s=>{
     const el=document.getElementById("nav-"+s);
     if(el) el.classList.toggle("active", s===seccion);
   });
-  // Move views into content area
+  // Move all views into content area and hide
   const ca = document.getElementById("content-area");
-  const viewIds = ["main","detail-view","cartas-view","carta-editor-view","realizadas-view","splash"];
+  const viewIds = ["dashboard-view","main","detail-view","cartas-view","carta-editor-view","realizadas-view","splash"];
   viewIds.forEach(id=>{
     const el=document.getElementById(id);
     if(el){
@@ -1399,7 +1454,11 @@ async function navTo(seccion){
       if(el.parentElement !== ca) ca.appendChild(el);
     }
   });
-  if(seccion==="planta"){
+  if(seccion==="dashboard"){
+    const dv=document.getElementById("dashboard-view");
+    dv.style.display="flex";
+    renderDashboard();
+  }else if(seccion==="planta"){
     document.getElementById("main").style.display="flex";
     renderLista();
   }else if(seccion==="cartas"){
@@ -1413,6 +1472,114 @@ async function navTo(seccion){
 
 /* Override cerrarDetalle para quedarse en el contenedor */
 const _origCerrarDetalle = typeof cerrarDetalle === "function" ? cerrarDetalle : null;
+
+
+/* ══════════════════════════════════════════════════
+   DASHBOARD
+   ══════════════════════════════════════════════════ */
+function renderDashboard(){
+  const dv = document.getElementById("dashboard-view");
+  if(!dv) return;
+
+  const tot  = totalEquipos();
+  const done = totalCompletados();
+  const pend = tot - done;
+  const pct  = tot > 0 ? Math.round(done/tot*100) : 0;
+
+  // Cartas guardadas
+  const equipos = todosLosEquipos();
+  const cartasDone = equipos.filter(e=>CARTAS_DATA[e.id]&&CARTAS_DATA[e.id].origen==="crm").length;
+  const cartasPend = tot - cartasDone;
+
+  // Fecha actual
+  const fecha = new Date().toLocaleDateString("es-MX",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+
+  // Por área
+  const areasHtml = AREAS.map(a=>{
+    const aDone = a.items.filter(e=>estadoMap[e.id]).length;
+    const aTotal = a.items.length;
+    const aPct = aTotal>0?Math.round(aDone/aTotal*100):0;
+    const completo = aPct===100;
+    return `<div class="dash-area-row">
+      <div class="dash-area-top">
+        <span class="dash-area-name">${escapeHtml(a.nombre)}</span>
+        <span class="dash-area-nums">${aDone} / ${aTotal} &nbsp;·&nbsp; <strong>${aPct}%</strong></span>
+      </div>
+      <div class="dash-area-bar"><div class="dash-area-fill${completo?" completo":""}" style="width:${aPct}%"></div></div>
+    </div>`;
+  }).join("");
+
+  dv.innerHTML = `
+    <div class="dash-header">
+      <div class="dash-header-top">
+        <div>
+          <div class="dash-welcome">Bienvenido, ${escapeHtml(USUARIO_SESION||"Usuario")}</div>
+          <div class="dash-title">COVIA LAMPAZOS</div>
+          <div class="dash-date">${fecha}</div>
+        </div>
+        <div class="dash-total-badge">
+          <div class="dash-total-n">${pct}%</div>
+          <div class="dash-total-l">Avance general</div>
+        </div>
+      </div>
+      <div class="dash-prog-wrap">
+        <div class="dash-prog-label">
+          <span>Progreso del levantamiento</span>
+          <span>${done} de ${tot} equipos completos</span>
+        </div>
+        <div class="dash-prog-bar"><div class="dash-prog-fill" id="dash-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="dash-body">
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="dash-card-icon">&#127981;</div>
+          <div class="dash-card-n azul">${tot}</div>
+          <div class="dash-card-l">Total equipos</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-icon">&#10003;</div>
+          <div class="dash-card-n verde">${done}</div>
+          <div class="dash-card-l">Completos</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-icon">&#9201;</div>
+          <div class="dash-card-n rojo">${pend}</div>
+          <div class="dash-card-l">Pendientes</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="dash-section-title">&#128196; Cartas de lubricación</div>
+        <div class="dash-cartas-resumen">
+          <div class="dash-carta-card done">
+            <div class="dash-carta-n g">${cartasDone}</div>
+            <div class="dash-carta-l">Guardadas</div>
+          </div>
+          <div class="dash-carta-card pend">
+            <div class="dash-carta-n r">${cartasPend}</div>
+            <div class="dash-carta-l">Sin guardar</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="dash-section-title">&#127981; Avance por área</div>
+        <div class="dash-areas">${AREAS.length>0?areasHtml:'<div style="text-align:center;padding:20px;color:#5f6c8d;font-size:13px">Cargando datos de áreas...</div>'}</div>
+      </div>
+
+      <button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>
+    </div>
+  `;
+
+  // Animar barra de progreso
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      const fill=document.getElementById("dash-fill");
+      if(fill) fill.style.width=pct+"%";
+    },100);
+  });
+}
 
 async function cargarApp(){
   const equiposResp=await apiGet({action:"getEquipos"});
