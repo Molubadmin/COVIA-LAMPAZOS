@@ -1846,8 +1846,21 @@ async function iniciarSesion(){
     const primerNav = esTecnico() ? "tecnico-tareas" : "dashboard";
     navTo(primerNav);
     // Cargar datos en background
-    cargarApp().then(()=>{ if(navActual==="dashboard") renderDashboard(); })
-      .catch(e=>console.warn("Sin datos del servidor:", e.message));
+    cargarApp().then(()=>{
+      // Re-renderizar la vista activa con los datos ya cargados
+      if(navActual==="dashboard")      renderDashboard();
+      else if(navActual==="asignaciones") renderAsignaciones();
+      else if(navActual==="horas")     renderHorasHombre();
+      else if(navActual==="tecnico-tareas") renderTecnicoView();
+      // Actualizar badge de asignaciones
+      const badge = document.getElementById("badge-asignaciones");
+      if(badge){
+        const pend = (ACTIVIDADES_EXTRA.filter(a=>a.status==="pendiente").length)
+                   + (TAREAS_ASIGNADAS.filter(t=>t.status==="completada").length);
+        badge.style.display = pend>0?"inline":"none";
+        badge.textContent = pend;
+      }
+    }).catch(e=>console.warn("Sin datos del servidor:", e.message));
   }else{
     err.textContent="Usuario o contraseña incorrectos";
     err.classList.add("visible");
@@ -2617,7 +2630,12 @@ function renderActividadCardSupervisor(a){
 
 function toggleActividadDetalle(id){
   const det = document.getElementById('act-det-'+id);
-  if(det) det.style.display = det.style.display==='none' ? 'block' : 'none';
+  if(!det) return;
+  const isOpen = det.style.display !== 'none';
+  det.style.display = isOpen ? 'none' : 'block';
+  // Update button text
+  const btn = document.querySelector('#act-card-'+id+' .act-sup-head .tarea-status');
+  if(btn) btn.textContent = isOpen ? 'Validar ▼' : 'Validar ▲';
 }
 
 function calcHorasHombre(inicio, fin){
@@ -2925,7 +2943,7 @@ function renderHorasHombre(){
       const color = tc.t==='elec' ? {bg:'#fff3df',fg:'#854f0b'} : {bg:'#eef2ff',fg:'#0c447c'};
       const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
       return `<div class="hh-tecnico-card">
-        <div class="hh-tecnico-head" onclick="document.getElementById('hh-det-${tc.u}').style.display=document.getElementById('hh-det-${tc.u}').style.display==='none'?'block':'none'">
+        <div class="hh-tecnico-head" onclick="var d=document.getElementById('hh-det-${escapeAttr(tc.u)}');if(d)d.style.display=d.style.display==='none'?'block':'none'">
           <div class="hh-tecnico-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
           <div class="hh-tecnico-info">
             <div class="hh-tecnico-nombre">${escapeHtml(tc.n)}</div>
