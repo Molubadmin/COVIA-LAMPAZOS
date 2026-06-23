@@ -1726,9 +1726,9 @@ const USUARIOS_TEST = {
   "operador4":  { pw: "Op4-2026",    rol: "OPERADOR" },
   "consulta1":  { pw: "Ver2026!",    rol: "CONSULTA" },
   "consulta2":  { pw: "Ver2026!",    rol: "CONSULTA" },
-  "jlcapetillo":{ pw: "JLC-2026!",   rol: "SUPERVISOR" },
-  "esantiago":  { pw: "EBS-2026!",   rol: "SUPERVISOR" },
-  "ecerda":     { pw: "ELC-2026!",   rol: "SUPERVISOR" },
+  "jlcapetillo":{ pw: "JLC-2026!",   rol: "ADMIN" },
+  "esantiago":  { pw: "EBS-2026!",   rol: "ADMIN" },
+  "ecerda":     { pw: "ELC-2026!",   rol: "ADMIN" },
   "srosas":     { pw: "SRV-2026!",   rol: "CONSULTA" },
   "scorral":    { pw: "SCD-2026!",   rol: "ADMIN" },
   "jbetancourt":{ pw: "JBT-2026!",   rol: "SUPERVISOR" },
@@ -1963,7 +1963,7 @@ function renderDashboard(){
         </div>`}</div>
       </div>
 
-      ${esSupervisorOperativo_?'':`<button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>`}
+      <button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>
     </div>
   `;
 
@@ -2002,7 +2002,7 @@ function renderSidebar(){
   }else{
     // Supervisores operativos (ecerda, jlcapetillo, esantiago) NO ven cartas de lubricación
     // Solo ven cartas realizadas + asignaciones + dashboard
-    const esSupervisorOperativo = ["ecerda","jlcapetillo","esantiago"].includes(USUARIO_SESION.toLowerCase());
+    const esSupervisorOperativo = false; // Eliud, Capetillo y Eber ahora tienen acceso ADMIN completo
     nav.innerHTML = `
       <div class="nav-item" id="nav-dashboard" onclick="navTo('dashboard')">
         <div class="nav-item-icon">&#128200;</div><span>Dashboard</span>
@@ -2831,12 +2831,36 @@ function calcMinutos(inicio, fin){
   }catch(e){ return 0; }
 }
 async function cargarApp(){
-  const equiposResp=await apiGet({action:"getEquipos"});
-  if(!equiposResp.ok)throw new Error(equiposResp.error||"No se pudieron cargar equipos");
-  const estadoResp=await apiGet({action:"getEstado"});
-  if(!estadoResp.ok)throw new Error(estadoResp.error||"No se pudo cargar estado");
-  AREAS=normalizarEquipos(Array.isArray(equiposResp.data)?equiposResp.data:[]);
-  estadoMap=estadoResp.data||{};areaActiva=0;
+  // Cargar equipos, estado, actividades y tareas en paralelo
+  const [equiposResp, estadoResp, actividadesResp, tareasResp] = await Promise.allSettled([
+    apiGet({action:"getEquipos"}),
+    apiGet({action:"getEstado"}),
+    apiGet({action:"getActividadesExtra"}),
+    apiGet({action:"getTareasAsignadas"})
+  ]);
+
+  if(equiposResp.status==="fulfilled"&&equiposResp.value.ok){
+    AREAS = normalizarEquipos(Array.isArray(equiposResp.value.data)?equiposResp.value.data:[]);
+  }
+  if(estadoResp.status==="fulfilled"&&estadoResp.value.ok){
+    estadoMap = estadoResp.value.data||{};
+  }
+  // Cargar actividades extra
+  if(actividadesResp.status==="fulfilled"&&actividadesResp.value.ok){
+    const acts = actividadesResp.value.data||[];
+    if(Array.isArray(acts)&&acts.length>0){
+      ACTIVIDADES_EXTRA = acts;
+    }
+  }
+  // Cargar tareas asignadas
+  if(tareasResp.status==="fulfilled"&&tareasResp.value.ok){
+    const tareas = tareasResp.value.data||[];
+    if(Array.isArray(tareas)&&tareas.length>0){
+      TAREAS_ASIGNADAS = tareas;
+    }
+  }
+
+  areaActiva=0;
   actualizarSplash();renderTabs();renderLista();
 }
 
