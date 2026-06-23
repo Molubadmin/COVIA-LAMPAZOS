@@ -2714,18 +2714,42 @@ function renderHorasHombre(){
   const body = document.getElementById("horas-body");
   if(!body) return;
 
-  // Filtrar actividades por periodo
+  // Si aún no hay datos, mostrar loading y reintentar
+  if(ACTIVIDADES_EXTRA.length === 0){
+    body.innerHTML = '<div style="text-align:center;padding:40px;color:#5f6c8d"><div style="font-size:24px;margin-bottom:10px">⏳</div><div style="font-weight:700">Cargando datos...</div><div style="font-size:12px;margin-top:6px">Si persiste, recarga la página</div></div>';
+    // Intentar cargar desde API
+    apiGet({action:"getActividadesExtra"}).then(function(r){
+      if(r.ok && Array.isArray(r.data) && r.data.length > 0){
+        ACTIVIDADES_EXTRA = r.data;
+        renderHorasHombre();
+      }
+    }).catch(function(){});
+    return;
+  }
+
+  // Filtrar por periodo — soporta formatos dd/MM/yyyy y yyyy-MM-dd
   const ahora = new Date();
+  ahora.setHours(23,59,59,999);
+  function parseFecha(fechaStr){
+    if(!fechaStr) return null;
+    try {
+      // Formato dd/MM/yyyy
+      if(fechaStr.includes('/')){
+        const [d,m,y] = fechaStr.split('/').map(Number);
+        return new Date(y, m-1, d);
+      }
+      // Formato ISO yyyy-MM-dd o Date object string
+      return new Date(fechaStr);
+    }catch(e){ return null; }
+  }
   function dentroDelPeriodo(fechaStr){
     if(_hhPeriodo === 'todo') return true;
-    try {
-      const [d,m,y] = (fechaStr||'').split('/').map(Number);
-      const f = new Date(y, m-1, d);
-      const diff = (ahora - f) / (1000*60*60*24);
-      if(_hhPeriodo === 'hoy')    return diff < 1;
-      if(_hhPeriodo === 'semana') return diff < 7;
-      if(_hhPeriodo === 'mes')    return diff < 30;
-    }catch(e){ return false; }
+    const f = parseFecha(fechaStr);
+    if(!f || isNaN(f.getTime())) return false;
+    const diffDias = (ahora - f) / (1000*60*60*24);
+    if(_hhPeriodo === 'hoy')    return diffDias < 1;
+    if(_hhPeriodo === 'semana') return diffDias < 7;
+    if(_hhPeriodo === 'mes')    return diffDias < 31;
     return false;
   }
 
@@ -2739,7 +2763,13 @@ function renderHorasHombre(){
 
   acts.forEach(a => {
     if(!porTecnico[a.usuario]) return;
-    const mins = a.horaInicio && a.horaFin ? calcMinutos(a.horaInicio, a.horaFin) : 0;
+    // Usar horasHombre del registro si existe, si no calcular de horaInicio/horaFin
+    let mins = 0;
+    if(a.horasHombre && parseFloat(a.horasHombre) > 0){
+      mins = Math.round(parseFloat(a.horasHombre) * 60);
+    } else if(a.horaInicio && a.horaFin){
+      mins = calcMinutos(a.horaInicio, a.horaFin);
+    }
     porTecnico[a.usuario].actos.push({...a, mins});
     porTecnico[a.usuario].totalMins += mins;
   });
@@ -2812,7 +2842,7 @@ function renderHorasHombre(){
                     <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''}</div>
                     ${a.comentario?'<div style="color:#1228ff;margin-top:1px">💬 '+escapeHtml(a.comentario)+'</div>':''}
                   </div>
-                  <div class="hh-act-horas">${a.mins>0?(a.mins/60).toFixed(1)+'h':'—'}</div>
+                  <div class="hh-act-horas">${a.mins>0?(a.mins/60).toFixed(1)+'h':(a.horasHombre?a.horasHombre+'h':'—')}</div>
                 </div>`).join('')
             }
           </div>
