@@ -3258,6 +3258,7 @@ async function guardarCarta(){
   try{
     const r=await apiPost({action:"saveCarta",usuario:getUsuarioActual(),idTag,
       nombreEquipo:equipo.nombre||"",
+      area:equipo.area||"",
       carta:{planta,direccion,recomendaciones:rec,
         firmas:{reviso,fecha:fechaFirma,autorizo},elementos}});
     if(!r.ok)throw new Error(r.error||"No se pudo guardar");
