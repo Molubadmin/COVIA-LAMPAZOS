@@ -289,7 +289,7 @@
     .elem-bar{background:#08112d;color:#fff;padding:6px 12px;font-weight:900;font-size:9pt;letter-spacing:1px}
     .elem-cols{display:grid;grid-template-columns:130px 1fr;background:#0c1eaf;border-left:2px solid #08112d;border-right:2px solid #08112d}
     .elem-cols-foto{padding:5px 4px;text-align:center;font-size:6.5pt;font-weight:800;color:#fff;border-right:1px solid #1228ff}
-    .elem-cols-data{display:grid;grid-template-columns:1.4fr 1.6fr 1.2fr .7fr .7fr 1fr 1fr 1fr 1fr;gap:6px;padding:5px 10px}
+    .elem-cols-data{display:grid;grid-template-columns:1.1fr 1.3fr 1fr .75fr .75fr 1.3fr .85fr .85fr .8fr .9fr;gap:4px;padding:4px 8px}
     .elem-cols-data span{font-size:6.5pt;font-weight:800;color:#fff}
     .elem-list-c{border:2px solid #08112d;border-top:none}
     .elem-row-c{display:grid;grid-template-columns:130px 1fr;border-bottom:1px solid #dde4ff}
@@ -302,13 +302,13 @@
     .ef-img{width:120px;height:120px;object-fit:cover;border-radius:4px;border:1.5px solid #fff;display:block}
     .ef-placeholder{width:120px;height:120px;border:1.5px dashed #c7d0f8;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:6pt;color:#c7d0f8;text-align:center;gap:2px;font-family:Arial}
     .ef-hover{position:absolute;inset:0;background:rgba(18,40,255,.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:7pt;font-weight:700;color:#fff}
-    .ef-datos{padding:8px 10px;display:grid;grid-template-columns:1.4fr 1.6fr 1.2fr .7fr .7fr 1fr 1fr 1fr 1fr;gap:6px;align-items:start}
-    .ed{display:flex;flex-direction:column;gap:2px}
-    .ed-lbl{font-size:6.5pt;font-weight:800;color:#0c1eaf;text-transform:uppercase;letter-spacing:.4px}
-    .ed-inp{font-size:7.5pt;border:none;border-bottom:1px solid #c7d0f8;background:transparent;outline:none;color:#08112d;width:100%;padding:2px 0;font-family:Arial}
+    .ef-datos{padding:6px 8px;display:grid;grid-template-columns:1.1fr 1.3fr 1fr .75fr .75fr 1.3fr .85fr .85fr .8fr .9fr;gap:4px;align-items:start}
+    .ed{display:flex;flex-direction:column;gap:1px}
+    .ed-lbl{font-size:5.5pt;font-weight:800;color:#0c1eaf;text-transform:uppercase;letter-spacing:0px;line-height:1.1}
+    .ed-inp{font-size:6.5pt;border:none;border-bottom:1px solid #c7d0f8;background:transparent;outline:none;color:#08112d;width:100%;padding:1px 0;font-family:Arial}
     .ed-inp:focus{background:#eef2ff;border-bottom:2px solid #1228ff}
     .ed-inp.calc{color:#1228ff;font-weight:700}
-    .ed-sel{font-size:7.5pt;border:none;border-bottom:1px solid #c7d0f8;background:transparent;outline:none;color:#08112d;width:100%;font-family:Arial}
+    .ed-sel{font-size:6.5pt;border:none;border-bottom:1px solid #c7d0f8;background:transparent;outline:none;color:#08112d;width:100%;font-family:Arial}
     .ed-sel:focus{background:#eef2ff}
     .c-rec-wrap{border-top:2px solid #08112d;padding:10px 12px;background:#f8faff}
     .c-rec-title{font-weight:900;font-size:9pt;color:#08112d;margin-bottom:6px;letter-spacing:.5px}
@@ -355,12 +355,11 @@
       background:var(--verde-bg);color:var(--verde);border:1px solid rgba(23,155,82,.2)}
     /* ── TOGGLE GRASA/ACEITE ── */
     .lub-toggle{display:flex;border:1.5px solid #c7d0f8;border-radius:8px;overflow:hidden;margin-bottom:3px}
-    .lub-toggle-btn{flex:1;padding:3px 6px;font-size:6pt;font-weight:800;border:none;cursor:pointer;
-      background:#f8faff;color:#5f6c8d;text-align:center;transition:.15s}
+    .lub-toggle-btn{flex:1;padding:2px 3px;font-size:5pt;font-weight:800;border:none;cursor:pointer;background:#f8faff;color:#5f6c8d;text-align:center;transition:.15s}
     .lub-toggle-btn.active{background:#1228ff;color:#fff}
     .lub-toggle-btn.active.aceite{background:#179b52}
     .lub-fields-grasa,.lub-fields-aceite{display:grid;gap:4px}
-    .lub-fields-grasa{grid-template-columns:1fr 1fr}
+    .lub-fields-grasa{grid-template-columns:1fr 1fr;gap:2px}
     .lub-fields-aceite{grid-template-columns:1fr}
 
     @media(max-width:980px){.hero-shell{grid-template-columns:1fr}.hero-brand{grid-template-columns:1fr}}
@@ -512,7 +511,8 @@
     #actividad-extra-view{display:none;height:100%;flex-direction:column;overflow:hidden}
     #tarea-detalle-view{display:none;height:100%;flex-direction:column;overflow:hidden}
     .tarea-card{background:#fff;border:1px solid #dde1f0;border-radius:20px;padding:0;
-      margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.2s}
+      margin-bottom:12px;overflow:hidden;cursor:pointer;transition:.15s}
+    .tarea-card:active{transform:scale(.98);background:#f8faff;border-color:#c7d0f8}
     .tarea-card:hover{border-color:rgba(18,40,255,.2);box-shadow:0 8px 24px rgba(8,17,45,.1)}
     .tarea-card-head{padding:14px 16px;display:flex;align-items:center;gap:12px}
     .tarea-card-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;
@@ -682,7 +682,7 @@
 
   
     /* ══ MODAL ASIGNAR TAREA ══ */
-    .modal-overlay{position:fixed;inset:0;z-index:9998;background:rgba(8,17,45,.6);
+    .modal-overlay{position:fixed;inset:0;z-index:99999;background:rgba(8,17,45,.6);
       backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:center}
     .modal-overlay.hidden{display:none}
     .modal-sheet{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:600px;
@@ -727,6 +727,53 @@
     .tarea-hist-dot.apr{background:#179b52}
     .tarea-hist-dot.rec{background:#c62828}
 
+  
+    .card-aprobada { border-left: 4px solid #179b52 !important; }
+    .card-rechazada { border-left: 4px solid #c62828 !important; }
+    /* Activity supervisor card */
+    .act-sup-card{background:#fff;border:1.5px solid #eef2ff;border-radius:18px;overflow:hidden;margin-bottom:10px}
+    .act-sup-head{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;cursor:pointer}
+    .act-sup-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .act-sup-avatar.mec{background:#eef2ff}
+    .act-sup-avatar.elec{background:#fff3df}
+    .act-sup-info{flex:1;min-width:0}
+    .act-sup-nombre{font-size:13px;font-weight:800;color:#08112d}
+    .act-sup-puesto{font-weight:400;color:#5f6c8d;font-size:11px}
+    .act-sup-meta{font-size:11px;color:#5f6c8d;margin-top:3px}
+    .act-sup-horas{font-size:11px;color:#1228ff;font-weight:700;margin-top:3px}
+    .act-sup-detalle{padding:0 16px 16px;border-top:1px solid #f1f4fb}
+    .act-sup-desc{font-size:13px;color:#182033;line-height:1.6;padding:12px 0 10px}
+    .act-sup-foto{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px}
+    .act-sup-nofoto{background:#f8faff;border-radius:14px;padding:20px;text-align:center;color:#5f6c8d;font-size:12px}
+    .act-sup-comentario{background:#fffbea;border:1px solid #ffe082;border-radius:12px;padding:10px 14px;font-size:12px;color:#633806;margin-top:8px}
+    .act-sup-actions{display:flex;gap:10px;margin-top:14px}
+    .act-sup-actions .btn-aprobar,.act-sup-actions .btn-rechazar{flex:1;padding:12px;border-radius:14px;font-size:13px;font-weight:800;border:none;cursor:pointer}
+    .btn-aprobar{background:linear-gradient(135deg,#179b52,#0d7a3e);color:#fff}
+    .btn-rechazar{background:#fff;border:2px solid #c62828 !important;color:#c62828}
+
+  
+    /* ══ HORAS HOMBRE ══ */
+    .hh-resumen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+    .hh-total-card{background:linear-gradient(135deg,#08112d,#0b2590);border-radius:18px;padding:16px 18px;color:#fff;text-align:center}
+    .hh-total-num{font-size:28px;font-weight:900;line-height:1}
+    .hh-total-lbl{font-size:10px;opacity:.75;margin-top:4px;text-transform:uppercase;letter-spacing:.8px}
+    .hh-tecnico-card{background:#fff;border:1.5px solid #eef2ff;border-radius:16px;overflow:hidden;margin-bottom:10px}
+    .hh-tecnico-head{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer}
+    .hh-tecnico-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0}
+    .hh-tecnico-info{flex:1}
+    .hh-tecnico-nombre{font-size:13px;font-weight:800;color:#08112d}
+    .hh-tecnico-meta{font-size:11px;color:#5f6c8d;margin-top:2px}
+    .hh-bar-wrap{background:#f1f4fb;border-radius:999px;height:8px;margin-top:6px;overflow:hidden}
+    .hh-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#1228ff,#4f7cff);transition:width .6s ease}
+    .hh-actividades{padding:0 16px 14px}
+    .hh-act-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f4fb}
+    .hh-act-item:last-child{border-bottom:none}
+    .hh-act-dot{width:8px;height:8px;border-radius:50%;background:#1228ff;flex-shrink:0;margin-top:5px}
+    .hh-act-info{flex:1;font-size:11px;color:#5f6c8d}
+    .hh-act-horas{font-size:12px;font-weight:800;color:#1228ff;flex-shrink:0}
+    .hh-period-btn{padding:6px 14px;border-radius:10px;border:1.5px solid #dde1f0;background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#5f6c8d}
+    .hh-period-btn.active{background:#1228ff;color:#fff;border-color:#1228ff}
+
   </style>
 </head>
 <body>
@@ -749,6 +796,28 @@
     </div>
     <button class="login-btn" id="login-btn" onclick="iniciarSesion()">Ingresar</button>
     <div class="login-error" id="login-error">Usuario o contraseña incorrectos</div>
+    <div style="margin-top:12px;text-align:center">
+      <button onclick="toggleUserList()" style="background:none;border:none;color:rgba(255,255,255,.55);font-size:11px;cursor:pointer;text-decoration:underline;padding:4px">Ver lista de accesos</button>
+    </div>
+    <div id="login-user-list" style="display:none;margin-top:10px;background:rgba(255,255,255,.07);border-radius:14px;padding:12px;max-height:240px;overflow-y:auto">
+      <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Toca un usuario para autocompletar</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:4px">ADMINS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+        <span onclick="autofillLogin('admin')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">admin</span><span onclick="autofillLogin('scorral')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">scorral</span><span onclick="autofillLogin('yorozco')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">yorozco</span>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:4px">SUPERVISORES</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+        <span onclick="autofillLogin('ecerda')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">ecerda</span><span onclick="autofillLogin('jlcapetillo')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jlcapetillo</span><span onclick="autofillLogin('esantiago')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">esantiago</span><span onclick="autofillLogin('jbetancourt')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jbetancourt</span>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:4px">MECÁNICOS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">
+        <span onclick="autofillLogin('abuenrostro')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">abuenrostro</span><span onclick="autofillLogin('prodriguez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">prodriguez</span><span onclick="autofillLogin('jcruz')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jcruz</span><span onclick="autofillLogin('glopez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">glopez</span><span onclick="autofillLogin('pnavarro')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">pnavarro</span><span onclick="autofillLogin('dmata')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">dmata</span><span onclick="autofillLogin('jhernandez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jhernandez</span><span onclick="autofillLogin('azamora')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">azamora</span><span onclick="autofillLogin('psantos')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">psantos</span>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:4px">ELÉCTRICOS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">
+        <span onclick="autofillLogin('hrivera')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">hrivera</span><span onclick="autofillLogin('jgrodriguez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jgrodriguez</span><span onclick="autofillLogin('agonzalez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">agonzalez</span>
+      </div>
+    </div>
     <div class="login-footer">Proyecto impulsado por MOLUB &nbsp;·&nbsp; v4.2</div>
   </div>
 </div>
@@ -950,12 +1019,42 @@
       </div>
       <input type="file" id="ae-foto-input" accept="image/*" capture="environment" style="display:none" onchange="seleccionarFotoAE(event)">
     </div>
+    <div class="ae-field">
+      <label>&#9201; Horas hombre</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Hora inicio actividad</div>
+          <input type="time" id="ae-hora-inicio" oninput="calcResumenHoras()" style="width:100%;padding:12px;border:1.5px solid #dbe1f0;border-radius:14px;font-size:16px;font-family:inherit;background:#fbfcff">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Hora fin / subida</div>
+          <input type="time" id="ae-hora-fin" oninput="calcResumenHoras()" style="width:100%;padding:12px;border:1.5px solid #dbe1f0;border-radius:14px;font-size:16px;font-family:inherit;background:#fbfcff">
+        </div>
+      </div>
+      <div id="ae-horas-resumen" style="margin-top:8px;font-size:12px;color:#1228ff;font-weight:700;min-height:18px;padding:0 2px"></div>
+    </div>
+    <div class="ae-field">
+      <label>&#128172; Comentario adicional (opcional)</label>
+      <textarea id="ae-comentario" placeholder="Notas, observaciones, qu&#233; encontraste, recomendaciones..." rows="2" style="width:100%;padding:13px 14px;border:1.5px solid #dbe1f0;border-radius:14px;font-size:15px;font-family:inherit;background:#fbfcff;resize:vertical"></textarea>
+    </div>
     <button class="btn-enviar-ae" onclick="enviarActividadExtra()">Enviar actividad &#8594;</button>
     <div class="ae-nota">El supervisor recibirá notificación por email al enviar</div>
   </div>
 </div>
 
 <!-- ══ DETALLE DE TAREA ══ -->
+<div id="horas-view" style="display:none;flex-direction:column;height:100%">
+  <div class="det-topbar" style="flex-shrink:0">
+    <div>
+      <div style="font-size:18px;font-weight:900">HORAS HOMBRE</div>
+      <div style="font-size:11px;opacity:.85;margin-top:2px">Registro de actividad del equipo de trabajo</div>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:16px" id="horas-body">
+    <div style="text-align:center;padding:40px;color:#5f6c8d">Cargando...</div>
+  </div>
+</div>
+
 <div id="tarea-detalle-view">
   <div class="det-topbar">
     <button class="btn-back" id="btn-back-tarea" onclick="cerrarDetalleTarea()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:9px 12px;border-radius:13px;font-size:20px;cursor:pointer">&#8592;</button>
@@ -1650,6 +1749,18 @@ const USUARIOS_TEST = {
   "agonzalez":   { pw: "AG-2026",  rol: "TECNICO_ELC", nombre: "Alan Gonzalez",        puesto: "Eléctrico" },
 };
 
+async function toggleUserList(){
+  const ul = document.getElementById("login-user-list");
+  if(ul) ul.style.display = ul.style.display==="none" ? "block" : "none";
+}
+
+function autofillLogin(usuario){
+  const pw = (USUARIOS_TEST[usuario]||{}).pw || "";
+  document.getElementById("login-usuario").value = usuario;
+  document.getElementById("login-pw").value = pw;
+  document.getElementById("login-user-list").style.display = "none";
+}
+
 async function iniciarSesion(){
   const usuario = document.getElementById("login-usuario").value.trim();
   const pw      = document.getElementById("login-pw").value.trim();
@@ -1746,42 +1857,6 @@ function cerrarSesion(){
 /* ══ NAVEGACIÓN CON SIDEBAR ══ */
 let navActual = "";
 
-async function navTo(seccion){
-  navActual = seccion;
-  // Update active state in sidebar
-  ["dashboard","planta","cartas","realizadas"].forEach(s=>{
-    const el=document.getElementById("nav-"+s);
-    if(el) el.classList.toggle("active", s===seccion);
-  });
-  // Move all views into content area and hide
-  const ca = document.getElementById("content-area");
-  const viewIds = ["dashboard-view","main","detail-view","cartas-view","carta-editor-view","realizadas-view","splash"];
-  viewIds.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){
-      el.style.display="none";
-      if(el.parentElement !== ca) ca.appendChild(el);
-    }
-  });
-  if(seccion==="dashboard"){
-    const dv=document.getElementById("dashboard-view");
-    dv.style.display="flex";
-    renderDashboard();
-  }else if(seccion==="planta"){
-    document.getElementById("main").style.display="flex";
-    renderLista();
-  }else if(seccion==="cartas"){
-    document.getElementById("cartas-view").style.display="flex";
-    renderCartasList();
-  }else if(seccion==="realizadas"){
-    document.getElementById("realizadas-view").style.display="flex";
-    renderRealizadasList();
-  }
-}
-
-/* Override cerrarDetalle para quedarse en el contenedor */
-const _origCerrarDetalle = typeof cerrarDetalle === "function" ? cerrarDetalle : null;
-
 
 /* ══════════════════════════════════════════════════
    DASHBOARD
@@ -1789,6 +1864,9 @@ const _origCerrarDetalle = typeof cerrarDetalle === "function" ? cerrarDetalle :
 function renderDashboard(){
   const dv = document.getElementById("dashboard-view");
   if(!dv) return;
+  try {
+  // Supervisores operativos no ven "Ingresar a planta"
+  const esSupervisorOperativo_ = ["ecerda","jlcapetillo","esantiago"].includes((USUARIO_SESION||"").toLowerCase());
 
   // If no data yet, show loading skeleton but still render
   const cargando = AREAS.length === 0;
@@ -1885,7 +1963,7 @@ function renderDashboard(){
         </div>`}</div>
       </div>
 
-      <button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>
+      ${esSupervisorOperativo_?'':`<button class="dash-btn-entrar" onclick="navTo('planta')">&#127981; Ingresar a planta</button>`}
     </div>
   `;
 
@@ -1896,6 +1974,10 @@ function renderDashboard(){
       if(fill) fill.style.width=pct+"%";
     },100);
   });
+  } catch(e) {
+    console.error("Error en renderDashboard:", e);
+    if(dv) dv.innerHTML = '<div style="padding:30px;text-align:center;color:#5f6c8d"><div style="font-size:32px;margin-bottom:12px">📊</div><div style="font-weight:700;margin-bottom:6px">COVIA LAMPAZOS</div><div style="font-size:12px">Cargando datos...</div></div>';
+  }
 }
 
 
@@ -1936,6 +2018,9 @@ function renderSidebar(){
       <div class="nav-item" id="nav-asignaciones" onclick="navTo('asignaciones')">
         <div class="nav-item-icon">&#128203;</div><span>Asignaciones</span>
         <span id="badge-asignaciones" style="display:none;background:#c62828;color:#fff;border-radius:999px;font-size:9px;font-weight:800;padding:2px 6px;margin-left:auto"></span>
+      </div>
+      <div class="nav-item" id="nav-horas" onclick="navTo('horas')">
+        <div class="nav-item-icon">&#9201;</div><span>Horas hombre</span>
       </div>`:""}
       <div class="nav-divider"></div>
       <div class="nav-item" id="nav-realizadas" onclick="navTo('realizadas')">
@@ -1958,7 +2043,7 @@ let _volverDeDetalle = "tecnico-tareas";
 const _origNavTo = navTo;
 // Override navTo to add new sections
 const _allViewIds = ["dashboard-view","main","detail-view","cartas-view","carta-editor-view",
-  "realizadas-view","tecnico-view","actividad-extra-view","tarea-detalle-view","asignaciones-view","splash"];
+  "realizadas-view","tecnico-view","actividad-extra-view","tarea-detalle-view","asignaciones-view","horas-view","splash"];
 
 async function navTo(seccion){
   navActual = seccion;
@@ -1991,6 +2076,8 @@ async function navTo(seccion){
     document.getElementById("actividad-extra-view").style.display="flex";
   }else if(seccion==="tarea-detalle"){
     document.getElementById("tarea-detalle-view").style.display="flex";
+  }else if(seccion==="horas"){
+    document.getElementById("horas-view").style.display="flex"; renderHorasHombre();
   }else if(seccion==="asignaciones"){
     document.getElementById("asignaciones-view").style.display="flex"; renderAsignaciones();
   }
@@ -2036,8 +2123,11 @@ function renderTecnicoView(){
         </div>`:""}
         ${misExtras.length>0?`
         <div>
-          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Actividades extra registradas</div>
-          ${misExtras.map(a=>renderActividadCard(a)).join("")}
+          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">&#128295; Actividades extra registradas</div>
+          ${misExtras.filter(a=>a.status!=="aprobada").map(a=>renderActividadCard(a)).join("")}
+          ${misExtras.filter(a=>a.status==="aprobada").length>0?`
+          <div style="font-size:11px;font-weight:800;color:#179b52;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px">&#9989; Aprobadas por supervisor</div>
+          ${misExtras.filter(a=>a.status==="aprobada").map(a=>renderActividadCard(a)).join("")}`:""}
         </div>`:""}
       `}
       <button onclick="navTo('actividad-extra')" style="width:100%;padding:14px;border:2px dashed #c7d0f8;border-radius:18px;background:#f8faff;color:#0c1eaf;font-size:14px;font-weight:800;cursor:pointer">&#10133; Registrar actividad extra</button>
@@ -2072,17 +2162,19 @@ function renderTareaCard(t){
 function renderActividadCard(a){
   const statusMap = {
     pendiente:  {cls:"ts-pend", label:"En revisión"},
-    aprobada:   {cls:"ts-done", label:"Aprobada ✓"},
-    rechazada:  {cls:"ts-rec",  label:"Rechazada"},
+    aprobada:   {cls:"ts-done", label:"✓ Aprobada"},
+    rechazada:  {cls:"ts-rec",  label:"✗ Rechazada"},
   };
   const s = statusMap[a.status]||statusMap.pendiente;
-  return `<div class="tarea-card" onclick="abrirDetalleActividad('${a.id}','tecnico-tareas')">
+  const hh = a.horasHombre ? ' · ⏱ '+a.horasHombre+'h' : '';
+  return `<div class="tarea-card ${a.status==='aprobada'?'card-aprobada':a.status==='rechazada'?'card-rechazada':''}" onclick="abrirDetalleActividad('${escapeAttr(a.id)}','tecnico-tareas')">
     <div class="tarea-card-head">
       <div class="tarea-card-icon ext">&#128295;</div>
       <div class="tarea-card-info">
-        <div class="tarea-card-tag">${escapeHtml(a.equipo||"Sin equipo")}</div>
-        <div class="tarea-card-desc">${escapeHtml(a.tipo||"")} · ${escapeHtml(a.desc||"").slice(0,60)}...</div>
-        <div class="tarea-card-meta">${escapeHtml(a.fecha||"")}</div>
+        <div class="tarea-card-tag">${escapeHtml(a.equipo||"Sin equipo")}${hh}</div>
+        <div class="tarea-card-desc">${escapeHtml(a.tipo||"")} · ${escapeHtml(a.desc||"").slice(0,55)}${(a.desc||"").length>55?"...":""}</div>
+        <div class="tarea-card-meta">${escapeHtml(a.fecha||"")} ${escapeHtml(a.hora||"")}</div>
+        ${a.comentario?'<div style="font-size:10px;color:#1228ff;margin-top:3px;font-style:italic">💬 '+escapeHtml(a.comentario.slice(0,60))+'</div>':""}
       </div>
       <span class="tarea-status ${s.cls}">${s.label}</span>
     </div>
@@ -2093,6 +2185,17 @@ function renderActividadCard(a){
    ACTIVIDAD EXTRA — ENVIAR
    ══════════════════════════════════════════════════ */
 let _aeBase64 = ""; let _aeMime = "";
+function calcResumenHoras(){
+  const inicio = document.getElementById("ae-hora-inicio")?.value||"";
+  const fin    = document.getElementById("ae-hora-fin")?.value||"";
+  const resumen= document.getElementById("ae-horas-resumen");
+  if(!resumen) return;
+  if(!inicio||!fin){ resumen.textContent=""; return; }
+  const hh = calcHorasHombre(inicio, fin);
+  resumen.textContent = hh!=="—" ? "⏱ Total: "+hh+" horas hombre" : "⚠ Hora fin debe ser mayor a hora inicio";
+  resumen.style.color = hh!=="—"?"#1228ff":"#c62828";
+}
+
 async function seleccionarFotoAE(evt){
   const file = evt.target.files[0]; if(!file) return;
   const {base64, mimeType, dataUrl} = await comprimirImagen(file);
@@ -2107,12 +2210,19 @@ async function enviarActividadExtra(){
   if(!equipo||!tipo||!desc){ alert("Completa equipo, tipo y descripción"); return; }
   const btn = document.querySelector(".btn-enviar-ae");
   btn.disabled=true; btn.textContent="Enviando...";
+  const horaInicio = document.getElementById("ae-hora-inicio")?.value || "";
+  const horaFin    = document.getElementById("ae-hora-fin")?.value    || "";
+  const comentario = document.getElementById("ae-comentario")?.value.trim() || "";
+  const hh = calcHorasHombre(horaInicio, horaFin);
   const actividad = {
     id: "AE-"+Date.now(),
     usuario: USUARIO_SESION,
     nombre: getNombreUsuario(),
     puesto: getPuestoUsuario(),
     equipo, tipo, desc,
+    horaInicio, horaFin,
+    horasHombre: hh !== '—' ? hh : '',
+    comentario,
     base64: _aeBase64, mimeType: _aeMime,
     fecha: new Date().toLocaleDateString("es-MX"),
     hora: new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
@@ -2129,6 +2239,10 @@ async function enviarActividadExtra(){
   document.getElementById("ae-tipo").value="";
   document.getElementById("ae-desc").value="";
   document.getElementById("ae-foto-label").textContent="Tomar foto o subir imagen";
+  if(document.getElementById("ae-hora-inicio")) document.getElementById("ae-hora-inicio").value="";
+  if(document.getElementById("ae-hora-fin"))    document.getElementById("ae-hora-fin").value="";
+  if(document.getElementById("ae-comentario"))  document.getElementById("ae-comentario").value="";
+  if(document.getElementById("ae-horas-resumen")) document.getElementById("ae-horas-resumen").textContent="";
   _aeBase64=""; _aeMime="";
   btn.disabled=false; btn.textContent="Enviar actividad →";
   alert("✓ Actividad enviada. El supervisor será notificado.");
@@ -2236,15 +2350,29 @@ function validarTarea(status){
   cerrarDetalleTarea();
 }
 
-function validarActividad(id, status){
+function validarActividad(id, status, motivo){
   const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
-  if(a){ a.status=status; a.validadoPor=USUARIO_SESION; 
-    // Save to AppScript
-    apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION})
+  if(a){
+    a.status = status;
+    a.validadoPor = USUARIO_SESION;
+    if(motivo) a.motivoRechazo = motivo;
+    apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION, motivo:motivo||""})
       .catch(e=>console.warn("API no disponible"));
   }
-  alert(status==="aprobada"?"✓ Actividad aprobada":"Actividad rechazada.");
-  cerrarDetalleTarea();
+  // Show toast instead of alert
+  const msg = status==="aprobada" ? "✓ Actividad aprobada" : "✗ Rechazada"+(motivo?": "+motivo.slice(0,30):"");
+  mostrarToast(msg, status==="aprobada"?"#179b52":"#c62828");
+  // Refresh asignaciones view if we're there
+  if(navActual==="asignaciones") renderAsignaciones();
+  else cerrarDetalleTarea();
+}
+
+function mostrarToast(msg, color){
+  const t = document.createElement("div");
+  t.style.cssText = "position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:"+(color||"#08112d")+";color:#fff;padding:12px 22px;border-radius:16px;font-size:13px;font-weight:800;z-index:99999;box-shadow:0 8px 30px rgba(0,0,0,.3);white-space:nowrap;max-width:90vw;text-align:center;pointer-events:none";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2800);
 }
 
 /* ══════════════════════════════════════════════════
@@ -2302,11 +2430,11 @@ function renderAsignaciones(){
       <div style="font-size:11px;font-weight:700;color:#08112d;background:#eef2ff;border-radius:10px;padding:8px 14px;border:1px solid #c7d0f8">
         &#128274; Mecánicos
       </div>
-      ${TECNICOS_LIST.filter(tc=>tc.t==="mec").map(tc=>renderTecnicoAsigCard(tc)).join("")}
+      ${TECNICOS_LIST.filter(tc=>tc.t==="mec").map((tc,i)=>renderTecnicoAsigCard(tc,i)).join("")}
       <div style="font-size:11px;font-weight:700;color:#854f0b;background:#fff3df;border-radius:10px;padding:8px 14px;border:1px solid rgba(133,79,11,.2);margin-top:4px">
         &#9889; Eléctricos
       </div>
-      ${TECNICOS_LIST.filter(tc=>tc.t==="elec").map(tc=>renderTecnicoAsigCard(tc)).join("")}
+      ${TECNICOS_LIST.filter(tc=>tc.t==="elec").map((tc,i)=>renderTecnicoAsigCard(tc,100+i)).join("")}
     </div>
   `;
 
@@ -2317,16 +2445,24 @@ function renderAsignaciones(){
     badge.style.display = total>0?"inline":"none";
     badge.textContent = total;
   }
+
+  // onclick directo en cada card (via abrirModalPorIdx)
 }
 
-function renderTecnicoAsigCard(tc){
+// Mapa global para lookup por índice (evita problemas de comillas en onclick)
+const _tcMap = {};
+function abrirModalPorIdx(idx){ abrirModalAsignar(_tcMap[idx]); }
+window.abrirModalPorIdx = abrirModalPorIdx;
+
+function renderTecnicoAsigCard(tc, globalIdx){
+  _tcMap[globalIdx] = tc.u;
   const activas   = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="pendiente").length;
   const completadas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="completada").length;
   const initials  = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
   const colorMec  = {bg:"#eef2ff",fg:"#0c447c"};
   const colorElec = {bg:"#fff3df",fg:"#854f0b"};
   const color     = tc.t==="elec"?colorElec:colorMec;
-  return `<div class="tarea-card" onclick="abrirModalAsignar('${safeJs(tc.u)}')" style="margin-bottom:0">
+  return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="window.abrirModalPorIdx(${globalIdx})">
     <div class="tarea-card-head" style="padding:14px 16px">
       <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
       <div class="tarea-card-info">
@@ -2343,17 +2479,52 @@ function renderTecnicoAsigCard(tc){
   </div>`;
 }
 function renderActividadCardSupervisor(a){
-  return `<div class="tarea-card" onclick="abrirDetalleActividad('${escapeAttr(a.id)}','asignaciones')">
-    <div class="tarea-card-head">
-      <div class="tarea-card-icon ext">&#128295;</div>
-      <div class="tarea-card-info">
-        <div class="tarea-card-tag">${escapeHtml(a.nombre||"")} · ${escapeHtml(a.puesto||"")}</div>
-        <div class="tarea-card-desc">${escapeHtml(a.equipo||"")} · ${escapeHtml(a.tipo||"")}</div>
-        <div class="tarea-card-meta">${escapeHtml(a.desc||"").slice(0,80)}...</div>
+  const tieneHoras = a.horaInicio && a.horaFin;
+  const horas = tieneHoras ? calcHorasHombre(a.horaInicio, a.horaFin) : null;
+  const iconTipo = a.puesto==='Eléctrico' ? '⚡' : '🔧';
+  return `<div class="act-sup-card" id="act-card-${escapeAttr(a.id)}">
+    <div class="act-sup-head" onclick="toggleActividadDetalle('${escapeAttr(a.id)}')">
+      <div class="act-sup-avatar ${a.puesto==='Eléctrico'?'elec':'mec'}">${iconTipo}</div>
+      <div class="act-sup-info">
+        <div class="act-sup-nombre">${escapeHtml(a.nombre||"")} <span class="act-sup-puesto">${escapeHtml(a.puesto||"")}</span></div>
+        <div class="act-sup-meta">📍 ${escapeHtml(a.equipo||"")} · ${escapeHtml(a.tipo||"")} · ${escapeHtml(a.fecha||"")}</div>
+        ${tieneHoras?'<div class="act-sup-horas">⏱ '+horas+' hrs hombre</div>':""}
       </div>
-      <span class="tarea-status ts-pend">Validar</span>
+      <span class="tarea-status ts-pend">Validar ▼</span>
+    </div>
+    <div class="act-sup-detalle" id="act-det-${escapeAttr(a.id)}" style="display:none">
+      <div class="act-sup-desc">${escapeHtml(a.desc||"Sin descripción")}</div>
+      ${a.fotoUrl?'<img class="act-sup-foto" src="'+escapeHtml(a.fotoUrl)+'" alt="Evidencia">'
+        :a.base64?'<img class="act-sup-foto" src="data:'+a.mimeType+';base64,'+a.base64+'" alt="Evidencia">'
+        :'<div class="act-sup-nofoto">📷 Sin foto adjunta</div>'}
+      ${tieneHoras?'<div style="font-size:11px;color:#5f6c8d;margin-top:8px">⏰ Inicio: '+escapeHtml(a.horaInicio)+' → Fin: '+escapeHtml(a.horaFin)+' = <strong>'+horas+' h</strong></div>':""}
+      ${a.comentario?'<div class="act-sup-comentario">💬 '+escapeHtml(a.comentario)+'</div>':""}
+      <div class="act-sup-actions">
+        <button class="btn-aprobar" onclick="validarActividad('${escapeAttr(a.id)}','aprobada')">✓ Aprobar</button>
+        <button class="btn-rechazar" onclick="solicitarComentarioRechazo('${escapeAttr(a.id)}')">✗ Rechazar</button>
+      </div>
     </div>
   </div>`;
+}
+
+function toggleActividadDetalle(id){
+  const det = document.getElementById('act-det-'+id);
+  if(det) det.style.display = det.style.display==='none' ? 'block' : 'none';
+}
+
+function calcHorasHombre(inicio, fin){
+  try {
+    const [h1,m1] = inicio.split(':').map(Number);
+    const [h2,m2] = fin.split(':').map(Number);
+    const mins = (h2*60+m2) - (h1*60+m1);
+    if(mins <= 0) return '—';
+    return (mins/60).toFixed(1);
+  } catch(e){ return '—'; }
+}
+
+function solicitarComentarioRechazo(id){
+  const motivo = prompt('¿Motivo del rechazo? (opcional)');
+  validarActividad(id, 'rechazada', motivo||'');
 }
 
 function renderTareaCardSupervisor(t){
@@ -2377,8 +2548,13 @@ let _tecnicoActivoModal = null;
 
 function abrirModalAsignar(usuarioTecnico){
   const tc = TECNICOS_LIST.find(t=>t.u===usuarioTecnico);
-  if(!tc) return;
+  if(!tc){ console.warn("Técnico no encontrado:", usuarioTecnico); return; }
   _tecnicoActivoModal = tc;
+  // Ensure modal is in body (not inside content-area)
+  const modalEl = document.getElementById("modal-asignar-overlay");
+  if(modalEl && modalEl.parentElement !== document.body){
+    document.body.appendChild(modalEl);
+  }
 
   // Limpiar form
   document.getElementById("modal-tarea-desc").value   = "";
@@ -2426,6 +2602,22 @@ function abrirModalAsignar(usuarioTecnico){
     </div>
   ` : "";
 
+  // Populate carta select with equipos from AREAS
+  const cartaSel = document.getElementById("modal-tarea-carta");
+  if(cartaSel){
+    const equipos = todosLosEquipos();
+    cartaSel.innerHTML = '<option value="">Sin carta específica</option>'
+      + equipos.map(e=>{
+          const area = escapeHtml(e.area||'');
+          const tag  = escapeHtml(e.id||'');
+          const nom  = escapeHtml(e.nombre||'');
+          return '<option value="'+tag+'">'+tag+' — '+nom+(area?' ('+area+')':'')+'</option>';
+        }).join('');
+  }
+  // Clear comentario
+  const comentEl = document.getElementById("modal-tarea-comentario");
+  if(comentEl) comentEl.value = "";
+
   document.getElementById("modal-asignar-overlay").classList.remove("hidden");
   // Focus on textarea
   setTimeout(()=>document.getElementById("modal-tarea-desc").focus(), 150);
@@ -2439,10 +2631,12 @@ function cerrarModalAsignar(evt){
 
 function enviarTareaAsignada(){
   if(!_tecnicoActivoModal) return;
-  const desc  = document.getElementById("modal-tarea-desc").value.trim();
-  const equipo= document.getElementById("modal-tarea-equipo").value.trim();
-  const prio  = document.getElementById("modal-tarea-prioridad").value;
-  const fecha = document.getElementById("modal-tarea-fecha").value;
+  const desc      = document.getElementById("modal-tarea-desc").value.trim();
+  const equipo    = document.getElementById("modal-tarea-equipo").value.trim();
+  const prio      = document.getElementById("modal-tarea-prioridad").value;
+  const fecha     = document.getElementById("modal-tarea-fecha").value;
+  const cartaTag  = document.getElementById("modal-tarea-carta")?.value || "";
+  const comentario= document.getElementById("modal-tarea-comentario")?.value.trim() || "";
 
   if(!desc){ 
     document.getElementById("modal-tarea-desc").focus();
@@ -2467,8 +2661,8 @@ function enviarTareaAsignada(){
     equipo,
     prioridad: prio,
     fechaLimite: fecha,
-    carta:     "",
-    notas:     "",
+    carta:     cartaTag,
+    notas:     comentario,
     fecha:     new Date().toLocaleDateString("es-MX"),
     hora:      new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
     status:    "pendiente"
@@ -2486,6 +2680,8 @@ function enviarTareaAsignada(){
     equipo:       tarea.equipo,
     prioridad:    tarea.prioridad,
     fechaLimite:  tarea.fechaLimite,
+    carta:        tarea.carta,
+    comentario:   tarea.notas,
     fecha:        tarea.fecha,
     hora:         tarea.hora
   }).catch(e=>console.warn("API no disponible:", e.message));
@@ -2507,6 +2703,132 @@ function enviarTareaAsignada(){
 
   // Actualizar vista
   renderAsignaciones();
+}
+
+/* ══════════════════════════════════════════════════
+   HORAS HOMBRE — PANEL SUPERVISORES / ADMIN
+   ══════════════════════════════════════════════════ */
+let _hhPeriodo = 'mes'; // 'hoy' | 'semana' | 'mes' | 'todo'
+
+function renderHorasHombre(){
+  const body = document.getElementById("horas-body");
+  if(!body) return;
+
+  // Filtrar actividades por periodo
+  const ahora = new Date();
+  function dentroDelPeriodo(fechaStr){
+    if(_hhPeriodo === 'todo') return true;
+    try {
+      const [d,m,y] = (fechaStr||'').split('/').map(Number);
+      const f = new Date(y, m-1, d);
+      const diff = (ahora - f) / (1000*60*60*24);
+      if(_hhPeriodo === 'hoy')    return diff < 1;
+      if(_hhPeriodo === 'semana') return diff < 7;
+      if(_hhPeriodo === 'mes')    return diff < 30;
+    }catch(e){ return false; }
+    return false;
+  }
+
+  const acts = ACTIVIDADES_EXTRA.filter(a =>
+    a.status !== 'rechazada' && dentroDelPeriodo(a.fecha)
+  );
+
+  // Agrupar por técnico
+  const porTecnico = {};
+  TECNICOS_LIST.forEach(tc => { porTecnico[tc.u] = { tc, actos:[], totalMins:0 }; });
+
+  acts.forEach(a => {
+    if(!porTecnico[a.usuario]) return;
+    const mins = a.horaInicio && a.horaFin ? calcMinutos(a.horaInicio, a.horaFin) : 0;
+    porTecnico[a.usuario].actos.push({...a, mins});
+    porTecnico[a.usuario].totalMins += mins;
+  });
+
+  const lista = Object.values(porTecnico).sort((a,b) => b.totalMins - a.totalMins);
+  const maxMins = lista.length > 0 ? (lista[0].totalMins || 1) : 1;
+  const totalHorasGlobal = lista.reduce((s,t) => s + t.totalMins, 0) / 60;
+  const totalActsGlobal  = acts.length;
+
+  // Labels de periodo
+  const periodoLabel = {hoy:'Hoy',semana:'Esta semana',mes:'Este mes',todo:'Todo el tiempo'};
+
+  body.innerHTML = `
+    <!-- Filtros de periodo -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      ${['hoy','semana','mes','todo'].map(p=>`
+        <button class="hh-period-btn ${_hhPeriodo===p?'active':''}" onclick="_hhPeriodo='${p}';renderHorasHombre()">${periodoLabel[p]}</button>
+      `).join('')}
+    </div>
+
+    <!-- Tarjetas de resumen -->
+    <div class="hh-resumen-grid">
+      <div class="hh-total-card">
+        <div class="hh-total-num">${totalHorasGlobal.toFixed(1)}</div>
+        <div class="hh-total-lbl">Horas hombre totales</div>
+      </div>
+      <div class="hh-total-card" style="background:linear-gradient(135deg,#0d7a3e,#179b52)">
+        <div class="hh-total-num">${totalActsGlobal}</div>
+        <div class="hh-total-lbl">Actividades registradas</div>
+      </div>
+      <div class="hh-total-card" style="background:linear-gradient(135deg,#854f0b,#c87a14)">
+        <div class="hh-total-num">${lista.filter(t=>t.totalMins>0).length}</div>
+        <div class="hh-total-lbl">Técnicos activos</div>
+      </div>
+    </div>
+
+    <!-- Lista por técnico -->
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">
+      Detalle por técnico — ${periodoLabel[_hhPeriodo]}
+    </div>
+    ${lista.map((item, idx) => {
+      const {tc, actos, totalMins} = item;
+      const horas = (totalMins/60).toFixed(1);
+      const pct   = totalMins > 0 ? Math.round((totalMins/maxMins)*100) : 0;
+      const color = tc.t==='elec' ? {bg:'#fff3df',fg:'#854f0b'} : {bg:'#eef2ff',fg:'#0c447c'};
+      const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
+      return `<div class="hh-tecnico-card">
+        <div class="hh-tecnico-head" onclick="document.getElementById('hh-det-${tc.u}').style.display=document.getElementById('hh-det-${tc.u}').style.display==='none'?'block':'none'">
+          <div class="hh-tecnico-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
+          <div class="hh-tecnico-info">
+            <div class="hh-tecnico-nombre">${escapeHtml(tc.n)}</div>
+            <div class="hh-tecnico-meta">${tc.p} · ${actos.length} actividad${actos.length!==1?'es':''} · ${horas} horas</div>
+            <div class="hh-bar-wrap"><div class="hh-bar-fill" style="width:${pct}%"></div></div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:18px;font-weight:900;color:#1228ff">${horas}</div>
+            <div style="font-size:9px;color:#5f6c8d">hrs</div>
+            <div style="font-size:9px;color:#5f6c8d;margin-top:2px">${pct}%</div>
+          </div>
+        </div>
+        <div id="hh-det-${tc.u}" style="display:none">
+          <div class="hh-actividades">
+            ${actos.length===0
+              ? '<div style="font-size:11px;color:#5f6c8d;padding:4px 0">Sin actividades en este periodo</div>'
+              : actos.map(a => `<div class="hh-act-item">
+                  <div class="hh-act-dot" style="background:${a.status==='aprobada'?'#179b52':'#d97706'}"></div>
+                  <div class="hh-act-info">
+                    <div style="font-weight:700;color:#08112d;font-size:12px">${escapeHtml(a.equipo||'')} · ${escapeHtml(a.tipo||'')}</div>
+                    <div>${escapeHtml((a.desc||'').slice(0,60))}${(a.desc||'').length>60?'...':''}</div>
+                    <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''}</div>
+                    ${a.comentario?'<div style="color:#1228ff;margin-top:1px">💬 '+escapeHtml(a.comentario)+'</div>':''}
+                  </div>
+                  <div class="hh-act-horas">${a.mins>0?(a.mins/60).toFixed(1)+'h':'—'}</div>
+                </div>`).join('')
+            }
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function calcMinutos(inicio, fin){
+  try {
+    const [h1,m1] = inicio.split(':').map(Number);
+    const [h2,m2] = fin.split(':').map(Number);
+    const m = (h2*60+m2)-(h1*60+m1);
+    return m > 0 ? m : 0;
+  }catch(e){ return 0; }
 }
 async function cargarApp(){
   const equiposResp=await apiGet({action:"getEquipos"});
@@ -2590,9 +2912,10 @@ async function abrirCartaEditor(idTag){
         fecha:   new Date().toLocaleDateString("es-MX"),
         autorizo:(d.equipo&&d.equipo.autorizo)||(d.global&&d.global.autorizo)||""
       },
-      elementos: Array.isArray(d.elementos)&&d.elementos.length>0
+      elementos: (Array.isArray(d.elementos)&&d.elementos.length>0
         ?d.elementos
-        :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+        :[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
+        ).map(el=>({...el, lubInicial:el.lubInicial||"", relub:el.relub||"", tipo:el.tipo||"grasa"})),
       origen:        d.origen||"excel",
       fechaGuardado: d.fechaGuardado||null
     };
@@ -2670,7 +2993,7 @@ function cerrarCartaEditor(){
 
 function cartaDefault(equipo){
   return{
-    elementos:[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+    elementos:[{nombre:"",desc:"",lub:"",lubInicial:"",relub:"",tipo:"grasa",g:"",bombazos:"",litros:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
     recomendaciones:"",firmas:{reviso:"",fecha:"",autorizo:""},
     planta:"MATERIAS PRIMAS MONTERREY  COVIA LAMPAZOS",
     direccion:"Lampazos de Naranjo, N.L."
@@ -2736,15 +3059,19 @@ function renderCartaEditor(idTag,equipo){
       </div>
     </div>
     <div class="elem-bar">&#9881; ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACIÓN</div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:0 0 10px 10px">
+    <div style="min-width:900px">
     <div class="elem-cols">
       <div class="elem-cols-foto" style="padding:5px 4px;text-align:center;font-size:6.5pt;font-weight:800;color:#fff;border-right:1px solid #1228ff">FOTO</div>
       <div class="elem-cols-data">
-        <span>Elemento</span><span>Descripci\u00F3n</span><span>Lubricante</span>
-        <span>Lub.(g)</span><span>Bombazos</span><span>Frecuencia</span>
-        <span>Tarea</span><span>Int. muestreo</span><span>Temp. ambiental</span>
+        <span>Elemento</span><span>Descripción</span><span>Lubricante</span>
+        <span>Lub. inicial</span><span>Re-lub.</span><span>Tipo / Cant.</span><span>Frecuencia</span>
+        <span>Tarea</span><span>Int.</span><span>Temp. real (oper.)</span>
       </div>
     </div>
     <div class="elem-list-c" id="elem-list-${idTag}">${elemRows}</div>
+    </div><!-- end min-width -->
+    </div><!-- end scroll -->
     <div style="padding:8px 10px;background:#f4f7ff;border:2px solid #08112d;border-top:none">
       <button class="btn-add-elem" onclick="agregarElemento('${safeJs(idTag)}')">+ Agregar punto de lubricacion</button>
     </div>
@@ -2798,20 +3125,22 @@ function renderElemRow(el,i,idTag){
     </div>
     <div class="ef-datos">
       <div class="ed"><div class="ed-lbl">Elemento</div><input class="ed-inp" value="${escapeAttr(el.nombre||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].nombre=this.value"></div>
-      <div class="ed"><div class="ed-lbl">Descripci\u00F3n</div><input class="ed-inp" value="${escapeAttr(el.desc||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].desc=this.value"></div>
+      <div class="ed"><div class="ed-lbl">Descripción</div><input class="ed-inp" value="${escapeAttr(el.desc||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].desc=this.value"></div>
       <div class="ed"><div class="ed-lbl">Lubricante</div><input class="ed-inp" value="${escapeAttr(el.lub||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].lub=this.value"></div>
-      <div class="ed" style="grid-column:span 2">
-        <div class="ed-lbl">Tipo de lubricante</div>
+      <div class="ed"><div class="ed-lbl">Lub. inicial</div><input class="ed-inp" value="${escapeAttr(el.lubInicial||"")}" placeholder="—" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].lubInicial=this.value"></div>
+      <div class="ed"><div class="ed-lbl">Re-lub.</div><input class="ed-inp" value="${escapeAttr(el.relub||"")}" placeholder="—" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].relub=this.value"></div>
+      <div class="ed">
+        <div class="ed-lbl">Tipo / Cant.</div>
         <div class="lub-toggle">
-          <button class="lub-toggle-btn${!esAceite?" active":""}" onclick="cambiarTipoLub('${safeJs(idTag)}',${i},'grasa')">Grasa</button>
-          <button class="lub-toggle-btn aceite${esAceite?" active":""}" onclick="cambiarTipoLub('${safeJs(idTag)}',${i},'aceite')">Aceite</button>
+          <button class="lub-toggle-btn${!esAceite?" active":""}" onclick="cambiarTipoLub('${safeJs(idTag)}',${i},'grasa')">G</button>
+          <button class="lub-toggle-btn aceite${esAceite?" active":""}" onclick="cambiarTipoLub('${safeJs(idTag)}',${i},'aceite')">A</button>
         </div>
         <div id="lub-grasa-${idTag}-${i}" class="lub-fields-grasa" style="display:${!esAceite?"grid":"none"}">
-          <div><div class="ed-lbl">Gramos</div><input class="ed-inp" type="number" id="eg-${idTag}-${i}" value="${escapeAttr(el.g||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].g=this.value"></div>
-          <div><div class="ed-lbl">Bombazos</div><input class="ed-inp calc" id="eb-${idTag}-${i}" value="${escapeAttr(String(b))}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].bombazos=this.value" style="color:#1228ff;font-weight:700"></div>
+          <div><div class="ed-lbl" style="font-size:5pt">g</div><input class="ed-inp" type="number" id="eg-${idTag}-${i}" value="${escapeAttr(el.g||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].g=this.value"></div>
+          <div><div class="ed-lbl" style="font-size:5pt">Bomb.</div><input class="ed-inp calc" id="eb-${idTag}-${i}" value="${escapeAttr(String(b))}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].bombazos=this.value" style="color:#1228ff;font-weight:700"></div>
         </div>
         <div id="lub-aceite-${idTag}-${i}" class="lub-fields-aceite" style="display:${esAceite?"grid":"none"}">
-          <div><div class="ed-lbl">Litros</div><input class="ed-inp" type="number" id="el-${idTag}-${i}" value="${escapeAttr(String(litros))}" step="0.1" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].litros=this.value"></div>
+          <div><div class="ed-lbl" style="font-size:5pt">L</div><input class="ed-inp" type="number" id="el-${idTag}-${i}" value="${escapeAttr(String(litros))}" step="0.1" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].litros=this.value"></div>
         </div>
       </div>
       <div class="ed"><div class="ed-lbl">Frecuencia</div>
@@ -2825,7 +3154,7 @@ function renderElemRow(el,i,idTag){
         </select>
       </div>
       <div class="ed"><div class="ed-lbl">Int. muestreo</div><input class="ed-inp" value="${escapeAttr(el.int||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].int=this.value"></div>
-      <div class="ed"><div class="ed-lbl">Temp. ambiental</div>
+      <div class="ed"><div class="ed-lbl">Temp. real (operativa)</div>
         <div style="display:flex;align-items:center;gap:4px">
           <input class="ed-inp" value="${escapeAttr(el.temp||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].temp=this.value" style="flex:1">
           <button class="btn-del-elem" onclick="eliminarElemento('${safeJs(idTag)}',${i})" title="Eliminar elemento">&#10005;</button>
@@ -2908,16 +3237,22 @@ async function guardarCarta(){
     const gVal=document.getElementById(`eg-${idTag}-${i}`)?.value??el.g;
     const bVal=document.getElementById(`eb-${idTag}-${i}`)?.value??el.bombazos;
     const lVal=document.getElementById(`el-${idTag}-${i}`)?.value??el.litros;
+    // Read all ed-inp fields in order: nombre, desc, lub, lubInicial, relub, int, temp
+    const edInps = selRow ? [...selRow.querySelectorAll('.ed-inp')] : [];
     return{npunto:i+1,
-      nombre:document.querySelector(`#er-${idTag}-${i} .ed-inp`)?.value??el.nombre,
-      desc:el.desc,lub:el.lub,
+      nombre: edInps[0]?.value ?? el.nombre,
+      desc:   edInps[1]?.value ?? el.desc,
+      lub:    edInps[2]?.value ?? el.lub,
+      lubInicial: edInps[3]?.value ?? el.lubInicial ?? '',
+      relub:  edInps[4]?.value ?? el.relub ?? '',
       tipo,
-      g:tipo==="grasa"?gVal:"",
+      g:       tipo==="grasa"?gVal:"",
       bombazos:tipo==="grasa"?bVal:"",
-      litros:tipo==="aceite"?lVal:"",
-      frec:sels[0]?sels[0].value:el.frec,
-      tarea:sels[1]?sels[1].value:el.tarea,
-      int:el.int,temp:el.temp};
+      litros:  tipo==="aceite"?lVal:"",
+      frec:  sels[0]?sels[0].value:el.frec,
+      tarea: sels[1]?sels[1].value:el.tarea,
+      int:   edInps[edInps.length-2]?.value ?? el.int,
+      temp:  edInps[edInps.length-1]?.value ?? el.temp};
   });
   if(btn){btn.disabled=true;btn.textContent="Guardando...";}
   try{
@@ -2960,8 +3295,9 @@ async function recargarDesdeExcel(){
         direccion:(d.global&&d.global.direccion)||"Lampazos de Naranjo, N.L.",
         recomendaciones:d.elementos&&d.elementos.length>0?(d.elementos[0].recomendaciones||""):"",
         firmas:{reviso:"",fecha:new Date().toLocaleDateString("es-MX"),autorizo:""},
-        elementos:Array.isArray(d.elementos)&&d.elementos.length>0
-          ?d.elementos:[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}],
+        elementos:(Array.isArray(d.elementos)&&d.elementos.length>0
+          ?d.elementos:[{nombre:"",desc:"",lub:"",g:"",frec:"Mensual",tarea:"Engrase",int:"",temp:"",foto:""}]
+          ).map(el=>({...el, lubInicial:el.lubInicial||"", relub:el.relub||"", tipo:el.tipo||"grasa"})),
         origen:"excel",fechaGuardado:null
       };
       if(d.fotoCompleta&&d.fotoCompleta.urlFoto)CARTA_FOTO_MAP[idTag]=d.fotoCompleta.urlFoto;
@@ -3017,16 +3353,25 @@ function imprimirCarta(){
     const sels=selRow?selRow.querySelectorAll("select"):[];
     const fre=sels[0]?sels[0].value:el.frec||"";
     const tar=sels[1]?sels[1].value:el.tarea||"";
+    // Read lubInicial and relub from DOM or fallback to stored data
+    const selRow2=document.getElementById(`er-${idTag}-${i}`);
+    const edInps2 = selRow2 ? [...selRow2.querySelectorAll('.ed-inp')] : [];
+    const lubInicial = edInps2[3]?.value ?? el.lubInicial ?? '';
+    const relub      = edInps2[4]?.value ?? el.relub      ?? '';
+    const intVal     = edInps2[edInps2.length-2]?.value ?? el.int ?? '';
+    const tempVal    = edInps2[edInps2.length-1]?.value ?? el.temp ?? '';
     return`<tr>
       <td style="background:#08112d;text-align:center;vertical-align:middle;padding:6px;">
         <div style="color:#c7d0f8;font-size:7pt;font-weight:800;margin-bottom:4px;">${i+1}</div>${fotoElem}
       </td>
       <td>${escapeHtml(el.nombre||"")}</td><td>${escapeHtml(el.desc||"")}</td>
       <td>${escapeHtml(el.lub||"")}</td>
+      <td style="text-align:center">${escapeHtml(lubInicial)}</td>
+      <td style="text-align:center">${escapeHtml(relub)}</td>
       <td style="text-align:center">${tipo==="grasa"?escapeHtml(String(g)):escapeHtml(String(litros))+" L"}</td>
       <td style="text-align:center;color:#1228ff;font-weight:700">${tipo==="grasa"?escapeHtml(String(b)):""}</td>
       <td style="text-align:center">${escapeHtml(fre)}</td><td>${escapeHtml(tar)}</td>
-      <td>${escapeHtml(el.int||"")}</td><td>${escapeHtml(el.temp||"")}</td>
+      <td>${escapeHtml(intVal)}</td><td>${escapeHtml(tempVal)}</td>
     </tr>`;
   }).join("");
   const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Carta - ${idTag}</title>
@@ -3056,8 +3401,8 @@ body{font-family:Arial,sans-serif;font-size:8.5pt;color:#000}
 .dv.b{color:#0c1eaf;font-weight:800}
 .eb{background:#08112d;color:#fff;padding:5px 10px;font-weight:900;font-size:8.5pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
 table{width:100%;border-collapse:collapse;border:2px solid #08112d;border-top:none;table-layout:fixed}
-th{background:#0c1eaf;color:#fff;font-size:7pt;font-weight:800;padding:4px 3px;border:1px solid #1228ff;text-align:center}
-td{font-size:7pt;padding:4px 3px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
+th{background:#0c1eaf;color:#fff;font-size:6pt;font-weight:800;padding:3px 2px;border:1px solid #1228ff;text-align:center}
+td{font-size:6.5pt;padding:3px 2px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
 tr:nth-child(even) td{background:#f3f5ff}
 td:first-child{background:#08112d!important;text-align:center}
 .rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff}
@@ -3098,11 +3443,12 @@ td:first-child{background:#08112d!important;text-align:center}
 <div class="eb">&#9881; ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACI\u00D3N</div>
 <table>
 <thead><tr>
-  <th style="width:16%">Foto<br>punto</th><th style="width:9%">Elemento</th>
-  <th style="width:12%">Descripci\u00F3n</th><th style="width:13%">Lubricante</th>
-  <th style="width:6%">Cant.</th><th style="width:6%">Bomba/<br>Litros</th>
-  <th style="width:8%">Frecuencia</th><th style="width:8%">Tarea</th>
-  <th style="width:14%">Int. muestreo</th><th style="width:14%">Temp. ambiental</th>
+  <th style="width:13%">Foto<br>punto</th><th style="width:8%">Elemento</th>
+  <th style="width:10%">Descripción</th><th style="width:9%">Lubricante</th>
+  <th style="width:6%">Lub.<br>inicial</th><th style="width:6%">Re-lub.</th>
+  <th style="width:7%">Cant.</th><th style="width:5%">Bomb.<br>/Litros</th>
+  <th style="width:7%">Frecuencia</th><th style="width:7%">Tarea</th>
+  <th style="width:9%">Int. muestreo</th><th style="width:13%">Temp. real<br>(operativa)</th>
 </tr></thead>
 <tbody>${filas}</tbody>
 </table>
@@ -3118,6 +3464,22 @@ td:first-child{background:#08112d!important;text-align:center}
 </div>
 </div>
 <script>window.onload=function(){window.print();}<\/script>
+
+
+</body></html>`;
+  const win=window.open("","_blank","width=1200,height=800");
+  if(win){win.document.write(html);win.document.close();}
+  else alert("Permite ventanas emergentes para ver la carta.");
+}
+
+function esperar(ms){return new Promise(r=>setTimeout(r,ms))}
+function escapeHtml(text){return String(text??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"','&quot;').replaceAll("'","&#039;");}
+function escapeAttr(text){return String(text??"").replace(/"/g,'&quot;').replace(/'/g,"&#039;")}
+function safeJs(text){return String(text??"").replaceAll("\\","\\\\").replaceAll("'","\\'")}
+// Inicializar login al cargar
+window.addEventListener("DOMContentLoaded", initApp);
+</script>
+
 
 <!-- ══ MODAL: ASIGNAR TAREA ══ -->
 <div class="modal-overlay hidden" id="modal-asignar-overlay" onclick="cerrarModalAsignar(event)">
@@ -3150,6 +3512,16 @@ td:first-child{background:#08112d!important;text-align:center}
         <label>Fecha límite (opcional)</label>
         <input type="date" id="modal-tarea-fecha">
       </div>
+      <div class="modal-field" id="modal-carta-field">
+        <label>📋 Carta de lubricación (opcional)</label>
+        <select id="modal-tarea-carta" style="width:100%;padding:13px 14px;border:1.5px solid #dbe1f0;border-radius:14px;font-size:15px;font-family:inherit;background:#fbfcff">
+          <option value="">Sin carta específica</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>💬 Comentario al técnico (opcional)</label>
+        <textarea id="modal-tarea-comentario" placeholder="Instrucciones adicionales, herramientas necesarias, precauciones..." rows="2" style="resize:vertical"></textarea>
+      </div>
       <div id="modal-historial-section"></div>
     </div>
     <div class="modal-footer">
@@ -3158,19 +3530,5 @@ td:first-child{background:#08112d!important;text-align:center}
     </div>
   </div>
 </div>
-
-</body></html>`;
-  const win=window.open("","_blank","width=1200,height=800");
-  if(win){win.document.write(html);win.document.close();}
-  else alert("Permite ventanas emergentes para ver la carta.");
-}
-
-function esperar(ms){return new Promise(r=>setTimeout(r,ms))}
-function escapeHtml(text){return String(text??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"','&quot;').replaceAll("'","&#039;");}
-function escapeAttr(text){return String(text??"").replace(/"/g,'&quot;').replace(/'/g,"&#039;")}
-function safeJs(text){return String(text??"").replaceAll("\\","\\\\").replaceAll("'","\\'")}
-// Inicializar login al cargar
-window.addEventListener("DOMContentLoaded", initApp);
-</script>
 </body>
 </html>
