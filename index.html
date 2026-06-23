@@ -3347,9 +3347,12 @@ function imprimirCarta(){
     const b=tipo==="grasa"?(bEl?bEl.value:el.bombazos||""):"";
     const lEl=document.getElementById(`el-${idTag}-${i}`);
     const litros=tipo==="aceite"?(lEl?lEl.value:el.litros||""):"";
-    const fotoElem=el.foto
-      ?`<img src="${el.foto}" style="width:120px;height:120px;object-fit:cover;border-radius:3px;border:1.5px solid #fff;display:block;">`
-      :`<div style="width:120px;height:120px;border:1.5px dashed #c7d0f8;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:6pt;color:#c7d0f8;text-align:center;">FOTO<br>PUNTO</div>`;
+    const fotoWrap_=document.getElementById('ef-wrap-'+idTag+'-'+i);
+    const fotoImg_=fotoWrap_?fotoWrap_.querySelector('img'):null;
+    const fotoSrc_=el.foto||(fotoImg_?fotoImg_.src:'');
+    const fotoElem=fotoSrc_
+      ?`<img src="${fotoSrc_}" style="width:120px;height:120px;object-fit:cover;border-radius:3px;border:1.5px solid #fff;display:block;">`
+      :`<div style="width:120px;height:120px;border:1.5px dashed #c7d0f8;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#c7d0f8;font-size:7pt;text-align:center">FOTO<br>PUNTO</div>`;
     const selRow=document.getElementById(`er-${idTag}-${i}`);
     const sels=selRow?selRow.querySelectorAll("select"):[];
     const fre=sels[0]?sels[0].value:el.frec||"";
