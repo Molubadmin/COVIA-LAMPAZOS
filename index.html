@@ -1396,7 +1396,7 @@ function renderFotoCompleta(det){
     <div class="section-body">
       <div class="helper-box warn">Puedes subir la foto completa del equipo si la tienes disponible.</div>
       <div class="photo-frame">
-        ${tieneFoto?`<img src="${escapeHtml(foto.urlFoto)}" alt="Foto completa" loading="lazy">`:`<div class="photo-empty">Sin foto completa cargada.</div>`}
+        ${tieneFoto?`<img src="${escapeHtml(foto.urlFoto)}" alt="Foto completa" loading="lazy" onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='flex')" style="width:100%;height:100%;object-fit:cover">`:`<div class="photo-empty">Sin foto completa cargada.</div>`}
       </div>
       <div class="photo-actions">
         <label class="btn-camara" for="file_foto_completa">
@@ -2138,7 +2138,7 @@ function renderTecnicoView(){
       <div style="font-size:11px;opacity:.85;margin-top:2px">${escapeHtml(nombre)} · ${escapeHtml(puesto)}</div>
     </div>
     <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px">
-      ${pendientes.length===0&&misExtras.length===0?`
+      ${pendientes.length===0&&completadas.length===0&&misExtras.length===0?`
         <div style="text-align:center;padding:40px 20px">
           <div style="font-size:48px;margin-bottom:14px">📋</div>
           <div style="font-size:16px;font-weight:900;color:#08112d;margin-bottom:6px">Sin actividades asignadas</div>
@@ -2151,7 +2151,7 @@ function renderTecnicoView(){
         </div>`:""}
         ${completadas.length>0?`
         <div>
-          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Completadas</div>
+          <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📋 Historial — ${completadas.length} tarea${completadas.length!==1?"s":""}</div>
           ${completadas.map(t=>renderTareaCard(t)).join("")}
         </div>`:""}
         ${misExtras.length>0?`
@@ -2234,6 +2234,24 @@ async function seleccionarFotoAE(evt){
   const {base64, mimeType, dataUrl} = await comprimirImagen(file);
   _aeBase64 = base64; _aeMime = mimeType;
   document.getElementById("ae-foto-label").innerHTML='<span style="color:#179b52;font-weight:700">✓ Foto lista</span>';
+}
+
+function calcHorasHombre(inicio, fin){
+  try {
+    if(!inicio||!fin) return '—';
+    // Handle both "HH:MM" and "HH:MM AM/PM" formats
+    function parseTime(t){
+      const ampm = t.match(/(AM|PM)/i);
+      const clean = t.replace(/(AM|PM)/i,'').trim();
+      let [h,m] = clean.split(':').map(Number);
+      if(ampm && ampm[0].toUpperCase()==='PM' && h!==12) h+=12;
+      if(ampm && ampm[0].toUpperCase()==='AM' && h===12) h=0;
+      return h*60+m;
+    }
+    const mins = parseTime(fin) - parseTime(inicio);
+    if(mins<=0) return '—';
+    return (mins/60).toFixed(1);
+  } catch(e){ return '—'; }
 }
 
 async function enviarActividadExtra(){
@@ -2381,8 +2399,16 @@ function cerrarDetalleTarea(){ navTo(_volverDeDetalle||"tecnico-tareas"); }
 
 function marcarTareaLista(){
   const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
-  if(t){ t.status="completada"; alert("✓ Tarea marcada como completada. El supervisor la revisará."); }
+  if(!t) return;
+  t.status = "completada";
+  t.completadoFecha = new Date().toLocaleDateString("es-MX");
+  // Guardar en AppScript
+  apiPost({action:"updateTareaStatus", id:t.id, status:"completada", por:USUARIO_SESION})
+    .catch(e=>console.warn("API:", e.message));
   cerrarDetalleTarea();
+  mostrarToast("✓ Tarea marcada como completada — el supervisor la revisará", "#179b52");
+  // Re-render con historial completo (no quitar la tarea)
+  renderTecnicoView();
 }
 
 function validarTarea(status){
