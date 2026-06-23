@@ -2240,34 +2240,24 @@ async function enviarActividadExtra(){
   const equipo = document.getElementById("ae-equipo").value.trim();
   const tipo   = document.getElementById("ae-tipo").value;
   const desc   = document.getElementById("ae-desc").value.trim();
-  if(!equipo||!tipo||!desc){ alert("Completa equipo, tipo y descripción"); return; }
+  if(!equipo||!tipo||!desc){ alert("Por favor llena equipo, tipo y descripción"); return; }
+  const horaInicio = document.getElementById("ae-hora-inicio")?.value||"";
+  const horaFin    = document.getElementById("ae-hora-fin")?.value||"";
+  const comentario = document.getElementById("ae-comentario")?.value.trim()||"";
+  const hh = calcHorasHombre(horaInicio, horaFin);
   const btn = document.querySelector(".btn-enviar-ae");
   btn.disabled=true; btn.textContent="Enviando...";
-  const horaInicio = document.getElementById("ae-hora-inicio")?.value || "";
-  const horaFin    = document.getElementById("ae-hora-fin")?.value    || "";
-  const comentario = document.getElementById("ae-comentario")?.value.trim() || "";
-  const hh = calcHorasHombre(horaInicio, horaFin);
   const actividad = {
-    id: "AE-"+Date.now(),
-    usuario: USUARIO_SESION,
-    nombre: getNombreUsuario(),
-    puesto: getPuestoUsuario(),
-    equipo, tipo, desc,
-    horaInicio, horaFin,
-    horasHombre: hh !== '—' ? hh : '',
-    comentario,
-    base64: _aeBase64, mimeType: _aeMime,
-    fecha: new Date().toLocaleDateString("es-MX"),
-    hora: new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
-    status: "pendiente"
+    id:"AE-"+Date.now(), usuario:USUARIO_SESION,
+    nombre:getNombreUsuario(), puesto:getPuestoUsuario(),
+    equipo, tipo, desc, horaInicio, horaFin,
+    horasHombre:hh!=="—"?hh:"", comentario,
+    base64:_aeBase64, mimeType:_aeMime,
+    fecha:new Date().toLocaleDateString("es-MX"),
+    hora:new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
+    status:"pendiente"
   };
-  // Save to AppScript
-  try{
-    const r = await apiPost({action:"saveActividadExtra", ...actividad});
-    if(r&&r.ok) actividad.fotoUrl = r.fotoUrl||"";
-  }catch(e){ console.warn("API no disponible, guardando local"); }
-  ACTIVIDADES_EXTRA.push(actividad);
-  // Reset form
+  ACTIVIDADES_EXTRA.push({...actividad, base64:"", mimeType:""});
   document.getElementById("ae-equipo").value="";
   document.getElementById("ae-tipo").value="";
   document.getElementById("ae-desc").value="";
@@ -2276,10 +2266,29 @@ async function enviarActividadExtra(){
   if(document.getElementById("ae-hora-fin"))    document.getElementById("ae-hora-fin").value="";
   if(document.getElementById("ae-comentario"))  document.getElementById("ae-comentario").value="";
   if(document.getElementById("ae-horas-resumen")) document.getElementById("ae-horas-resumen").textContent="";
+  const b64=_aeBase64; const mime=_aeMime;
   _aeBase64=""; _aeMime="";
-  btn.disabled=false; btn.textContent="Enviar actividad →";
-  alert("✓ Actividad enviada. El supervisor será notificado.");
+  btn.disabled=false; btn.textContent="Enviar actividad";
+  mostrarToast("✓ Actividad registrada — enviando notificación...", "#179b52");
   navTo("tecnico-tareas");
+  try {
+    const ctrl=new AbortController();
+    const tid=setTimeout(()=>ctrl.abort(),60000);
+    const resp=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({action:"saveActividadExtra",
+        id:actividad.id,usuario:actividad.usuario,nombre:actividad.nombre,
+        puesto:actividad.puesto,equipo:actividad.equipo,tipo:actividad.tipo,
+        desc:actividad.desc,horaInicio:actividad.horaInicio,horaFin:actividad.horaFin,
+        horasHombre:actividad.horasHombre,comentario:actividad.comentario,
+        base64:b64,mimeType:mime,fecha:actividad.fecha,hora:actividad.hora}),
+      signal:ctrl.signal});
+    clearTimeout(tid);
+    const data=await resp.json();
+    if(data.ok){
+      mostrarToast("📧 Notificación enviada a supervisores","#1228ff");
+      if(data.fotoUrl){const loc=ACTIVIDADES_EXTRA.find(a=>a.id===actividad.id);if(loc)loc.fotoUrl=data.fotoUrl;}
+    }
+  }catch(e){console.warn("API background:",e.message);}
 }
 
 /* ══════════════════════════════════════════════════
