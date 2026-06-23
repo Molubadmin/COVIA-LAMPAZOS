@@ -2487,6 +2487,32 @@ const _tcMap = {};
 function abrirModalPorIdx(idx){ abrirModalAsignar(_tcMap[idx]); }
 window.abrirModalPorIdx = abrirModalPorIdx;
 
+function renderTecnicoAsigCard(tc, globalIdx){
+  _tcMap[globalIdx] = tc.u;
+  const activas    = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="pendiente").length;
+  const completadas= TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="completada").length;
+  const initials   = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
+  const colorMec   = {bg:"#eef2ff",fg:"#0c447c"};
+  const colorElec  = {bg:"#fff3df",fg:"#854f0b"};
+  const color      = tc.t==="elec"?colorElec:colorMec;
+  return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="abrirPanelTecnico(${globalIdx})">
+    <div class="tarea-card-head" style="padding:14px 16px">
+      <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(tc.n)}</div>
+        <div class="tarea-card-desc">${tc.p}${activas>0?" · "+activas+" tarea"+(activas!==1?"s":"")+" activa"+(activas!==1?"s":""):""}${completadas>0?" · "+completadas+" por validar":""}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+        ${activas>0?'<span class="tarea-status ts-pend">'+activas+' activa'+(activas!==1?"s":"")+'</span>':""}
+        ${completadas>0?'<span class="tarea-status ts-val">'+completadas+' validar</span>':""}
+        ${activas===0&&completadas===0?'<span style="font-size:11px;color:#5f6c8d">Sin tareas</span>':""}
+      </div>
+      <span style="color:#1228ff;font-size:18px;font-weight:900;flex-shrink:0;margin-left:6px">&#8250;</span>
+    </div>
+  </div>`;
+}
+
+
 /* ══════════════════════════════════════════════════
    PANEL HISTORIAL TÉCNICO
    ══════════════════════════════════════════════════ */
