@@ -774,6 +774,26 @@
     .hh-period-btn{padding:6px 14px;border-radius:10px;border:1.5px solid #dde1f0;background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#5f6c8d}
     .hh-period-btn.active{background:#1228ff;color:#fff;border-color:#1228ff}
 
+  
+    /* ══ PANEL HISTORIAL TÉCNICO ══ */
+    .panel-tc-head{background:linear-gradient(135deg,#08112d,#0b2590);border-radius:18px;padding:16px 18px;display:flex;gap:14px;align-items:center;margin-bottom:14px}
+    .panel-tc-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;flex-shrink:0}
+    .panel-tc-nombre{font-size:16px;font-weight:900;color:#fff}
+    .panel-tc-puesto{font-size:11px;color:rgba(199,208,248,.8);margin-top:3px}
+    .panel-tc-stats{display:flex;gap:10px;margin-top:8px}
+    .panel-tc-stat{background:rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;text-align:center}
+    .panel-tc-stat-num{font-size:18px;font-weight:900;color:#fff;line-height:1}
+    .panel-tc-stat-lbl{font-size:9px;color:rgba(199,208,248,.7);text-transform:uppercase;letter-spacing:.5px}
+    .panel-back-btn{display:flex;align-items:center;gap:8px;background:none;border:none;color:#1228ff;font-size:13px;font-weight:800;cursor:pointer;padding:4px 0;margin-bottom:12px}
+    .panel-tarea-card{background:#fff;border:1.5px solid #eef2ff;border-radius:16px;padding:14px 16px;margin-bottom:10px}
+    .panel-tarea-head{display:flex;gap:10px;align-items:flex-start}
+    .panel-tarea-prio{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+    .panel-tarea-body{flex:1;min-width:0}
+    .panel-tarea-desc{font-size:13px;font-weight:700;color:#08112d;line-height:1.4}
+    .panel-tarea-meta{font-size:11px;color:#5f6c8d;margin-top:4px}
+    .panel-nueva-btn{width:100%;padding:16px;border:2px dashed #1228ff;border-radius:16px;background:#f8faff;color:#1228ff;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;transition:.15s}
+    .panel-nueva-btn:hover{background:#eef2ff}
+
   </style>
 </head>
 <body>
@@ -2454,6 +2474,94 @@ const _tcMap = {};
 function abrirModalPorIdx(idx){ abrirModalAsignar(_tcMap[idx]); }
 window.abrirModalPorIdx = abrirModalPorIdx;
 
+/* ══════════════════════════════════════════════════
+   PANEL HISTORIAL TÉCNICO
+   ══════════════════════════════════════════════════ */
+function abrirPanelTecnico(globalIdx){
+  const usuario = _tcMap[globalIdx];
+  const tc = TECNICOS_LIST.find(t=>t.u===usuario);
+  if(!tc) return;
+
+  const body = document.getElementById("asignaciones-body");
+  if(!body) return;
+
+  const tareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u)
+    .sort((a,b)=>{
+      // Pendientes primero, luego completadas, luego el resto
+      const order = {pendiente:0, completada:1, aprobada:2, rechazada:3};
+      return (order[a.status]||9)-(order[b.status]||9);
+    });
+
+  const activas    = tareas.filter(t=>t.status==='pendiente').length;
+  const completadas= tareas.filter(t=>t.status==='completada').length;
+  const aprobadas  = tareas.filter(t=>t.status==='aprobada').length;
+  const rechazadas = tareas.filter(t=>t.status==='rechazada').length;
+  const total      = tareas.length;
+
+  const color = tc.t==='elec'?{bg:'#fff3df',fg:'#854f0b'}:{bg:'#eef2ff',fg:'#0c447c'};
+  const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
+
+  const prioBg = {urgente:'#c62828',alta:'#d97706',normal:'#1228ff',baja:'#5f6c8d'};
+  const statusLabel = {pendiente:'Pendiente',completada:'Completada · validar',aprobada:'✓ Aprobada',rechazada:'✗ Rechazada'};
+  const statusCls   = {pendiente:'ts-pend',completada:'ts-val',aprobada:'ts-done',rechazada:'ts-rec'};
+  const prioLabel   = {urgente:'🔴',alta:'🟡',normal:'',baja:'🔵'};
+
+  body.innerHTML = `
+    <button class="panel-back-btn" onclick="renderAsignaciones()">
+      &#8592; Volver al equipo de trabajo
+    </button>
+
+    <div class="panel-tc-head">
+      <div class="panel-tc-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
+      <div style="flex:1">
+        <div class="panel-tc-nombre">${escapeHtml(tc.n)}</div>
+        <div class="panel-tc-puesto">${tc.p} &nbsp;·&nbsp; ${tc.t==='elec'?'Eléctrico':'Mecánico'}</div>
+        <div class="panel-tc-stats">
+          <div class="panel-tc-stat"><div class="panel-tc-stat-num">${activas}</div><div class="panel-tc-stat-lbl">Activas</div></div>
+          <div class="panel-tc-stat"><div class="panel-tc-stat-num">${completadas}</div><div class="panel-tc-stat-lbl">Por validar</div></div>
+          <div class="panel-tc-stat"><div class="panel-tc-stat-num">${aprobadas}</div><div class="panel-tc-stat-lbl">Aprobadas</div></div>
+          <div class="panel-tc-stat" style="${rechazadas>0?'background:rgba(198,40,40,.3)':''}">
+            <div class="panel-tc-stat-num">${rechazadas}</div><div class="panel-tc-stat-lbl">Rechazadas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="panel-nueva-btn" onclick="abrirModalPorIdx(${globalIdx})">
+      &#43; Asignar nueva tarea a ${escapeHtml(tc.n.split(' ')[0])}
+    </button>
+
+    ${total === 0
+      ? '<div style="text-align:center;padding:30px;color:#5f6c8d;font-size:13px">Sin tareas asignadas aún</div>'
+      : `<div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px">
+          Historial de tareas — ${total} total
+        </div>
+        ${tareas.map(t=>{
+          const prioBg2 = prioBg[t.prioridad||'normal']||'#1228ff';
+          const pLbl    = prioLabel[t.prioridad||'normal']||'';
+          const sLbl    = statusLabel[t.status||'pendiente']||t.status;
+          const sCls    = statusCls[t.status||'pendiente']||'ts-pend';
+          const isLim   = t.fechaLimite && t.status==='pendiente';
+          return `<div class="panel-tarea-card">
+            <div class="panel-tarea-head">
+              <div class="panel-tarea-prio" style="background:${prioBg2}"></div>
+              <div class="panel-tarea-body">
+                <div class="panel-tarea-desc">${pLbl} ${escapeHtml(t.desc||'Sin descripción')}</div>
+                <div class="panel-tarea-meta">
+                  ${t.equipo?'📍 '+escapeHtml(t.equipo)+' &nbsp;·&nbsp; ':''}
+                  📅 ${escapeHtml(t.fecha||'')} ${escapeHtml(t.hora||'')}
+                  ${isLim?'<span style="color:#c62828;font-weight:700"> &nbsp;·&nbsp; ⏰ Límite: '+escapeHtml(t.fechaLimite)+'</span>':''}
+                </div>
+                ${t.notas?'<div style="font-size:11px;color:#1228ff;margin-top:4px;font-style:italic">💬 '+escapeHtml(t.notas)+'</div>':''}
+              </div>
+              <span class="tarea-status ${sCls}" style="flex-shrink:0">${sLbl}</span>
+            </div>
+          </div>`;
+        }).join('')}`
+    }
+  `;
+}
+
 function renderTecnicoAsigCard(tc, globalIdx){
   _tcMap[globalIdx] = tc.u;
   const activas   = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="pendiente").length;
@@ -2462,7 +2570,7 @@ function renderTecnicoAsigCard(tc, globalIdx){
   const colorMec  = {bg:"#eef2ff",fg:"#0c447c"};
   const colorElec = {bg:"#fff3df",fg:"#854f0b"};
   const color     = tc.t==="elec"?colorElec:colorMec;
-  return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="window.abrirModalPorIdx(${globalIdx})">
+  return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="abrirPanelTecnico(${globalIdx})">
     <div class="tarea-card-head" style="padding:14px 16px">
       <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
       <div class="tarea-card-info">
