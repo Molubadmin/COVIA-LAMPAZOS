@@ -2498,31 +2498,90 @@ function abrirPanelTecnico(globalIdx){
   const body = document.getElementById("asignaciones-body");
   if(!body) return;
 
-  const tareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u)
-    .sort((a,b)=>{
-      // Pendientes primero, luego completadas, luego el resto
-      const order = {pendiente:0, completada:1, aprobada:2, rechazada:3};
-      return (order[a.status]||9)-(order[b.status]||9);
-    });
+  const color = tc.t==='elec'?{bg:'#fff3df',fg:'#854f0b'}:{bg:'#eef2ff',fg:'#0c447c'};
+  const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
 
+  // Tareas asignadas
+  const tareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u)
+    .sort((a,b)=>({pendiente:0,completada:1,aprobada:2,rechazada:3}[a.status]||9)-({pendiente:0,completada:1,aprobada:2,rechazada:3}[b.status]||9));
   const activas    = tareas.filter(t=>t.status==='pendiente').length;
   const completadas= tareas.filter(t=>t.status==='completada').length;
   const aprobadas  = tareas.filter(t=>t.status==='aprobada').length;
   const rechazadas = tareas.filter(t=>t.status==='rechazada').length;
-  const total      = tareas.length;
 
-  const color = tc.t==='elec'?{bg:'#fff3df',fg:'#854f0b'}:{bg:'#eef2ff',fg:'#0c447c'};
-  const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
+  // Actividades extra
+  const actividades = ACTIVIDADES_EXTRA.filter(a=>a.usuario===tc.u)
+    .sort((a,b)=>b.fecha>a.fecha?1:-1);
 
-  const prioBg = {urgente:'#c62828',alta:'#d97706',normal:'#1228ff',baja:'#5f6c8d'};
-  const statusLabel = {pendiente:'Pendiente',completada:'Completada · validar',aprobada:'✓ Aprobada',rechazada:'✗ Rechazada'};
-  const statusCls   = {pendiente:'ts-pend',completada:'ts-val',aprobada:'ts-done',rechazada:'ts-rec'};
-  const prioLabel   = {urgente:'🔴',alta:'🟡',normal:'',baja:'🔵'};
+  const prioBg   = {urgente:'#c62828',alta:'#d97706',normal:'#1228ff',baja:'#5f6c8d'};
+  const prioCls  = {urgente:'🔴',alta:'🟡',normal:'',baja:'🔵'};
+  const statLbl  = {pendiente:'Pendiente',completada:'Completada',aprobada:'✓ Aprobada',rechazada:'✗ Rechazada'};
+  const statCls  = {pendiente:'ts-pend',completada:'ts-val',aprobada:'ts-done',rechazada:'ts-rec'};
+  const actStatLbl = {pendiente:'En revisión',aprobada:'✓ Aprobada',rechazada:'✗ Rechazada'};
+  const actStatCls = {pendiente:'ts-pend',aprobada:'ts-done',rechazada:'ts-rec'};
+
+  function renderTareaItem(t, idx){
+    const prio = prioBg[t.prioridad||'normal']||'#1228ff';
+    const pLbl = prioCls[t.prioridad||'normal']||'';
+    const sLbl = statLbl[t.status||'pendiente']||t.status;
+    const sCls = statCls[t.status||'pendiente']||'ts-pend';
+    return `<div class="panel-tarea-card" style="cursor:pointer" onclick="togglePanelTareaDetalle('ptd-${idx}')">
+      <div class="panel-tarea-head">
+        <div class="panel-tarea-prio" style="background:${prio}"></div>
+        <div class="panel-tarea-body">
+          <div class="panel-tarea-desc">${pLbl} ${escapeHtml(t.desc||'Sin descripción')}</div>
+          <div class="panel-tarea-meta">
+            ${t.equipo?'📍 '+escapeHtml(t.equipo)+' &nbsp;·&nbsp; ':''}
+            📅 ${escapeHtml(t.fecha||'')} ${escapeHtml(t.hora||'')}
+            ${t.fechaLimite?'<span style="color:#c62828;font-weight:700"> · ⏰ Límite: '+escapeHtml(t.fechaLimite)+'</span>':''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          <span class="tarea-status ${sCls}">${sLbl}</span>
+          <span style="font-size:10px;color:#5f6c8d">▼ ver detalle</span>
+        </div>
+      </div>
+      <div id="ptd-${idx}" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #f1f4fb">
+        <div style="font-size:12px;color:#182033;line-height:1.6;margin-bottom:8px">${escapeHtml(t.desc||'')}</div>
+        ${t.notas?'<div style="font-size:11px;color:#1228ff;font-style:italic;margin-bottom:8px">💬 '+escapeHtml(t.notas)+'</div>':''}
+        ${t.equipo?'<div style="font-size:11px;color:#5f6c8d">📍 '+escapeHtml(t.equipo)+'</div>':''}
+        ${t.fechaLimite?'<div style="font-size:11px;color:#c62828;font-weight:700;margin-top:4px">⏰ Fecha límite: '+escapeHtml(t.fechaLimite)+'</div>':''}
+        ${t.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:4px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada'+( t.motivoRechazo?' — '+escapeHtml(t.motivoRechazo):'')+'</div>':''}
+      </div>
+    </div>`;
+  }
+
+  function renderActividadItem(a, idx){
+    const sLbl = actStatLbl[a.status||'pendiente']||a.status;
+    const sCls = actStatCls[a.status||'pendiente']||'ts-pend';
+    const hh = a.horasHombre ? a.horasHombre+'h' : (a.horaInicio&&a.horaFin?calcHorasHombre(a.horaInicio,a.horaFin)+'h':'');
+    return `<div class="panel-tarea-card" style="cursor:pointer" onclick="togglePanelTareaDetalle('pad-${idx}')">
+      <div class="panel-tarea-head">
+        <div class="panel-tarea-prio" style="background:${a.status==='aprobada'?'#179b52':a.status==='rechazada'?'#c62828':'#d97706'}"></div>
+        <div class="panel-tarea-body">
+          <div class="panel-tarea-desc">📍 ${escapeHtml(a.equipo||'')} · ${escapeHtml(a.tipo||'')}</div>
+          <div class="panel-tarea-meta">
+            📅 ${escapeHtml(a.fecha||'')} ${escapeHtml(a.hora||'')}
+            ${hh?' · ⏱ '+hh:''}
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          <span class="tarea-status ${sCls}">${sLbl}</span>
+          <span style="font-size:10px;color:#5f6c8d">▼ ver detalle</span>
+        </div>
+      </div>
+      <div id="pad-${idx}" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #f1f4fb">
+        <div style="font-size:12px;color:#182033;line-height:1.6;margin-bottom:8px">${escapeHtml(a.desc||'Sin descripción')}</div>
+        ${hh?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-bottom:6px">⏱ Horas hombre: '+hh+'</div>':''}
+        ${a.comentario?'<div style="font-size:11px;color:#5f6c8d;font-style:italic;margin-bottom:6px">💬 '+escapeHtml(a.comentario)+'</div>':''}
+        ${a.fotoUrl?'<a href="'+escapeHtml(a.fotoUrl)+'" target="_blank" style="font-size:11px;color:#1228ff;font-weight:700">📷 Ver foto de evidencia</a>':''}
+        ${a.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:6px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada</div>':''}
+      </div>
+    </div>`;
+  }
 
   body.innerHTML = `
-    <button class="panel-back-btn" onclick="renderAsignaciones()">
-      &#8592; Volver al equipo de trabajo
-    </button>
+    <button class="panel-back-btn" onclick="renderAsignaciones()">&#8592; Volver al equipo de trabajo</button>
 
     <div class="panel-tc-head">
       <div class="panel-tc-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
@@ -2536,6 +2595,9 @@ function abrirPanelTecnico(globalIdx){
           <div class="panel-tc-stat" style="${rechazadas>0?'background:rgba(198,40,40,.3)':''}">
             <div class="panel-tc-stat-num">${rechazadas}</div><div class="panel-tc-stat-lbl">Rechazadas</div>
           </div>
+          <div class="panel-tc-stat" style="background:rgba(23,155,82,.2)">
+            <div class="panel-tc-stat-num">${actividades.length}</div><div class="panel-tc-stat-lbl">Act. extra</div>
+          </div>
         </div>
       </div>
     </div>
@@ -2544,133 +2606,34 @@ function abrirPanelTecnico(globalIdx){
       &#43; Asignar nueva tarea a ${escapeHtml(tc.n.split(' ')[0])}
     </button>
 
-    ${total === 0
-      ? '<div style="text-align:center;padding:30px;color:#5f6c8d;font-size:13px">Sin tareas asignadas aún</div>'
-      : `<div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px">
-          Historial de tareas — ${total} total
-        </div>
-        ${tareas.map(t=>{
-          const prioBg2 = prioBg[t.prioridad||'normal']||'#1228ff';
-          const pLbl    = prioLabel[t.prioridad||'normal']||'';
-          const sLbl    = statusLabel[t.status||'pendiente']||t.status;
-          const sCls    = statusCls[t.status||'pendiente']||'ts-pend';
-          const isLim   = t.fechaLimite && t.status==='pendiente';
-          return `<div class="panel-tarea-card">
-            <div class="panel-tarea-head">
-              <div class="panel-tarea-prio" style="background:${prioBg2}"></div>
-              <div class="panel-tarea-body">
-                <div class="panel-tarea-desc">${pLbl} ${escapeHtml(t.desc||'Sin descripción')}</div>
-                <div class="panel-tarea-meta">
-                  ${t.equipo?'📍 '+escapeHtml(t.equipo)+' &nbsp;·&nbsp; ':''}
-                  📅 ${escapeHtml(t.fecha||'')} ${escapeHtml(t.hora||'')}
-                  ${isLim?'<span style="color:#c62828;font-weight:700"> &nbsp;·&nbsp; ⏰ Límite: '+escapeHtml(t.fechaLimite)+'</span>':''}
-                </div>
-                ${t.notas?'<div style="font-size:11px;color:#1228ff;margin-top:4px;font-style:italic">💬 '+escapeHtml(t.notas)+'</div>':''}
-              </div>
-              <span class="tarea-status ${sCls}" style="flex-shrink:0">${sLbl}</span>
-            </div>
-          </div>`;
-        }).join('')}`
-    }
+    ${tareas.length>0?`
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px">
+      📋 Tareas asignadas — ${tareas.length} total
+    </div>
+    ${tareas.map((t,i)=>renderTareaItem(t,i)).join('')}`
+    :'<div style="text-align:center;padding:20px;color:#5f6c8d;font-size:12px">Sin tareas asignadas aún</div>'}
+
+    ${actividades.length>0?`
+    <div style="font-size:11px;font-weight:800;color:#5f6c8d;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px">
+      🔧 Actividades extra registradas — ${actividades.length} total
+    </div>
+    ${actividades.map((a,i)=>renderActividadItem(a,i)).join('')}`:''}
   `;
 }
 
-function renderTecnicoAsigCard(tc, globalIdx){
-  _tcMap[globalIdx] = tc.u;
-  const activas   = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="pendiente").length;
-  const completadas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===tc.u&&t.status==="completada").length;
-  const initials  = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
-  const colorMec  = {bg:"#eef2ff",fg:"#0c447c"};
-  const colorElec = {bg:"#fff3df",fg:"#854f0b"};
-  const color     = tc.t==="elec"?colorElec:colorMec;
-  return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="abrirPanelTecnico(${globalIdx})">
-    <div class="tarea-card-head" style="padding:14px 16px">
-      <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
-      <div class="tarea-card-info">
-        <div class="tarea-card-tag">${escapeHtml(tc.n)}</div>
-        <div class="tarea-card-desc">${tc.p}${activas>0?" · "+activas+" tarea"+(activas!==1?"s":"")+" activa"+(activas!==1?"s":""):""}${completadas>0?" · "+completadas+" por validar":""}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
-        ${activas>0?'<span class="tarea-status ts-pend">'+activas+' activa'+(activas!==1?"s":"")+'</span>':""}
-        ${completadas>0?'<span class="tarea-status ts-val">'+completadas+' validar</span>':""}
-        ${activas===0&&completadas===0?'<span style="font-size:11px;color:#5f6c8d">Sin tareas</span>':""}
-      </div>
-      <span style="color:#1228ff;font-size:18px;font-weight:900;flex-shrink:0;margin-left:6px">&#8250;</span>
-    </div>
-  </div>`;
-}
-function renderActividadCardSupervisor(a){
-  const tieneHoras = a.horaInicio && a.horaFin;
-  const horas = tieneHoras ? calcHorasHombre(a.horaInicio, a.horaFin) : null;
-  const iconTipo = a.puesto==='Eléctrico' ? '⚡' : '🔧';
-  return `<div class="act-sup-card" id="act-card-${escapeAttr(a.id)}">
-    <div class="act-sup-head" onclick="toggleActividadDetalle('${escapeAttr(a.id)}')">
-      <div class="act-sup-avatar ${a.puesto==='Eléctrico'?'elec':'mec'}">${iconTipo}</div>
-      <div class="act-sup-info">
-        <div class="act-sup-nombre">${escapeHtml(a.nombre||"")} <span class="act-sup-puesto">${escapeHtml(a.puesto||"")}</span></div>
-        <div class="act-sup-meta">📍 ${escapeHtml(a.equipo||"")} · ${escapeHtml(a.tipo||"")} · ${escapeHtml(a.fecha||"")}</div>
-        ${tieneHoras?'<div class="act-sup-horas">⏱ '+horas+' hrs hombre</div>':""}
-      </div>
-      <span class="tarea-status ts-pend">Validar ▼</span>
-    </div>
-    <div class="act-sup-detalle" id="act-det-${escapeAttr(a.id)}" style="display:none">
-      <div class="act-sup-desc">${escapeHtml(a.desc||"Sin descripción")}</div>
-      ${a.fotoUrl?'<img class="act-sup-foto" src="'+escapeHtml(a.fotoUrl)+'" alt="Evidencia">'
-        :a.base64?'<img class="act-sup-foto" src="data:'+a.mimeType+';base64,'+a.base64+'" alt="Evidencia">'
-        :'<div class="act-sup-nofoto">📷 Sin foto adjunta</div>'}
-      ${tieneHoras?'<div style="font-size:11px;color:#5f6c8d;margin-top:8px">⏰ Inicio: '+escapeHtml(a.horaInicio)+' → Fin: '+escapeHtml(a.horaFin)+' = <strong>'+horas+' h</strong></div>':""}
-      ${a.comentario?'<div class="act-sup-comentario">💬 '+escapeHtml(a.comentario)+'</div>':""}
-      <div class="act-sup-actions">
-        <button class="btn-aprobar" onclick="validarActividad('${escapeAttr(a.id)}','aprobada')">✓ Aprobar</button>
-        <button class="btn-rechazar" onclick="solicitarComentarioRechazo('${escapeAttr(a.id)}')">✗ Rechazar</button>
-      </div>
-    </div>
-  </div>`;
+function togglePanelTareaDetalle(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  // Update arrow in parent card
+  const card = el.parentElement;
+  if(card){
+    const arrow = card.querySelector('span[style*="font-size:10px"]');
+    if(arrow) arrow.textContent = open ? '▼ ver detalle' : '▲ ocultar';
+  }
 }
 
-function toggleActividadDetalle(id){
-  const det = document.getElementById('act-det-'+id);
-  if(!det) return;
-  const isOpen = det.style.display !== 'none';
-  det.style.display = isOpen ? 'none' : 'block';
-  // Update button text
-  const btn = document.querySelector('#act-card-'+id+' .act-sup-head .tarea-status');
-  if(btn) btn.textContent = isOpen ? 'Validar ▼' : 'Validar ▲';
-}
-
-function calcHorasHombre(inicio, fin){
-  try {
-    const [h1,m1] = inicio.split(':').map(Number);
-    const [h2,m2] = fin.split(':').map(Number);
-    const mins = (h2*60+m2) - (h1*60+m1);
-    if(mins <= 0) return '—';
-    return (mins/60).toFixed(1);
-  } catch(e){ return '—'; }
-}
-
-function solicitarComentarioRechazo(id){
-  const motivo = prompt('¿Motivo del rechazo? (opcional)');
-  validarActividad(id, 'rechazada', motivo||'');
-}
-
-function renderTareaCardSupervisor(t){
-  return `<div class="tarea-card" onclick="abrirDetalleTarea('${escapeAttr(t.id)}','asignaciones')">
-    <div class="tarea-card-head">
-      <div class="tarea-card-icon lub">&#128196;</div>
-      <div class="tarea-card-info">
-        <div class="tarea-card-tag">${escapeHtml(t.asignadoANombre||t.asignadoA||"")}</div>
-        <div class="tarea-card-desc">${escapeHtml(t.equipo||"")} · ${escapeHtml(t.carta||"")}</div>
-        <div class="tarea-card-meta">Completada · Pendiente de validación</div>
-      </div>
-      <span class="tarea-status ts-val">Revisar</span>
-    </div>
-  </div>`;
-}
-
-/* ══════════════════════════════════════════════════
-   MODAL ASIGNAR TAREA
-   ══════════════════════════════════════════════════ */
-let _tecnicoActivoModal = null;
 
 function abrirModalAsignar(usuarioTecnico){
   const tc = TECNICOS_LIST.find(t=>t.u===usuarioTecnico);
@@ -2947,13 +2910,14 @@ function renderHorasHombre(){
           <div class="hh-tecnico-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
           <div class="hh-tecnico-info">
             <div class="hh-tecnico-nombre">${escapeHtml(tc.n)}</div>
-            <div class="hh-tecnico-meta">${tc.p} · ${actos.length} actividad${actos.length!==1?'es':''} · ${horas} horas</div>
+            <div class="hh-tecnico-meta">${tc.p} · ${actos.length} actividad${actos.length!==1?'es':''}${totalMins>0?' · '+horas+' horas':''}</div>
             <div class="hh-bar-wrap"><div class="hh-bar-fill" style="width:${pct}%"></div></div>
           </div>
           <div style="text-align:right;flex-shrink:0">
-            <div style="font-size:18px;font-weight:900;color:#1228ff">${horas}</div>
-            <div style="font-size:9px;color:#5f6c8d">hrs</div>
-            <div style="font-size:9px;color:#5f6c8d;margin-top:2px">${pct}%</div>
+            ${totalMins>0
+              ?'<div style="font-size:18px;font-weight:900;color:#1228ff">'+horas+'</div><div style="font-size:9px;color:#5f6c8d">hrs</div><div style="font-size:9px;color:#5f6c8d;margin-top:2px">'+pct+'%</div>'
+              :'<div style="font-size:10px;color:#5f6c8d;text-align:right">'+actos.length+' act.<br><span style="font-size:9px">sin horas</span></div>'
+            }
           </div>
         </div>
         <div id="hh-det-${tc.u}" style="display:none">
