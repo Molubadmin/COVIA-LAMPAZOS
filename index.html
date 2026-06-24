@@ -1633,15 +1633,25 @@ async function entrarRealizadas(){
 }
 
 async function cargarCartasGuardadas(){
-  // Marcar cartas con origen CRM consultando el servidor para cada equipo que tenga datos en cache
-  // Las cartas guardadas ya están en CARTAS_DATA con origen:"crm" si se abrieron antes
-  // Para la vista realizadas, hacemos una consulta batch ligera
-  // Por ahora usamos los datos que ya están en CARTAS_DATA
-  // Las cartas se van cargando conforme el usuario las abre — 
-  // para realizadas mostramos las que ya fueron guardadas (origen crm) según CARTAS_DATA
-  // Si no hay nada cargado, el servidor no tiene endpoint batch, así que mostramos aviso
+  try{
+    const r = await apiGet({action:"getCartasGuardadas"});
+    if(!r.ok) throw new Error(r.error||"No se pudieron cargar cartas guardadas");
+    const rows = Array.isArray(r.data) ? r.data : [];
+    rows.forEach(c=>{
+      const id = String(c.idTag||"").trim().toUpperCase();
+      if(!id) return;
+      const count = Number(c.elementosCount||0);
+      CARTAS_DATA[id] = {
+        ...(CARTAS_DATA[id]||{}),
+        origen:"crm",
+        fechaGuardado:c.fechaGuardado||"",
+        elementos:CARTAS_DATA[id]?.elementos || new Array(count).fill(null).map(()=>({}))
+      };
+    });
+  }catch(e){
+    console.warn("No se cargaron cartas guardadas:", e.message);
+  }
 }
-
 function cerrarRealizadas(){
   document.getElementById("realizadas-view").style.display="none";
   if(document.getElementById("app-shell").classList.contains("visible")){
@@ -2102,7 +2112,9 @@ async function navTo(seccion){
   }else if(seccion==="cartas"){
     document.getElementById("cartas-view").style.display="flex"; renderCartasList();
   }else if(seccion==="realizadas"){
-    document.getElementById("realizadas-view").style.display="flex"; renderRealizadasList();
+    document.getElementById("realizadas-view").style.display="flex";
+    await cargarCartasGuardadas();
+    renderRealizadasList();
   }else if(seccion==="tecnico-tareas"){
     document.getElementById("tecnico-view").style.display="flex"; renderTecnicoView();
   }else if(seccion==="actividad-extra"){
@@ -2259,56 +2271,58 @@ async function enviarActividadExtra(){
   const tipo   = document.getElementById("ae-tipo").value;
   const desc   = document.getElementById("ae-desc").value.trim();
   if(!equipo||!tipo||!desc){ alert("Por favor llena equipo, tipo y descripción"); return; }
+
   const horaInicio = document.getElementById("ae-hora-inicio")?.value||"";
   const horaFin    = document.getElementById("ae-hora-fin")?.value||"";
   const comentario = document.getElementById("ae-comentario")?.value.trim()||"";
   const hh = calcHorasHombre(horaInicio, horaFin);
   const btn = document.querySelector(".btn-enviar-ae");
-  btn.disabled=true; btn.textContent="Enviando...";
+  const b64 = _aeBase64;
+  const mime = _aeMime;
+
   const actividad = {
     id:"AE-"+Date.now(), usuario:USUARIO_SESION,
     nombre:getNombreUsuario(), puesto:getPuestoUsuario(),
     equipo, tipo, desc, horaInicio, horaFin,
     horasHombre:hh!=="—"?hh:"", comentario,
-    base64:_aeBase64, mimeType:_aeMime,
+    base64:b64, mimeType:mime,
     fecha:new Date().toLocaleDateString("es-MX"),
     hora:new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),
     status:"pendiente"
   };
-  ACTIVIDADES_EXTRA.push({...actividad, base64:"", mimeType:""});
-  document.getElementById("ae-equipo").value="";
-  document.getElementById("ae-tipo").value="";
-  document.getElementById("ae-desc").value="";
-  document.getElementById("ae-foto-label").textContent="Tomar foto o subir imagen";
-  if(document.getElementById("ae-hora-inicio")) document.getElementById("ae-hora-inicio").value="";
-  if(document.getElementById("ae-hora-fin"))    document.getElementById("ae-hora-fin").value="";
-  if(document.getElementById("ae-comentario"))  document.getElementById("ae-comentario").value="";
-  if(document.getElementById("ae-horas-resumen")) document.getElementById("ae-horas-resumen").textContent="";
-  const b64=_aeBase64; const mime=_aeMime;
-  _aeBase64=""; _aeMime="";
-  btn.disabled=false; btn.textContent="Enviar actividad";
-  mostrarToast("✓ Actividad registrada — enviando notificación...", "#179b52");
-  navTo("tecnico-tareas");
-  try {
-    const ctrl=new AbortController();
-    const tid=setTimeout(()=>ctrl.abort(),60000);
-    const resp=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({action:"saveActividadExtra",
-        id:actividad.id,usuario:actividad.usuario,nombre:actividad.nombre,
-        puesto:actividad.puesto,equipo:actividad.equipo,tipo:actividad.tipo,
-        desc:actividad.desc,horaInicio:actividad.horaInicio,horaFin:actividad.horaFin,
-        horasHombre:actividad.horasHombre,comentario:actividad.comentario,
-        base64:b64,mimeType:mime,fecha:actividad.fecha,hora:actividad.hora}),
-      signal:ctrl.signal});
-    clearTimeout(tid);
-    const data=await resp.json();
-    if(data.ok){
-      mostrarToast("📧 Notificación enviada a supervisores","#1228ff");
-      if(data.fotoUrl){const loc=ACTIVIDADES_EXTRA.find(a=>a.id===actividad.id);if(loc)loc.fotoUrl=data.fotoUrl;}
-    }
-  }catch(e){console.warn("API background:",e.message);}
-}
 
+  btn.disabled=true; btn.textContent="Guardando...";
+  try{
+    const data = await apiPost({action:"saveActividadExtra", ...actividad});
+    if(!data.ok) throw new Error(data.error||"No se pudo guardar la actividad");
+
+    ACTIVIDADES_EXTRA.push({
+      ...actividad,
+      base64:"",
+      mimeType:"",
+      fotoUrl:data.fotoUrl||"",
+      id:data.id||actividad.id
+    });
+
+    document.getElementById("ae-equipo").value="";
+    document.getElementById("ae-tipo").value="";
+    document.getElementById("ae-desc").value="";
+    document.getElementById("ae-foto-label").textContent="Tomar foto o subir imagen";
+    if(document.getElementById("ae-hora-inicio")) document.getElementById("ae-hora-inicio").value="";
+    if(document.getElementById("ae-hora-fin"))    document.getElementById("ae-hora-fin").value="";
+    if(document.getElementById("ae-comentario"))  document.getElementById("ae-comentario").value="";
+    if(document.getElementById("ae-horas-resumen")) document.getElementById("ae-horas-resumen").textContent="";
+    _aeBase64=""; _aeMime="";
+
+    mostrarToast("✓ Actividad registrada y notificada", "#179b52");
+    navTo("tecnico-tareas");
+  }catch(e){
+    console.error(e);
+    alert("No se pudo guardar la actividad extra:\n"+e.message);
+  }finally{
+    btn.disabled=false; btn.textContent="Enviar actividad →";
+  }
+}
 /* ══════════════════════════════════════════════════
    DETALLE DE TAREA / ACTIVIDAD
    ══════════════════════════════════════════════════ */
@@ -2411,13 +2425,21 @@ function marcarTareaLista(){
   renderTecnicoView();
 }
 
-function validarTarea(status){
+async function validarTarea(status){
   const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
-  if(t){ t.status=status; t.validadoPor=USUARIO_SESION; }
-  alert(status==="aprobada"?"✓ Tarea aprobada":"Tarea rechazada.");
-  cerrarDetalleTarea();
+  if(!t) return;
+  try{
+    const r = await apiPost({action:"updateTareaStatus", id:t.id, status, por:USUARIO_SESION});
+    if(!r.ok) throw new Error(r.error||"No se pudo actualizar la tarea");
+    t.status=status;
+    t.validadoPor=USUARIO_SESION;
+    mostrarToast(status==="aprobada"?"✓ Tarea aprobada":"Tarea rechazada", status==="aprobada"?"#179b52":"#c62828");
+    cerrarDetalleTarea();
+    if(navActual==="asignaciones") renderAsignaciones();
+  }catch(e){
+    alert("Error al validar tarea:\n"+e.message);
+  }
 }
-
 function validarActividad(id, status, motivo){
   const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
   if(a){
@@ -3477,6 +3499,9 @@ async function guardarCarta(){
       btn.textContent="✓ Guardada — "+(r.fechaGuardado||new Date().toLocaleTimeString("es-MX"));
     }
     renderCartasList();
+    if(r.syncExcel && r.syncExcel.ok===false){
+      alert("La carta se guardó en el CRM, pero no se pudo sincronizar con ELEMENTOS_LUBRICACION:\n"+(r.syncExcel.error||"Error desconocido"));
+    }
   }catch(e){
     if(btn){btn.disabled=false;btn.textContent="💾 Guardar carta";}
     alert("Error al guardar: "+e.message);
