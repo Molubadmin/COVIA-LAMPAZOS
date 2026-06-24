@@ -2317,6 +2317,7 @@ async function enviarActividadExtra(){
     if(data.emailEnviado===false){
       mostrarToast("✓ Actividad registrada · correo pendiente de revisar", "#d97706");
       console.warn("Email actividad extra:", data.emailError||"No informado");
+      alert("La actividad se guardó, pero el correo no se pudo enviar:\n"+(data.emailError||"Error no informado"));
     }else{
       mostrarToast("✓ Actividad registrada y notificada", "#179b52");
     }
