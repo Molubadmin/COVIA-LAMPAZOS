@@ -2314,7 +2314,12 @@ async function enviarActividadExtra(){
     if(document.getElementById("ae-horas-resumen")) document.getElementById("ae-horas-resumen").textContent="";
     _aeBase64=""; _aeMime="";
 
-    mostrarToast("✓ Actividad registrada y notificada", "#179b52");
+    if(data.emailEnviado===false){
+      mostrarToast("✓ Actividad registrada · correo pendiente de revisar", "#d97706");
+      console.warn("Email actividad extra:", data.emailError||"No informado");
+    }else{
+      mostrarToast("✓ Actividad registrada y notificada", "#179b52");
+    }
     navTo("tecnico-tareas");
   }catch(e){
     console.error(e);
@@ -2440,21 +2445,22 @@ async function validarTarea(status){
     alert("Error al validar tarea:\n"+e.message);
   }
 }
-function validarActividad(id, status, motivo){
+async function validarActividad(id, status, motivo){
   const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
-  if(a){
+  if(!a) return;
+  try{
+    const r = await apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION, motivo:motivo||""});
+    if(!r.ok) throw new Error(r.error||"No se pudo validar la actividad");
     a.status = status;
     a.validadoPor = USUARIO_SESION;
     if(motivo) a.motivoRechazo = motivo;
-    apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION, motivo:motivo||""})
-      .catch(e=>console.warn("API no disponible"));
+    const msg = status==="aprobada" ? "✓ Actividad aprobada" : "✗ Actividad rechazada";
+    mostrarToast(msg, status==="aprobada"?"#179b52":"#c62828");
+    if(navActual==="asignaciones") renderAsignaciones();
+    else cerrarDetalleTarea();
+  }catch(e){
+    alert("Error al validar actividad:\n"+e.message);
   }
-  // Show toast instead of alert
-  const msg = status==="aprobada" ? "✓ Actividad aprobada" : "✗ Rechazada"+(motivo?": "+motivo.slice(0,30):"");
-  mostrarToast(msg, status==="aprobada"?"#179b52":"#c62828");
-  // Refresh asignaciones view if we're there
-  if(navActual==="asignaciones") renderAsignaciones();
-  else cerrarDetalleTarea();
 }
 
 function mostrarToast(msg, color){
@@ -2537,6 +2543,41 @@ function renderAsignaciones(){
   }
 
   // onclick directo en cada card (via abrirModalPorIdx)
+}
+
+function renderActividadCardSupervisor(a){
+  const hh = a.horasHombre ? " · ⏱ "+a.horasHombre+"h" : "";
+  const foto = a.fotoUrl ? `<a href="${escapeHtml(a.fotoUrl)}" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;color:#1228ff;font-weight:800">📷 Ver foto</a>` : "";
+  return `<div class="act-sup-card">
+    <div class="act-sup-head" onclick="abrirDetalleActividad('${escapeAttr(a.id)}','asignaciones')">
+      <div class="act-sup-avatar ${String(a.puesto||'').toLowerCase().includes('eléctr')||String(a.puesto||'').toLowerCase().includes('electric')?'elec':'mec'}">🔧</div>
+      <div class="act-sup-info">
+        <div class="act-sup-nombre">${escapeHtml(a.nombre||a.usuario||"Técnico")} <span class="act-sup-puesto">· ${escapeHtml(a.puesto||"")}</span></div>
+        <div class="act-sup-meta">📍 ${escapeHtml(a.equipo||"")} · ${escapeHtml(a.tipo||"")} · ${escapeHtml(a.fecha||"")} ${escapeHtml(a.hora||"")}${hh}</div>
+        <div class="act-sup-desc">${escapeHtml(a.desc||"")}</div>
+        ${a.comentario?`<div class="act-sup-comentario">💬 ${escapeHtml(a.comentario)}</div>`:""}
+        ${foto}
+      </div>
+    </div>
+    <div class="act-sup-actions" style="padding:0 16px 16px">
+      <button class="btn-aprobar" onclick="validarActividad('${escapeAttr(a.id)}','aprobada')">✓ Aprobar</button>
+      <button class="btn-rechazar" onclick="validarActividad('${escapeAttr(a.id)}','rechazada')">✕ Rechazar</button>
+    </div>
+  </div>`;
+}
+
+function renderTareaCardSupervisor(t){
+  return `<div class="tarea-card" onclick="abrirDetalleTarea('${safeJs(t.id)}','asignaciones')">
+    <div class="tarea-card-head">
+      <div class="tarea-card-icon rec">📋</div>
+      <div class="tarea-card-info">
+        <div class="tarea-card-tag">${escapeHtml(t.desc||"Tarea completada")}</div>
+        <div class="tarea-card-desc">${escapeHtml(t.asignadoANombre||t.asignadoA||"")} · ${escapeHtml(t.equipo||"")}</div>
+        <div class="tarea-card-meta">${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div>
+      </div>
+      <span class="tarea-status ts-val">Por validar</span>
+    </div>
+  </div>`;
 }
 
 // Mapa global para lookup por índice (evita problemas de comillas en onclick)
@@ -2658,6 +2699,11 @@ function abrirPanelTecnico(globalIdx){
         ${hh?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-bottom:6px">⏱ Horas hombre: '+hh+'</div>':''}
         ${a.comentario?'<div style="font-size:11px;color:#5f6c8d;font-style:italic;margin-bottom:6px">💬 '+escapeHtml(a.comentario)+'</div>':''}
         ${a.fotoUrl?'<a href="'+escapeHtml(a.fotoUrl)+'" target="_blank" style="font-size:11px;color:#1228ff;font-weight:700">📷 Ver foto de evidencia</a>':''}
+        ${a.status==='pendiente'?`<div style="display:flex;gap:10px;margin-top:12px">
+          <button class="btn-aprobar" onclick="event.stopPropagation();validarActividad('${escapeAttr(a.id)}','aprobada')" style="flex:1;padding:10px;border-radius:12px;border:none;font-size:12px;font-weight:800;cursor:pointer">✓ Aprobar</button>
+          <button class="btn-rechazar" onclick="event.stopPropagation();validarActividad('${escapeAttr(a.id)}','rechazada')" style="flex:1;padding:10px;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer">✕ Rechazar</button>
+        </div>`:''}
+        ${a.status==='aprobada'?'<div style="font-size:11px;color:#179b52;margin-top:6px;background:#e9f7ef;padding:6px 10px;border-radius:8px">✓ Aprobada por '+escapeHtml(a.validadoPor||"supervisor")+'</div>':''}
         ${a.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:6px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada</div>':''}
       </div>
     </div>`;
