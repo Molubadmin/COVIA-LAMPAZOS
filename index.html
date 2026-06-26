@@ -1730,6 +1730,8 @@ let _volverARealizadas=false;
    ══════════════════════════════════════════════════ */
 let USUARIO_SESION = "";
 let ROL_SESION     = "";
+let _syncTrabajoTimer = null;
+let _syncTrabajoActivo = false;
 
 function initApp(){
   // Set background photo
@@ -1871,6 +1873,7 @@ async function iniciarSesion(){
         badge.textContent = pend;
       }
     }).catch(e=>console.warn("Sin datos del servidor:", e.message));
+    iniciarSyncTrabajo();
   }else{
     err.textContent="Usuario o contraseña incorrectos";
     err.classList.add("visible");
@@ -1880,6 +1883,7 @@ async function iniciarSesion(){
 
 function cerrarSesion(){
   if(!confirm("¿Cerrar sesión?")) return;
+  detenerSyncTrabajo();
   USUARIO_SESION=""; ROL_SESION="";
   document.getElementById("app-shell").classList.remove("visible");
   document.getElementById("login-screen").classList.remove("hidden");
@@ -2115,15 +2119,21 @@ async function navTo(seccion){
     await cargarCartasGuardadas();
     renderRealizadasList();
   }else if(seccion==="tecnico-tareas"){
-    document.getElementById("tecnico-view").style.display="flex"; renderTecnicoView();
+    document.getElementById("tecnico-view").style.display="flex";
+    renderTecnicoView();
+    await sincronizarTrabajo({forceRender:true});
   }else if(seccion==="actividad-extra"){
     document.getElementById("actividad-extra-view").style.display="flex";
   }else if(seccion==="tarea-detalle"){
     document.getElementById("tarea-detalle-view").style.display="flex";
   }else if(seccion==="horas"){
-    document.getElementById("horas-view").style.display="flex"; renderHorasHombre();
+    document.getElementById("horas-view").style.display="flex";
+    renderHorasHombre();
+    await sincronizarTrabajo({forceRender:true});
   }else if(seccion==="asignaciones"){
-    document.getElementById("asignaciones-view").style.display="flex"; renderAsignaciones();
+    document.getElementById("asignaciones-view").style.display="flex";
+    renderAsignaciones();
+    await sincronizarTrabajo({forceRender:true});
   }
 }
 
@@ -3223,6 +3233,61 @@ function calcMinutos(inicio, fin){
     return m > 0 ? m : 0;
   }catch(e){ return 0; }
 }
+
+function actualizarBadgeAsignaciones(){
+  const badge = document.getElementById("badge-asignaciones");
+  if(!badge) return;
+  const pend = (ACTIVIDADES_EXTRA.filter(a=>a.status==="pendiente").length)
+             + (TAREAS_ASIGNADAS.filter(t=>t.status==="completada").length);
+  badge.style.display = pend>0 ? "inline" : "none";
+  badge.textContent = pend;
+}
+
+async function sincronizarTrabajo(opts={}){
+  if(_syncTrabajoActivo || !USUARIO_SESION) return;
+  _syncTrabajoActivo = true;
+  try{
+    const [actividadesResp,tareasResp] = await Promise.allSettled([
+      apiGet({action:"getActividadesExtra"}),
+      apiGet({action:"getTareasAsignadas"})
+    ]);
+    let cambio=false;
+    if(actividadesResp.status==="fulfilled"&&actividadesResp.value.ok&&Array.isArray(actividadesResp.value.data)){
+      const nuevo=JSON.stringify(actividadesResp.value.data);
+      if(nuevo!==JSON.stringify(ACTIVIDADES_EXTRA)){ ACTIVIDADES_EXTRA=actividadesResp.value.data; cambio=true; }
+    }
+    if(tareasResp.status==="fulfilled"&&tareasResp.value.ok&&Array.isArray(tareasResp.value.data)){
+      const nuevo=JSON.stringify(tareasResp.value.data);
+      if(nuevo!==JSON.stringify(TAREAS_ASIGNADAS)){ TAREAS_ASIGNADAS=tareasResp.value.data; cambio=true; }
+    }
+    actualizarBadgeAsignaciones();
+    if(cambio || opts.forceRender){
+      if(navActual==="asignaciones") renderAsignaciones();
+      else if(navActual==="horas") renderHorasHombre();
+      else if(navActual==="tecnico-tareas") renderTecnicoView();
+      else if(navActual==="tarea-detalle"&&_tareaActivaId){
+        const id=_tareaActivaId;
+        if(String(id).startsWith("AE-")) abrirDetalleActividad(id,_volverDeDetalle);
+        else abrirDetalleTarea(id,_volverDeDetalle);
+      }
+    }
+  }catch(e){
+    console.warn("Sync trabajo:", e.message);
+  }finally{
+    _syncTrabajoActivo = false;
+  }
+}
+
+function iniciarSyncTrabajo(){
+  detenerSyncTrabajo();
+  _syncTrabajoTimer = setInterval(()=>sincronizarTrabajo(), 25000);
+}
+
+function detenerSyncTrabajo(){
+  if(_syncTrabajoTimer){ clearInterval(_syncTrabajoTimer); _syncTrabajoTimer=null; }
+  _syncTrabajoActivo=false;
+}
+
 async function cargarApp(){
   // Cargar equipos, estado, actividades y tareas en paralelo
   const [equiposResp, estadoResp, actividadesResp, tareasResp] = await Promise.allSettled([
