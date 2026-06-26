@@ -2392,6 +2392,7 @@ function abrirDetalleTarea(id, origen){
         ${t.horasHombre?'<div class="det-data-box"><div class="det-data-lbl">Horas hombre</div><div class="det-data-val" style="font-size:16px;color:#1228ff">'+escapeHtml(t.horasHombre)+' h</div></div>':""}
       </div>
       ${t.evidenciaComentario?'<div class="det-desc-box" style="margin-top:10px">'+escapeHtml(t.evidenciaComentario)+'</div>':""}
+      ${t.motivoRechazo?'<div style="margin-top:10px;background:#fdecec;border:1px solid #f1c6c6;color:#c62828;border-radius:14px;padding:12px 14px;font-size:13px;font-weight:700">Motivo de rechazo: '+escapeHtml(t.motivoRechazo)+'</div>':""}
       <div class="det-foto-box" style="margin-top:10px">${t.evidenciaUrlFoto?`<img src="${escapeHtml(t.evidenciaUrlFoto)}" alt="Evidencia de tarea">`:'<span style="font-size:24px">📷</span><span>Sin foto adjunta</span>'}</div>
     </div>` : "";
   document.getElementById("det-tarea-body").innerHTML = `
@@ -2476,6 +2477,7 @@ function abrirDetalleActividad(id, origen){
       <div class="det-section-lbl">Descripción del técnico</div>
       <div class="det-desc-box">${escapeHtml(a.desc||"Sin descripción")}</div>
     </div>
+    ${a.motivoRechazo?'<div><div class="det-section-lbl">Motivo de rechazo</div><div class="det-desc-box" style="background:#fdecec;border-color:#f1c6c6;color:#c62828;font-weight:700">'+escapeHtml(a.motivoRechazo)+'</div></div>':""}
     <div>
       <div class="det-section-lbl">Foto de evidencia</div>
       <div class="det-foto-box">${a.fotoUrl?`<img src="${escapeHtml(a.fotoUrl)}" alt="Evidencia">`:
@@ -2541,11 +2543,18 @@ async function marcarTareaLista(){
 async function validarTarea(status){
   const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
   if(!t) return;
+  let motivo = "";
+  if(status==="rechazada"){
+    motivo = prompt("Motivo de rechazo para el técnico:") || "";
+    motivo = motivo.trim();
+    if(!motivo){ alert("Para rechazar necesitas capturar el motivo."); return; }
+  }
   try{
-    const r = await apiPost({action:"updateTareaStatus", id:t.id, status, por:USUARIO_SESION});
+    const r = await apiPost({action:"updateTareaStatus", id:t.id, status, por:USUARIO_SESION, motivo});
     if(!r.ok) throw new Error(r.error||"No se pudo actualizar la tarea");
     t.status=status;
     t.validadoPor=USUARIO_SESION;
+    if(motivo) t.motivoRechazo=motivo;
     mostrarToast(status==="aprobada"?"✓ Tarea aprobada":"Tarea rechazada", status==="aprobada"?"#179b52":"#c62828");
     cerrarDetalleTarea();
     if(navActual==="asignaciones") renderAsignaciones();
@@ -2556,6 +2565,11 @@ async function validarTarea(status){
 async function validarActividad(id, status, motivo){
   const a = ACTIVIDADES_EXTRA.find(x=>x.id===id);
   if(!a) return;
+  if(status==="rechazada"&&!motivo){
+    motivo = prompt("Motivo de rechazo para el técnico:") || "";
+    motivo = motivo.trim();
+    if(!motivo){ alert("Para rechazar necesitas capturar el motivo."); return; }
+  }
   try{
     const r = await apiPost({action:"validarActividadExtra", id, status, validadoPor:USUARIO_SESION, motivo:motivo||""});
     if(!r.ok) throw new Error(r.error||"No se pudo validar la actividad");
@@ -2816,7 +2830,7 @@ function abrirPanelTecnico(globalIdx){
           <button class="btn-rechazar" onclick="event.stopPropagation();validarActividad('${escapeAttr(a.id)}','rechazada')" style="flex:1;padding:10px;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer">✕ Rechazar</button>
         </div>`:''}
         ${a.status==='aprobada'?'<div style="font-size:11px;color:#179b52;margin-top:6px;background:#e9f7ef;padding:6px 10px;border-radius:8px">✓ Aprobada por '+escapeHtml(a.validadoPor||"supervisor")+'</div>':''}
-        ${a.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:6px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada</div>':''}
+        ${a.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:6px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada'+(a.motivoRechazo?' — '+escapeHtml(a.motivoRechazo):'')+'</div>':''}
       </div>
     </div>`;
   }
@@ -3071,11 +3085,11 @@ function renderHorasHombre(){
   }
 
   const actsExtra = ACTIVIDADES_EXTRA
-    .filter(a => a.status !== 'rechazada' && dentroDelPeriodo(a.fecha))
+    .filter(a => dentroDelPeriodo(a.fecha))
     .map(a => ({...a, fuente:"extra", tipo:a.tipo||"Actividad extra", comentario:a.comentario||"", fechaRef:a.fecha}));
 
   const actsTareas = TAREAS_ASIGNADAS
-    .filter(t => ["completada","aprobada"].includes(t.status) && dentroDelPeriodo(t.fechaFin||t.completadoFecha||t.fecha))
+    .filter(t => ["completada","aprobada","rechazada"].includes(t.status) && dentroDelPeriodo(t.fechaFin||t.completadoFecha||t.fecha))
     .map(t => ({
       id:t.id,
       usuario:t.asignadoA,
@@ -3094,6 +3108,7 @@ function renderHorasHombre(){
       status:t.status,
       fuente:"tarea",
       fotoUrl:t.evidenciaUrlFoto||"",
+      motivoRechazo:t.motivoRechazo||"",
       fechaRef:t.fechaFin||t.completadoFecha||t.fecha
     }));
 
@@ -3185,8 +3200,9 @@ function renderHorasHombre(){
                   <div class="hh-act-info">
                     <div style="font-weight:700;color:#08112d;font-size:12px">${escapeHtml(a.equipo||'')} · ${escapeHtml(a.tipo||'')}</div>
                     <div>${escapeHtml((a.desc||'').slice(0,60))}${(a.desc||'').length>60?'...':''}</div>
-                    <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''} ${a.fuente==='tarea'?'· Asignación':''}</div>
+                    <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''} ${a.fuente==='tarea'?'· Asignación':''} ${a.status==='rechazada'?'· Rechazada':''}</div>
                     ${a.comentario?'<div style="color:#1228ff;margin-top:1px">💬 '+escapeHtml(a.comentario)+'</div>':''}
+                    ${a.motivoRechazo?'<div style="color:#c62828;margin-top:1px">Motivo: '+escapeHtml(a.motivoRechazo)+'</div>':''}
                     ${a.fotoUrl?'<a href="'+escapeHtml(a.fotoUrl)+'" target="_blank" style="color:#1228ff;font-weight:700">📷 Ver foto</a>':''}
                   </div>
                   <div class="hh-act-horas">${a.mins>0?(a.mins/60).toFixed(1)+'h':(a.horasHombre?a.horasHombre+'h':'—')}</div>
