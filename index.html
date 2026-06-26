@@ -2053,9 +2053,6 @@ function renderSidebar(){
       ${!esSupervisorOperativo?`
       <div class="nav-item" id="nav-planta" onclick="navTo('planta')">
         <div class="nav-item-icon">&#127981;</div><span>Ingresar a planta</span>
-      </div>
-      <div class="nav-item" id="nav-cartas" onclick="navTo('cartas')">
-        <div class="nav-item-icon">&#128196;</div><span>Cartas de lubricación</span>
       </div>`:""}
       ${esSupervisor()||ROL_SESION==="ADMIN"?`
       <div class="nav-item" id="nav-asignaciones" onclick="navTo('asignaciones')">
@@ -2079,6 +2076,8 @@ let ACTIVIDADES_EXTRA = [];  // { id, usuario, nombre, puesto, equipo, tipo, des
 let TAREAS_ASIGNADAS  = [];  // { id, asignadoPor, asignadoA, carta, equipo, fecha, status, notas }
 let _tareaActivaId = null;
 let _volverDeDetalle = "tecnico-tareas";
+let _tareaBase64 = "";
+let _tareaMime = "";
 
 /* ══════════════════════════════════════════════════
    NAVTO AMPLIADO
@@ -2266,6 +2265,42 @@ function calcHorasHombre(inicio, fin){
   } catch(e){ return '—'; }
 }
 
+function calcHorasHombreFechas(fechaInicio, horaInicio, fechaFin, horaFin){
+  try{
+    if(!fechaInicio||!horaInicio||!fechaFin||!horaFin) return "—";
+    const ini = new Date(fechaInicio+"T"+horaInicio);
+    const fin = new Date(fechaFin+"T"+horaFin);
+    const mins = (fin - ini) / 60000;
+    if(!isFinite(mins)||mins<=0) return "—";
+    return (mins/60).toFixed(1);
+  }catch(e){ return "—"; }
+}
+
+function calcResumenHorasTarea(){
+  const fi=document.getElementById("tarea-fecha-inicio")?.value||"";
+  const hi=document.getElementById("tarea-hora-inicio")?.value||"";
+  const ff=document.getElementById("tarea-fecha-fin")?.value||"";
+  const hf=document.getElementById("tarea-hora-fin")?.value||"";
+  const resumen=document.getElementById("tarea-horas-resumen");
+  if(!resumen) return;
+  if(!fi||!hi||!ff||!hf){resumen.textContent="";return;}
+  const hh=calcHorasHombreFechas(fi,hi,ff,hf);
+  resumen.textContent=hh!=="—"?"⏱ Total: "+hh+" horas hombre":"⚠ La fecha/hora fin debe ser mayor al inicio";
+  resumen.style.color=hh!=="—"?"#1228ff":"#c62828";
+}
+
+async function seleccionarFotoTarea(evt){
+  const file=evt.target.files[0]; if(!file) return;
+  try{
+    const {base64,mimeType}=await comprimirImagen(file);
+    _tareaBase64=base64; _tareaMime=mimeType;
+    const label=document.getElementById("tarea-foto-label");
+    if(label) label.innerHTML='<span style="color:#179b52;font-weight:800">✓ Foto lista</span>';
+  }catch(e){
+    alert("No se pudo cargar la foto: "+e.message);
+  }
+}
+
 async function enviarActividadExtra(){
   const equipo = document.getElementById("ae-equipo").value.trim();
   const tipo   = document.getElementById("ae-tipo").value;
@@ -2347,6 +2382,18 @@ function abrirDetalleTarea(id, origen){
 
   const esMia = t.asignadoA === USUARIO_SESION;
   const prioBadge = {urgente:"🔴 Urgente",alta:"🟡 Alta",baja:"🔵 Baja",normal:"🟢 Normal"}[t.prioridad||"normal"]||"Normal";
+  const hoyIso = (()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10);})();
+  const evidenciaHtml = (t.evidenciaComentario||t.evidenciaUrlFoto||t.horasHombre||t.horaInicio||t.horaFin) ? `
+    <div>
+      <div class="det-section-lbl">Evidencia del técnico</div>
+      <div class="det-data-grid">
+        ${t.fechaInicio||t.horaInicio?'<div class="det-data-box"><div class="det-data-lbl">Inicio</div><div class="det-data-val" style="font-size:13px">'+escapeHtml((t.fechaInicio||"")+" "+(t.horaInicio||""))+'</div></div>':""}
+        ${t.fechaFin||t.horaFin?'<div class="det-data-box"><div class="det-data-lbl">Fin</div><div class="det-data-val" style="font-size:13px">'+escapeHtml((t.fechaFin||"")+" "+(t.horaFin||""))+'</div></div>':""}
+        ${t.horasHombre?'<div class="det-data-box"><div class="det-data-lbl">Horas hombre</div><div class="det-data-val" style="font-size:16px;color:#1228ff">'+escapeHtml(t.horasHombre)+' h</div></div>':""}
+      </div>
+      ${t.evidenciaComentario?'<div class="det-desc-box" style="margin-top:10px">'+escapeHtml(t.evidenciaComentario)+'</div>':""}
+      <div class="det-foto-box" style="margin-top:10px">${t.evidenciaUrlFoto?`<img src="${escapeHtml(t.evidenciaUrlFoto)}" alt="Evidencia de tarea">`:'<span style="font-size:24px">📷</span><span>Sin foto adjunta</span>'}</div>
+    </div>` : "";
   document.getElementById("det-tarea-body").innerHTML = `
     <div>
       <div class="det-section-lbl">Información de la tarea</div>
@@ -2363,11 +2410,42 @@ function abrirDetalleTarea(id, origen){
       <div class="det-desc-box" style="line-height:1.7;font-size:14px">${escapeHtml(t.desc||t.carta||"Sin descripción adicional")}</div>
     </div>
     ${t.notas?'<div><div class="det-section-lbl">Notas adicionales</div><div class="det-desc-box">'+escapeHtml(t.notas)+'</div></div>':""}
+    ${evidenciaHtml}
   `;
 
   const actions = document.getElementById("det-tarea-actions");
   if(esMia && t.status==="pendiente"){
-    actions.innerHTML='<button class="btn-marcar-listo" onclick="marcarTareaLista()">&#10003; Marcar como completada</button>';
+    _tareaBase64=""; _tareaMime="";
+    actions.innerHTML=`
+      <div style="width:100%;background:#fff;border:1px solid #dde1f0;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:11px;font-weight:900;color:#08112d;text-transform:uppercase;letter-spacing:.8px">Cerrar asignación con evidencia</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Fecha inicio</div>
+            <input type="date" id="tarea-fecha-inicio" value="${hoyIso}" oninput="calcResumenHorasTarea()" style="width:100%;padding:11px;border:1.5px solid #dbe1f0;border-radius:12px;font-size:14px">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Hora inicio</div>
+            <input type="time" id="tarea-hora-inicio" oninput="calcResumenHorasTarea()" style="width:100%;padding:11px;border:1.5px solid #dbe1f0;border-radius:12px;font-size:14px">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Fecha fin</div>
+            <input type="date" id="tarea-fecha-fin" value="${hoyIso}" oninput="calcResumenHorasTarea()" style="width:100%;padding:11px;border:1.5px solid #dbe1f0;border-radius:12px;font-size:14px">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#5f6c8d;margin-bottom:6px">Hora fin</div>
+            <input type="time" id="tarea-hora-fin" oninput="calcResumenHorasTarea()" style="width:100%;padding:11px;border:1.5px solid #dbe1f0;border-radius:12px;font-size:14px">
+          </div>
+        </div>
+        <div id="tarea-horas-resumen" style="font-size:12px;color:#1228ff;font-weight:800;min-height:18px"></div>
+        <textarea id="tarea-comentario-cierre" placeholder="Describe qué hiciste, qué encontraste y cómo quedó la asignación..." style="width:100%;min-height:86px;padding:12px;border:1.5px solid #dbe1f0;border-radius:14px;font-family:inherit;font-size:14px;resize:vertical"></textarea>
+        <div class="ae-upload" onclick="document.getElementById('tarea-foto-input').click()" style="padding:14px">
+          <div style="font-size:22px;margin-bottom:4px">📷</div>
+          <div id="tarea-foto-label">Agregar foto de evidencia</div>
+        </div>
+        <input type="file" id="tarea-foto-input" accept="image/*" capture="environment" style="display:none" onchange="seleccionarFotoTarea(event)">
+        <button class="btn-marcar-listo" id="btn-cerrar-tarea" onclick="marcarTareaLista()">&#10003; Enviar evidencia y completar</button>
+      </div>`;
   }else if(!esMia && (esSupervisor()||ROL_SESION==="ADMIN") && t.status==="completada"){
     actions.innerHTML=`<button class="btn-aprobar" onclick="validarTarea('aprobada')">&#10003; Aprobar tarea</button>
     <button class="btn-rechazar" onclick="validarTarea('rechazada')">&#10007; Rechazar</button>`;
@@ -2417,18 +2495,47 @@ function abrirDetalleActividad(id, origen){
 
 function cerrarDetalleTarea(){ navTo(_volverDeDetalle||"tecnico-tareas"); }
 
-function marcarTareaLista(){
+async function marcarTareaLista(){
   const t = TAREAS_ASIGNADAS.find(x=>x.id===_tareaActivaId);
   if(!t) return;
-  t.status = "completada";
-  t.completadoFecha = new Date().toLocaleDateString("es-MX");
-  // Guardar en AppScript
-  apiPost({action:"updateTareaStatus", id:t.id, status:"completada", por:USUARIO_SESION})
-    .catch(e=>console.warn("API:", e.message));
-  cerrarDetalleTarea();
-  mostrarToast("✓ Tarea marcada como completada — el supervisor la revisará", "#179b52");
-  // Re-render con historial completo (no quitar la tarea)
-  renderTecnicoView();
+  const fechaInicio=document.getElementById("tarea-fecha-inicio")?.value||"";
+  const horaInicio=document.getElementById("tarea-hora-inicio")?.value||"";
+  const fechaFin=document.getElementById("tarea-fecha-fin")?.value||"";
+  const horaFin=document.getElementById("tarea-hora-fin")?.value||"";
+  const comentario=document.getElementById("tarea-comentario-cierre")?.value.trim()||"";
+  const horasHombre=calcHorasHombreFechas(fechaInicio,horaInicio,fechaFin,horaFin);
+  if(!fechaInicio||!horaInicio||!fechaFin||!horaFin){
+    alert("Captura fecha y hora de inicio y fin de la asignación."); return;
+  }
+  if(horasHombre==="—"){
+    alert("La fecha/hora fin debe ser mayor a la fecha/hora inicio."); return;
+  }
+  if(!comentario){
+    alert("Agrega un comentario de lo que realizaste."); return;
+  }
+  const btn=document.getElementById("btn-cerrar-tarea");
+  if(btn){btn.disabled=true;btn.textContent="Enviando evidencia...";}
+  try{
+    const r=await apiPost({action:"updateTareaStatus", id:t.id, status:"completada", por:USUARIO_SESION,
+      fechaInicio,horaInicio,fechaFin,horaFin,horasHombre,comentario,
+      base64:_tareaBase64,mimeType:_tareaMime});
+    if(!r.ok) throw new Error(r.error||"No se pudo completar la tarea");
+    t.status="completada";
+    t.completadoFecha=new Date().toLocaleDateString("es-MX");
+    t.fechaInicio=fechaInicio; t.horaInicio=horaInicio;
+    t.fechaFin=fechaFin; t.horaFin=horaFin;
+    t.horasHombre=horasHombre;
+    t.evidenciaComentario=comentario;
+    if(r.fotoUrl) t.evidenciaUrlFoto=r.fotoUrl;
+    if(r.fotoFileId) t.evidenciaFileId=r.fotoFileId;
+    _tareaBase64=""; _tareaMime="";
+    cerrarDetalleTarea();
+    mostrarToast("✓ Evidencia enviada — el supervisor la revisará", "#179b52");
+    renderTecnicoView();
+  }catch(e){
+    if(btn){btn.disabled=false;btn.textContent="✓ Enviar evidencia y completar";}
+    alert("Error al completar tarea:\n"+e.message);
+  }
 }
 
 async function validarTarea(status){
@@ -2671,6 +2778,10 @@ function abrirPanelTecnico(globalIdx){
         ${t.notas?'<div style="font-size:11px;color:#1228ff;font-style:italic;margin-bottom:8px">💬 '+escapeHtml(t.notas)+'</div>':''}
         ${t.equipo?'<div style="font-size:11px;color:#5f6c8d">📍 '+escapeHtml(t.equipo)+'</div>':''}
         ${t.fechaLimite?'<div style="font-size:11px;color:#c62828;font-weight:700;margin-top:4px">⏰ Fecha límite: '+escapeHtml(t.fechaLimite)+'</div>':''}
+        ${t.horasHombre?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-top:6px">⏱ Horas hombre: '+escapeHtml(t.horasHombre)+'h</div>':''}
+        ${(t.fechaInicio||t.horaInicio||t.fechaFin||t.horaFin)?'<div style="font-size:11px;color:#5f6c8d;margin-top:4px">🕒 '+escapeHtml((t.fechaInicio||"")+" "+(t.horaInicio||""))+' → '+escapeHtml((t.fechaFin||"")+" "+(t.horaFin||""))+'</div>':''}
+        ${t.evidenciaComentario?'<div style="font-size:11px;color:#1228ff;margin-top:6px;background:#eef2ff;padding:6px 10px;border-radius:8px">💬 '+escapeHtml(t.evidenciaComentario)+'</div>':''}
+        ${t.evidenciaUrlFoto?'<a href="'+escapeHtml(t.evidenciaUrlFoto)+'" target="_blank" style="display:inline-block;font-size:11px;color:#1228ff;font-weight:700;margin-top:6px">📷 Ver foto de evidencia</a>':''}
         ${t.status==='rechazada'?'<div style="font-size:11px;color:#c62828;margin-top:4px;background:#fdecec;padding:6px 10px;border-radius:8px">✗ Rechazada'+( t.motivoRechazo?' — '+escapeHtml(t.motivoRechazo):'')+'</div>':''}
       </div>
     </div>`;
@@ -2933,19 +3044,6 @@ function renderHorasHombre(){
   const body = document.getElementById("horas-body");
   if(!body) return;
 
-  // Si aún no hay datos, mostrar loading y reintentar
-  if(ACTIVIDADES_EXTRA.length === 0){
-    body.innerHTML = '<div style="text-align:center;padding:40px;color:#5f6c8d"><div style="font-size:24px;margin-bottom:10px">⏳</div><div style="font-weight:700">Cargando datos...</div><div style="font-size:12px;margin-top:6px">Si persiste, recarga la página</div></div>';
-    // Intentar cargar desde API
-    apiGet({action:"getActividadesExtra"}).then(function(r){
-      if(r.ok && Array.isArray(r.data) && r.data.length > 0){
-        ACTIVIDADES_EXTRA = r.data;
-        renderHorasHombre();
-      }
-    }).catch(function(){});
-    return;
-  }
-
   // Filtrar por periodo — soporta formatos dd/MM/yyyy y yyyy-MM-dd
   const ahora = new Date();
   ahora.setHours(23,59,59,999);
@@ -2972,9 +3070,34 @@ function renderHorasHombre(){
     return false;
   }
 
-  const acts = ACTIVIDADES_EXTRA.filter(a =>
-    a.status !== 'rechazada' && dentroDelPeriodo(a.fecha)
-  );
+  const actsExtra = ACTIVIDADES_EXTRA
+    .filter(a => a.status !== 'rechazada' && dentroDelPeriodo(a.fecha))
+    .map(a => ({...a, fuente:"extra", tipo:a.tipo||"Actividad extra", comentario:a.comentario||"", fechaRef:a.fecha}));
+
+  const actsTareas = TAREAS_ASIGNADAS
+    .filter(t => ["completada","aprobada"].includes(t.status) && dentroDelPeriodo(t.fechaFin||t.completadoFecha||t.fecha))
+    .map(t => ({
+      id:t.id,
+      usuario:t.asignadoA,
+      nombre:t.asignadoANombre,
+      puesto:t.puesto,
+      equipo:t.equipo||"Asignación",
+      tipo:"Tarea asignada",
+      desc:t.desc||"Tarea asignada",
+      comentario:t.evidenciaComentario||"",
+      fecha:t.fechaFin||t.completadoFecha||t.fecha,
+      fechaInicio:t.fechaInicio||"",
+      horaInicio:t.horaInicio||"",
+      fechaFin:t.fechaFin||"",
+      horaFin:t.horaFin||"",
+      horasHombre:t.horasHombre||"",
+      status:t.status,
+      fuente:"tarea",
+      fotoUrl:t.evidenciaUrlFoto||"",
+      fechaRef:t.fechaFin||t.completadoFecha||t.fecha
+    }));
+
+  const acts = [...actsExtra, ...actsTareas];
 
   // Agrupar por técnico
   const porTecnico = {};
@@ -2986,6 +3109,9 @@ function renderHorasHombre(){
     let mins = 0;
     if(a.horasHombre && parseFloat(a.horasHombre) > 0){
       mins = Math.round(parseFloat(a.horasHombre) * 60);
+    } else if(a.fechaInicio && a.horaInicio && a.fechaFin && a.horaFin){
+      const hh = calcHorasHombreFechas(a.fechaInicio, a.horaInicio, a.fechaFin, a.horaFin);
+      mins = hh !== "—" ? Math.round(parseFloat(hh) * 60) : 0;
     } else if(a.horaInicio && a.horaFin){
       mins = calcMinutos(a.horaInicio, a.horaFin);
     }
@@ -3055,12 +3181,13 @@ function renderHorasHombre(){
             ${actos.length===0
               ? '<div style="font-size:11px;color:#5f6c8d;padding:4px 0">Sin actividades en este periodo</div>'
               : actos.map(a => `<div class="hh-act-item">
-                  <div class="hh-act-dot" style="background:${a.status==='aprobada'?'#179b52':'#d97706'}"></div>
+                  <div class="hh-act-dot" style="background:${a.fuente==='tarea'?'#1228ff':(a.status==='aprobada'?'#179b52':'#d97706')}"></div>
                   <div class="hh-act-info">
                     <div style="font-weight:700;color:#08112d;font-size:12px">${escapeHtml(a.equipo||'')} · ${escapeHtml(a.tipo||'')}</div>
                     <div>${escapeHtml((a.desc||'').slice(0,60))}${(a.desc||'').length>60?'...':''}</div>
-                    <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''}</div>
+                    <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''} ${a.fuente==='tarea'?'· Asignación':''}</div>
                     ${a.comentario?'<div style="color:#1228ff;margin-top:1px">💬 '+escapeHtml(a.comentario)+'</div>':''}
+                    ${a.fotoUrl?'<a href="'+escapeHtml(a.fotoUrl)+'" target="_blank" style="color:#1228ff;font-weight:700">📷 Ver foto</a>':''}
                   </div>
                   <div class="hh-act-horas">${a.mins>0?(a.mins/60).toFixed(1)+'h':(a.horasHombre?a.horasHombre+'h':'—')}</div>
                 </div>`).join('')
