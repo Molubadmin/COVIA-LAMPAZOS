@@ -3068,29 +3068,40 @@ function renderHorasHombre(){
   const body = document.getElementById("horas-body");
   if(!body) return;
 
-  // Filtrar por periodo — soporta formatos dd/MM/yyyy y yyyy-MM-dd
+  // Filtrar por periodo en horario local — soporta dd/MM/yyyy y yyyy-MM-dd
   const ahora = new Date();
-  ahora.setHours(23,59,59,999);
+  const finHoy = new Date(ahora);
+  finHoy.setHours(23,59,59,999);
+  const inicioHoy = new Date(ahora);
+  inicioHoy.setHours(0,0,0,0);
   function parseFecha(fechaStr){
     if(!fechaStr) return null;
     try {
+      const s = String(fechaStr).trim();
       // Formato dd/MM/yyyy
-      if(fechaStr.includes('/')){
-        const [d,m,y] = fechaStr.split('/').map(Number);
+      if(s.includes('/')){
+        const [d,m,y] = s.split('/').map(Number);
         return new Date(y, m-1, d);
       }
-      // Formato ISO yyyy-MM-dd o Date object string
-      return new Date(fechaStr);
+      // Formato yyyy-MM-dd: construir local para evitar desfase UTC
+      if(/^\d{4}-\d{2}-\d{2}$/.test(s)){
+        const [y,m,d] = s.split('-').map(Number);
+        return new Date(y, m-1, d);
+      }
+      return new Date(s);
     }catch(e){ return null; }
   }
   function dentroDelPeriodo(fechaStr){
     if(_hhPeriodo === 'todo') return true;
     const f = parseFecha(fechaStr);
     if(!f || isNaN(f.getTime())) return false;
-    const diffDias = (ahora - f) / (1000*60*60*24);
-    if(_hhPeriodo === 'hoy')    return diffDias < 1;
-    if(_hhPeriodo === 'semana') return diffDias < 7;
-    if(_hhPeriodo === 'mes')    return diffDias < 31;
+    if(_hhPeriodo === 'hoy') return f >= inicioHoy && f <= finHoy;
+    const inicioSemana = new Date(inicioHoy);
+    inicioSemana.setDate(inicioSemana.getDate()-6);
+    const inicioMes = new Date(inicioHoy);
+    inicioMes.setDate(inicioMes.getDate()-30);
+    if(_hhPeriodo === 'semana') return f >= inicioSemana && f <= finHoy;
+    if(_hhPeriodo === 'mes')    return f >= inicioMes && f <= finHoy;
     return false;
   }
 
