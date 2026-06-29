@@ -1097,6 +1097,8 @@
   <div style="flex:1;overflow-y:auto;padding:14px" id="asignaciones-body"></div>
 </div>
 
+<div id="programadas-view" style="display:none;height:100%;flex-direction:column;overflow:hidden"></div>
+
 <div id="carta-editor-view">
   <div class="carta-editor-topbar">
     <button class="btn-back" onclick="cerrarCartaEditor()">&#8592;</button>
@@ -2059,6 +2061,9 @@ function renderSidebar(){
         <div class="nav-item-icon">&#127981;</div><span>Ingresar a planta</span>
       </div>`:""}
       ${esSupervisor()||ROL_SESION==="ADMIN"?`
+      <div class="nav-item" id="nav-programadas" onclick="navTo('programadas')">
+        <div class="nav-item-icon">&#128197;</div><span>Actividades programadas</span>
+      </div>
       <div class="nav-item" id="nav-asignaciones" onclick="navTo('asignaciones')">
         <div class="nav-item-icon">&#128203;</div><span>Asignaciones</span>
         <span id="badge-asignaciones" style="display:none;background:#c62828;color:#fff;border-radius:999px;font-size:9px;font-weight:800;padding:2px 6px;margin-left:auto"></span>
@@ -2089,13 +2094,13 @@ let _tareaMime = "";
 const _origNavTo = navTo;
 // Override navTo to add new sections
 const _allViewIds = ["dashboard-view","main","detail-view","cartas-view","carta-editor-view",
-  "realizadas-view","tecnico-view","actividad-extra-view","tarea-detalle-view","asignaciones-view","horas-view","splash"];
+  "realizadas-view","tecnico-view","actividad-extra-view","tarea-detalle-view","asignaciones-view","programadas-view","horas-view","splash"];
 
 async function navTo(seccion){
   navActual = seccion;
   // Update active state
   const navIds = ["dashboard","planta","cartas","realizadas","nav-dashboard","nav-planta",
-    "nav-cartas","nav-realizadas","nav-tecnico-tareas","nav-actividad-extra","nav-asignaciones"];
+    "nav-cartas","nav-realizadas","nav-tecnico-tareas","nav-actividad-extra","nav-asignaciones","nav-programadas"];
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
   const activeNav = document.getElementById("nav-"+seccion) || document.getElementById("nav-"+seccion.replace("tecnico-tareas","tecnico-tareas"));
   if(activeNav) activeNav.classList.add('active');
@@ -2129,6 +2134,10 @@ async function navTo(seccion){
   }else if(seccion==="horas"){
     document.getElementById("horas-view").style.display="flex";
     renderHorasHombre();
+    await sincronizarTrabajo({forceRender:true});
+  }else if(seccion==="programadas"){
+    document.getElementById("programadas-view").style.display="flex";
+    renderProgramadasView();
     await sincronizarTrabajo({forceRender:true});
   }else if(seccion==="asignaciones"){
     document.getElementById("asignaciones-view").style.display="flex";
@@ -2206,6 +2215,7 @@ function renderTareaCard(t){
         <div class="tarea-card-tag">${prioLabel}${escapeHtml(t.desc||t.carta||"Tarea asignada").slice(0,50)}${(t.desc||"").length>50?"...":""}</div>
         ${t.equipo?'<div class="tarea-card-desc">&#128205; '+escapeHtml(t.equipo)+'</div>':""}
         <div class="tarea-card-meta">&#128100; ${escapeHtml(t.asignadoPorNombre||t.asignadoPor)} · ${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div>
+        ${t.fechaProgramada||t.horaProgramada?'<div style="font-size:10px;color:#1228ff;font-weight:800;margin-top:2px">&#128197; Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div>':""}
         ${t.fechaLimite?'<div style="font-size:10px;color:#c62828;font-weight:700;margin-top:2px">&#128197; Límite: '+escapeHtml(t.fechaLimite)+'</div>':""}
       </div>
       <span class="tarea-status ${s.cls}">${s.label}</span>
@@ -2412,6 +2422,7 @@ function abrirDetalleTarea(id, origen){
         <div class="det-data-box"><div class="det-data-lbl">Asignado por</div><div class="det-data-val" style="font-size:13px">${escapeHtml(t.asignadoPorNombre||t.asignadoPor||"")}</div></div>
         <div class="det-data-box"><div class="det-data-lbl">Fecha</div><div class="det-data-val" style="font-size:13px">${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div></div>
         <div class="det-data-box"><div class="det-data-lbl">Prioridad</div><div class="det-data-val" style="font-size:13px">${prioBadge}</div></div>
+        ${t.fechaProgramada||t.horaProgramada?'<div class="det-data-box" style="border-color:rgba(18,40,255,.25)"><div class="det-data-lbl" style="color:#1228ff">Programada para</div><div class="det-data-val" style="font-size:13px;color:#1228ff">'+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div></div>':""}
         ${t.equipo?'<div class="det-data-box"><div class="det-data-lbl">Equipo / Área</div><div class="det-data-val" style="font-size:13px">'+escapeHtml(t.equipo)+'</div></div>':""}
         ${t.fechaLimite?'<div class="det-data-box" style="border-color:rgba(198,40,40,.25)"><div class="det-data-lbl" style="color:#c62828">Fecha límite</div><div class="det-data-val" style="font-size:13px;color:#c62828">'+escapeHtml(t.fechaLimite)+'</div></div>':""}
       </div>
@@ -2706,10 +2717,142 @@ function renderTareaCardSupervisor(t){
         <div class="tarea-card-tag">${escapeHtml(t.desc||"Tarea completada")}</div>
         <div class="tarea-card-desc">${escapeHtml(t.asignadoANombre||t.asignadoA||"")} · ${escapeHtml(t.equipo||"")}</div>
         <div class="tarea-card-meta">${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div>
+        ${t.fechaProgramada||t.horaProgramada?'<div style="font-size:10px;color:#1228ff;font-weight:800;margin-top:2px">Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div>':""}
       </div>
       <span class="tarea-status ts-val">Por validar</span>
     </div>
   </div>`;
+}
+
+/* ══════════════════════════════════════════════════
+   ACTIVIDADES PROGRAMADAS
+   ══════════════════════════════════════════════════ */
+function renderProgramadasView(){
+  const view=document.getElementById("programadas-view");
+  if(!view) return;
+  const hoyIso=(()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10);})();
+  const programadas=TAREAS_ASIGNADAS
+    .filter(t=>t.tipoProgramacion==="programada"||t.fechaProgramada||t.programadaId)
+    .sort((a,b)=>String(b.fecha||"").localeCompare(String(a.fecha||"")));
+  const tecnicosHtml=TECNICOS_LIST.map(tc=>{
+    const initials=tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
+    const bg=tc.t==="elec"?"#fff3df":"#eef2ff";
+    const fg=tc.t==="elec"?"#854f0b":"#0c447c";
+    return `<label style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #dde1f0;border-radius:14px;padding:10px 12px;cursor:pointer">
+      <input type="checkbox" class="prog-tecnico-check" value="${escapeAttr(tc.u)}" style="width:18px;height:18px">
+      <span style="width:34px;height:34px;border-radius:50%;background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">${initials}</span>
+      <span style="min-width:0"><span style="display:block;font-size:12px;font-weight:900;color:#08112d">${escapeHtml(tc.n)}</span><span style="font-size:10px;color:#5f6c8d">${tc.p}</span></span>
+    </label>`;
+  }).join("");
+  const recientesHtml=programadas.slice(0,12).map(t=>`
+    <div class="panel-tarea-card">
+      <div class="panel-tarea-head">
+        <div class="panel-tarea-prio" style="background:${t.status==='aprobada'?'#179b52':t.status==='rechazada'?'#c62828':t.status==='completada'?'#1228ff':'#d97706'}"></div>
+        <div class="panel-tarea-body">
+          <div class="panel-tarea-desc">${escapeHtml(t.desc||"Actividad programada")}</div>
+          <div class="panel-tarea-meta">
+            ${t.equipo?'📍 '+escapeHtml(t.equipo)+' · ':''}
+            👤 ${escapeHtml(t.asignadoANombre||t.asignadoA||"")}
+            ${t.fechaProgramada||t.horaProgramada?' · 📅 '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||"")):''}
+          </div>
+        </div>
+        <span class="tarea-status ${t.status==='pendiente'?'ts-pend':t.status==='completada'?'ts-val':t.status==='aprobada'?'ts-done':'ts-rec'}">${escapeHtml(t.status||"pendiente")}</span>
+      </div>
+    </div>`).join("");
+  view.innerHTML=`
+    <div class="det-topbar" style="flex-direction:column;gap:0;flex-shrink:0">
+      <div style="font-size:18px;font-weight:900">ACTIVIDADES PROGRAMADAS</div>
+      <div style="font-size:11px;opacity:.8;margin-top:2px">Programar trabajos para mecánicos y eléctricos</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px">
+      <div style="background:#fff;border:1px solid #dde1f0;border-radius:18px;padding:16px;height:max-content">
+        <div class="det-section-lbl">Nueva actividad programada</div>
+        <div class="modal-field"><label>¿Qué actividad se programará?</label><textarea id="prog-desc" rows="4" placeholder="Ej: Lubricar chumaceras del secador, revisar tablero, inspección de vibración..." style="resize:vertical"></textarea></div>
+        <div class="modal-field"><label>Equipo o área</label><input type="text" id="prog-equipo" placeholder="Ej: BTR-5133, Secador enfriador, Planta general"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="modal-field"><label>Fecha programada</label><input type="date" id="prog-fecha" value="${hoyIso}"></div>
+          <div class="modal-field"><label>Hora programada</label><input type="time" id="prog-hora"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="modal-field"><label>Prioridad</label><select id="prog-prioridad"><option value="normal">Normal</option><option value="urgente">🔴 Urgente</option><option value="alta">🟡 Alta</option><option value="baja">🔵 Baja</option></select></div>
+          <div class="modal-field"><label>Fecha límite</label><input type="date" id="prog-limite"></div>
+        </div>
+        <div class="modal-field"><label>Comentario al técnico</label><textarea id="prog-comentario" rows="2" placeholder="Instrucciones, herramienta necesaria, precauciones..." style="resize:vertical"></textarea></div>
+        <div class="det-section-lbl">Trabajadores seleccionados</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('todos')">Todos</button>
+          <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('mec')">Mecánicos</button>
+          <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('elec')">Eléctricos</button>
+          <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('ninguno')">Limpiar</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:8px;max-height:310px;overflow-y:auto;padding-right:2px">${tecnicosHtml}</div>
+        <button class="btn-enviar-ae" id="btn-programar-actividad" onclick="programarActividad()" style="margin-top:14px">Programar y enviar</button>
+      </div>
+      <div style="min-width:0">
+        <div class="det-section-lbl">Programadas recientes</div>
+        ${recientesHtml||'<div class="empty-msg">Todavía no hay actividades programadas.</div>'}
+      </div>
+    </div>`;
+}
+
+function seleccionarProgramados(tipo){
+  document.querySelectorAll(".prog-tecnico-check").forEach(ch=>{
+    const tc=TECNICOS_LIST.find(t=>t.u===ch.value);
+    ch.checked = tipo==="todos" || (tipo==="mec"&&tc&&tc.t==="mec") || (tipo==="elec"&&tc&&tc.t==="elec");
+    if(tipo==="ninguno") ch.checked=false;
+  });
+}
+
+async function programarActividad(){
+  const desc=document.getElementById("prog-desc")?.value.trim()||"";
+  const equipo=document.getElementById("prog-equipo")?.value.trim()||"";
+  const fechaProgramada=document.getElementById("prog-fecha")?.value||"";
+  const horaProgramada=document.getElementById("prog-hora")?.value||"";
+  const prioridad=document.getElementById("prog-prioridad")?.value||"normal";
+  const fechaLimite=document.getElementById("prog-limite")?.value||"";
+  const comentario=document.getElementById("prog-comentario")?.value.trim()||"";
+  const seleccion=[...document.querySelectorAll(".prog-tecnico-check:checked")].map(ch=>ch.value);
+  if(!desc){alert("Captura la actividad a programar.");return;}
+  if(!fechaProgramada||!horaProgramada){alert("Captura fecha y hora programada.");return;}
+  if(seleccion.length===0){alert("Selecciona al menos un trabajador.");return;}
+  const btn=document.getElementById("btn-programar-actividad");
+  if(btn){btn.disabled=true;btn.textContent="Programando...";}
+  const programadaId="P-"+Date.now();
+  const fechaAlta=new Date().toLocaleDateString("es-MX");
+  const horaAlta=new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+  const tareas=seleccion.map((u,idx)=>{
+    const tc=TECNICOS_LIST.find(t=>t.u===u);
+    return {
+      id:"T-"+Date.now()+"-"+idx,
+      asignadoPor:USUARIO_SESION,
+      asignadoPorNombre:getNombreUsuario(),
+      asignadoA:u,
+      asignadoANombre:tc?tc.n:u,
+      puesto:tc?tc.p:"",
+      desc,equipo,prioridad,fechaLimite,
+      carta:"",notas:comentario,
+      fecha:fechaAlta,hora:horaAlta,status:"pendiente",
+      programadaId,fechaProgramada,horaProgramada,tipoProgramacion:"programada"
+    };
+  });
+  try{
+    await Promise.all(tareas.map(t=>apiPost({action:"saveTareaAsignada",
+      id:t.id,asignadoPor:t.asignadoPor,asignadoPorNombre:t.asignadoPorNombre,
+      asignadoA:t.asignadoA,asignadoANombre:t.asignadoANombre,puesto:t.puesto,
+      desc:t.desc,equipo:t.equipo,prioridad:t.prioridad,fechaLimite:t.fechaLimite,
+      carta:t.carta,comentario:t.notas,fecha:t.fecha,hora:t.hora,
+      programadaId:t.programadaId,fechaProgramada:t.fechaProgramada,horaProgramada:t.horaProgramada,
+      tipoProgramacion:t.tipoProgramacion
+    })));
+    TAREAS_ASIGNADAS.push(...tareas);
+    mostrarToast("✓ Actividad programada enviada a "+tareas.length+" trabajador"+(tareas.length!==1?"es":""), "#179b52");
+    renderProgramadasView();
+    actualizarBadgeAsignaciones();
+  }catch(e){
+    alert("Error al programar actividad:\n"+e.message);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Programar y enviar";}
+  }
 }
 
 // Mapa global para lookup por índice (evita problemas de comillas en onclick)
@@ -2789,6 +2932,7 @@ function abrirPanelTecnico(globalIdx){
           <div class="panel-tarea-meta">
             ${t.equipo?'📍 '+escapeHtml(t.equipo)+' &nbsp;·&nbsp; ':''}
             📅 ${escapeHtml(t.fecha||'')} ${escapeHtml(t.hora||'')}
+            ${t.fechaProgramada||t.horaProgramada?'<span style="color:#1228ff;font-weight:700"> · Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</span>':''}
             ${t.fechaLimite?'<span style="color:#c62828;font-weight:700"> · ⏰ Límite: '+escapeHtml(t.fechaLimite)+'</span>':''}
           </div>
         </div>
@@ -2801,6 +2945,7 @@ function abrirPanelTecnico(globalIdx){
         <div style="font-size:12px;color:#182033;line-height:1.6;margin-bottom:8px">${escapeHtml(t.desc||'')}</div>
         ${t.notas?'<div style="font-size:11px;color:#1228ff;font-style:italic;margin-bottom:8px">💬 '+escapeHtml(t.notas)+'</div>':''}
         ${t.equipo?'<div style="font-size:11px;color:#5f6c8d">📍 '+escapeHtml(t.equipo)+'</div>':''}
+        ${t.fechaProgramada||t.horaProgramada?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-top:4px">📅 Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div>':''}
         ${t.fechaLimite?'<div style="font-size:11px;color:#c62828;font-weight:700;margin-top:4px">⏰ Fecha límite: '+escapeHtml(t.fechaLimite)+'</div>':''}
         ${t.horasHombre?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-top:6px">⏱ Horas hombre: '+escapeHtml(t.horasHombre)+'h</div>':''}
         ${(t.fechaInicio||t.horaInicio||t.fechaFin||t.horaFin)?'<div style="font-size:11px;color:#5f6c8d;margin-top:4px">🕒 '+escapeHtml((t.fechaInicio||"")+" "+(t.horaInicio||""))+' → '+escapeHtml((t.fechaFin||"")+" "+(t.horaFin||""))+'</div>':''}
