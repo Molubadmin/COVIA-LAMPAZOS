@@ -2156,7 +2156,7 @@ function renderTecnicoView(){
   const puesto = getPuestoUsuario();
 
   // Filtrar tareas y actividades del usuario actual
-  const misTareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===USUARIO_SESION);
+  const misTareas = TAREAS_ASIGNADAS.filter(t=>t.asignadoA===USUARIO_SESION&&tareaVisibleParaTecnico(t));
   const misExtras = ACTIVIDADES_EXTRA.filter(a=>a.usuario===USUARIO_SESION);
 
   const pendientes = misTareas.filter(t=>t.status==="pendiente");
@@ -2296,6 +2296,38 @@ function calcHorasHombreFechas(fechaInicio, horaInicio, fechaFin, horaFin){
   }catch(e){ return "—"; }
 }
 
+function parseFechaHoraLocal(fecha, hora){
+  try{
+    if(!fecha) return null;
+    const fs=String(fecha).trim();
+    let y,m,d;
+    if(fs.includes("/")){
+      const p=fs.split("/").map(Number);
+      d=p[0]; m=p[1]; y=p[2];
+    }else if(/^\d{4}-\d{2}-\d{2}$/.test(fs)){
+      const p=fs.split("-").map(Number);
+      y=p[0]; m=p[1]; d=p[2];
+    }else{
+      const parsed=new Date(fs);
+      if(isNaN(parsed.getTime())) return null;
+      y=parsed.getFullYear(); m=parsed.getMonth()+1; d=parsed.getDate();
+    }
+    const hs=String(hora||"00:00").trim();
+    const hm=hs.match(/(\d{1,2}):(\d{2})/);
+    const hh=hm?Number(hm[1]):0;
+    const mm=hm?Number(hm[2]):0;
+    return new Date(y,m-1,d,hh,mm,0,0);
+  }catch(e){return null;}
+}
+
+function tareaVisibleParaTecnico(t){
+  if(!t || t.status!=="pendiente") return true;
+  if(!(t.tipoProgramacion==="programada"||t.fechaProgramada||t.programadaId)) return true;
+  const programada=parseFechaHoraLocal(t.fechaProgramada,t.horaProgramada);
+  if(!programada) return true;
+  return new Date() >= programada;
+}
+
 function calcResumenHorasTarea(){
   const fi=document.getElementById("tarea-fecha-inicio")?.value||"";
   const hi=document.getElementById("tarea-hora-inicio")?.value||"";
@@ -2391,6 +2423,11 @@ function abrirDetalleTarea(id, origen){
   _tareaActivaId = id; _volverDeDetalle = origen;
   const t = TAREAS_ASIGNADAS.find(x=>x.id===id);
   if(!t) return;
+  if(esTecnico()&&t.asignadoA===USUARIO_SESION&&!tareaVisibleParaTecnico(t)){
+    alert("Esta actividad está programada para "+((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+". Aparecerá cuando llegue la hora programada.");
+    navTo("tecnico-tareas");
+    return;
+  }
   const prioLabel2 = {urgente:"🔴 Urgente · ",alta:"🟡 Alta · ",baja:"🔵 Baja · ",normal:""}[t.prioridad||"normal"]||"";
   document.getElementById("det-tarea-tag").textContent = (t.desc||t.carta||"Tarea asignada").slice(0,60);
   document.getElementById("det-tarea-nombre").textContent = prioLabel2 + (t.asignadoPorNombre||t.asignadoPor) + " → " + (t.asignadoANombre||t.asignadoA);
@@ -2762,7 +2799,7 @@ function renderProgramadasView(){
   view.innerHTML=`
     <div class="det-topbar" style="flex-direction:column;gap:0;flex-shrink:0">
       <div style="font-size:18px;font-weight:900">ACTIVIDADES PROGRAMADAS</div>
-      <div style="font-size:11px;opacity:.8;margin-top:2px">Programar trabajos para mecánicos y eléctricos</div>
+      <div style="font-size:11px;opacity:.8;margin-top:2px">Cargar trabajos por adelantado y liberarlos al técnico en fecha/hora programada</div>
     </div>
     <div style="flex:1;overflow-y:auto;padding:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px">
       <div style="background:#fff;border:1px solid #dde1f0;border-radius:18px;padding:16px;height:max-content">
@@ -2770,8 +2807,8 @@ function renderProgramadasView(){
         <div class="modal-field"><label>¿Qué actividad se programará?</label><textarea id="prog-desc" rows="4" placeholder="Ej: Lubricar chumaceras del secador, revisar tablero, inspección de vibración..." style="resize:vertical"></textarea></div>
         <div class="modal-field"><label>Equipo o área</label><input type="text" id="prog-equipo" placeholder="Ej: BTR-5133, Secador enfriador, Planta general"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="modal-field"><label>Fecha programada</label><input type="date" id="prog-fecha" value="${hoyIso}"></div>
-          <div class="modal-field"><label>Hora programada</label><input type="time" id="prog-hora"></div>
+          <div class="modal-field"><label>Fecha de envío al técnico</label><input type="date" id="prog-fecha" value="${hoyIso}"></div>
+          <div class="modal-field"><label>Hora de envío al técnico</label><input type="time" id="prog-hora"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div class="modal-field"><label>Prioridad</label><select id="prog-prioridad"><option value="normal">Normal</option><option value="urgente">🔴 Urgente</option><option value="alta">🟡 Alta</option><option value="baja">🔵 Baja</option></select></div>
@@ -2786,7 +2823,7 @@ function renderProgramadasView(){
           <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('ninguno')">Limpiar</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr;gap:8px;max-height:310px;overflow-y:auto;padding-right:2px">${tecnicosHtml}</div>
-        <button class="btn-enviar-ae" id="btn-programar-actividad" onclick="programarActividad()" style="margin-top:14px">Programar y enviar</button>
+        <button class="btn-enviar-ae" id="btn-programar-actividad" onclick="programarActividad()" style="margin-top:14px">Programar liberación</button>
       </div>
       <div style="min-width:0">
         <div class="det-section-lbl">Programadas recientes</div>
@@ -2813,10 +2850,10 @@ async function programarActividad(){
   const comentario=document.getElementById("prog-comentario")?.value.trim()||"";
   const seleccion=[...document.querySelectorAll(".prog-tecnico-check:checked")].map(ch=>ch.value);
   if(!desc){alert("Captura la actividad a programar.");return;}
-  if(!fechaProgramada||!horaProgramada){alert("Captura fecha y hora programada.");return;}
+  if(!fechaProgramada||!horaProgramada){alert("Captura fecha y hora de envío al técnico.");return;}
   if(seleccion.length===0){alert("Selecciona al menos un trabajador.");return;}
   const btn=document.getElementById("btn-programar-actividad");
-  if(btn){btn.disabled=true;btn.textContent="Programando...";}
+  if(btn){btn.disabled=true;btn.textContent="Programando liberación...";}
   const programadaId="P-"+Date.now();
   const fechaAlta=new Date().toLocaleDateString("es-MX");
   const horaAlta=new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
@@ -2845,13 +2882,13 @@ async function programarActividad(){
       tipoProgramacion:t.tipoProgramacion
     })));
     TAREAS_ASIGNADAS.push(...tareas);
-    mostrarToast("✓ Actividad programada enviada a "+tareas.length+" trabajador"+(tareas.length!==1?"es":""), "#179b52");
+    mostrarToast("✓ Actividad programada para "+tareas.length+" trabajador"+(tareas.length!==1?"es":""), "#179b52");
     renderProgramadasView();
     actualizarBadgeAsignaciones();
   }catch(e){
     alert("Error al programar actividad:\n"+e.message);
   }finally{
-    if(btn){btn.disabled=false;btn.textContent="Programar y enviar";}
+    if(btn){btn.disabled=false;btn.textContent="Programar liberación";}
   }
 }
 
