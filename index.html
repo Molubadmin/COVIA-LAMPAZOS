@@ -837,6 +837,10 @@
       <div style="display:flex;flex-wrap:wrap;gap:4px">
         <span onclick="autofillLogin('hrivera')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">hrivera</span><span onclick="autofillLogin('jgrodriguez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">jgrodriguez</span><span onclick="autofillLogin('agonzalez')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">agonzalez</span>
       </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin:8px 0 4px">CONTRATISTAS</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">
+        <span onclick="autofillLogin('contratista')" style="background:rgba(255,255,255,.12);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:10px;color:#fff;font-family:monospace">contratista</span>
+      </div>
     </div>
     <div class="login-footer">Proyecto impulsado por MOLUB &nbsp;·&nbsp; v4.2</div>
   </div>
@@ -1130,7 +1134,7 @@ function getPuestoUsuario(){
   return u&&u.puesto ? u.puesto : ROL_SESION;
 }
 function esSupervisor(){ return ["ADMIN","SUPERVISOR"].includes(ROL_SESION); }
-function esTecnico(){ return ["TECNICO_MEC","TECNICO_ELC"].includes(ROL_SESION); }
+function esTecnico(){ return ["TECNICO_MEC","TECNICO_ELC","TECNICO_CONTR"].includes(ROL_SESION); }
 const IMG_MAX_PX=1080;
 const IMG_QUALITY=0.72;
 let AREAS=[],areaActiva=0,busqueda="",equipoActivo=null,estadoMap={},detalleCache={},subiendoFoto=false;
@@ -1781,6 +1785,8 @@ const USUARIOS_TEST = {
   "hrivera":     { pw: "HR-2026",  rol: "TECNICO_ELC", nombre: "Hector Rivera",        puesto: "Eléctrico" },
   "jgrodriguez": { pw: "JGR-2026", rol: "TECNICO_ELC", nombre: "Jose Gpe Rodriguez",   puesto: "Eléctrico" },
   "agonzalez":   { pw: "AG-2026",  rol: "TECNICO_ELC", nombre: "Alan Gonzalez",        puesto: "Eléctrico" },
+  // Contratistas
+  "contratista": { pw: "CON-2026", rol: "TECNICO_CONTR", nombre: "Contratistas",        puesto: "Contratista" },
 };
 
 async function toggleUserList(){
@@ -2461,6 +2467,7 @@ function abrirDetalleTarea(id, origen){
         <div class="det-data-box"><div class="det-data-lbl">Prioridad</div><div class="det-data-val" style="font-size:13px">${prioBadge}</div></div>
         ${t.fechaProgramada||t.horaProgramada?'<div class="det-data-box" style="border-color:rgba(18,40,255,.25)"><div class="det-data-lbl" style="color:#1228ff">Programada para</div><div class="det-data-val" style="font-size:13px;color:#1228ff">'+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div></div>':""}
         ${t.equipo?'<div class="det-data-box"><div class="det-data-lbl">Equipo / Área</div><div class="det-data-val" style="font-size:13px">'+escapeHtml(t.equipo)+'</div></div>':""}
+        ${t.contratistaNombre?'<div class="det-data-box"><div class="det-data-lbl">Contratista(s)</div><div class="det-data-val" style="font-size:13px">'+escapeHtml(t.contratistaNombre)+'</div></div>':""}
         ${t.fechaLimite?'<div class="det-data-box" style="border-color:rgba(198,40,40,.25)"><div class="det-data-lbl" style="color:#c62828">Fecha límite</div><div class="det-data-val" style="font-size:13px;color:#c62828">'+escapeHtml(t.fechaLimite)+'</div></div>':""}
       </div>
     </div>
@@ -2667,6 +2674,7 @@ const TECNICOS_LIST = [
   {u:"hrivera",n:"Hector Rivera",p:"Eléctrico",t:"elec"},
   {u:"jgrodriguez",n:"Jose Gpe Rodriguez",p:"Eléctrico",t:"elec"},
   {u:"agonzalez",n:"Alan Gonzalez",p:"Eléctrico",t:"elec"},
+  {u:"contratista",n:"Contratistas",p:"Contratista",t:"contr"},
 ];
 
 function renderAsignaciones(){
@@ -2711,6 +2719,10 @@ function renderAsignaciones(){
         &#9889; Eléctricos
       </div>
       ${TECNICOS_LIST.filter(tc=>tc.t==="elec").map((tc,i)=>renderTecnicoAsigCard(tc,100+i)).join("")}
+      <div style="font-size:11px;font-weight:700;color:#4e5e84;background:#f3f6fb;border-radius:10px;padding:8px 14px;border:1px solid #dde1f0;margin-top:4px">
+        &#128119; Contratistas
+      </div>
+      ${TECNICOS_LIST.filter(tc=>tc.t==="contr").map((tc,i)=>renderTecnicoAsigCard(tc,200+i)).join("")}
     </div>
   `;
 
@@ -2752,7 +2764,7 @@ function renderTareaCardSupervisor(t){
       <div class="tarea-card-icon rec">📋</div>
       <div class="tarea-card-info">
         <div class="tarea-card-tag">${escapeHtml(t.desc||"Tarea completada")}</div>
-        <div class="tarea-card-desc">${escapeHtml(t.asignadoANombre||t.asignadoA||"")} · ${escapeHtml(t.equipo||"")}</div>
+        <div class="tarea-card-desc">${escapeHtml(t.asignadoANombre||t.asignadoA||"")}${t.contratistaNombre?" · "+escapeHtml(t.contratistaNombre):""} · ${escapeHtml(t.equipo||"")}</div>
         <div class="tarea-card-meta">${escapeHtml(t.fecha||"")} ${escapeHtml(t.hora||"")}</div>
         ${t.fechaProgramada||t.horaProgramada?'<div style="font-size:10px;color:#1228ff;font-weight:800;margin-top:2px">Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div>':""}
       </div>
@@ -2772,9 +2784,9 @@ function renderProgramadasView(){
     .filter(t=>t.tipoProgramacion==="programada"||t.fechaProgramada||t.programadaId)
     .sort((a,b)=>String(b.fecha||"").localeCompare(String(a.fecha||"")));
   const tecnicosHtml=TECNICOS_LIST.map(tc=>{
-    const initials=tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
-    const bg=tc.t==="elec"?"#fff3df":"#eef2ff";
-    const fg=tc.t==="elec"?"#854f0b":"#0c447c";
+  const initials=tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
+    const bg=tc.t==="elec"?"#fff3df":tc.t==="contr"?"#f3f6fb":"#eef2ff";
+    const fg=tc.t==="elec"?"#854f0b":tc.t==="contr"?"#4e5e84":"#0c447c";
     return `<label style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #dde1f0;border-radius:14px;padding:10px 12px;cursor:pointer">
       <input type="checkbox" class="prog-tecnico-check" value="${escapeAttr(tc.u)}" style="width:18px;height:18px">
       <span style="width:34px;height:34px;border-radius:50%;background:${bg};color:${fg};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">${initials}</span>
@@ -2790,6 +2802,7 @@ function renderProgramadasView(){
           <div class="panel-tarea-meta">
             ${t.equipo?'📍 '+escapeHtml(t.equipo)+' · ':''}
             👤 ${escapeHtml(t.asignadoANombre||t.asignadoA||"")}
+            ${t.contratistaNombre?' · 👷 '+escapeHtml(t.contratistaNombre):''}
             ${t.fechaProgramada||t.horaProgramada?' · 📅 '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||"")):''}
           </div>
         </div>
@@ -2820,9 +2833,14 @@ function renderProgramadasView(){
           <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('todos')">Todos</button>
           <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('mec')">Mecánicos</button>
           <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('elec')">Eléctricos</button>
+          <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('contr')">Contratistas</button>
           <button type="button" class="hh-period-btn" onclick="seleccionarProgramados('ninguno')">Limpiar</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr;gap:8px;max-height:310px;overflow-y:auto;padding-right:2px">${tecnicosHtml}</div>
+        <div class="modal-field" style="margin-top:10px">
+          <label>Nombre(s) del contratista (si aplica)</label>
+          <input type="text" id="prog-contratista" placeholder="Ej: Juan Pérez, Carlos López, Equipo contratista turno A...">
+        </div>
         <button class="btn-enviar-ae" id="btn-programar-actividad" onclick="programarActividad()" style="margin-top:14px">Programar liberación</button>
       </div>
       <div style="min-width:0">
@@ -2835,7 +2853,7 @@ function renderProgramadasView(){
 function seleccionarProgramados(tipo){
   document.querySelectorAll(".prog-tecnico-check").forEach(ch=>{
     const tc=TECNICOS_LIST.find(t=>t.u===ch.value);
-    ch.checked = tipo==="todos" || (tipo==="mec"&&tc&&tc.t==="mec") || (tipo==="elec"&&tc&&tc.t==="elec");
+    ch.checked = tipo==="todos" || (tipo==="mec"&&tc&&tc.t==="mec") || (tipo==="elec"&&tc&&tc.t==="elec") || (tipo==="contr"&&tc&&tc.t==="contr");
     if(tipo==="ninguno") ch.checked=false;
   });
 }
@@ -2848,6 +2866,7 @@ async function programarActividad(){
   const prioridad=document.getElementById("prog-prioridad")?.value||"normal";
   const fechaLimite=document.getElementById("prog-limite")?.value||"";
   const comentario=document.getElementById("prog-comentario")?.value.trim()||"";
+  const contratistaNombre=document.getElementById("prog-contratista")?.value.trim()||"";
   const seleccion=[...document.querySelectorAll(".prog-tecnico-check:checked")].map(ch=>ch.value);
   if(!desc){alert("Captura la actividad a programar.");return;}
   if(!fechaProgramada||!horaProgramada){alert("Captura fecha y hora de envío al técnico.");return;}
@@ -2866,6 +2885,7 @@ async function programarActividad(){
       asignadoA:u,
       asignadoANombre:tc?tc.n:u,
       puesto:tc?tc.p:"",
+      contratistaNombre:(tc&&tc.t==="contr")?contratistaNombre:"",
       desc,equipo,prioridad,fechaLimite,
       carta:"",notas:comentario,
       fecha:fechaAlta,hora:horaAlta,status:"pendiente",
@@ -2876,6 +2896,7 @@ async function programarActividad(){
     await Promise.all(tareas.map(t=>apiPost({action:"saveTareaAsignada",
       id:t.id,asignadoPor:t.asignadoPor,asignadoPorNombre:t.asignadoPorNombre,
       asignadoA:t.asignadoA,asignadoANombre:t.asignadoANombre,puesto:t.puesto,
+      contratistaNombre:t.contratistaNombre,
       desc:t.desc,equipo:t.equipo,prioridad:t.prioridad,fechaLimite:t.fechaLimite,
       carta:t.carta,comentario:t.notas,fecha:t.fecha,hora:t.hora,
       programadaId:t.programadaId,fechaProgramada:t.fechaProgramada,horaProgramada:t.horaProgramada,
@@ -2904,7 +2925,8 @@ function renderTecnicoAsigCard(tc, globalIdx){
   const initials   = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
   const colorMec   = {bg:"#eef2ff",fg:"#0c447c"};
   const colorElec  = {bg:"#fff3df",fg:"#854f0b"};
-  const color      = tc.t==="elec"?colorElec:colorMec;
+  const colorContr = {bg:"#f3f6fb",fg:"#4e5e84"};
+  const color      = tc.t==="elec"?colorElec:tc.t==="contr"?colorContr:colorMec;
   return `<div class="tarea-card" data-usuario="${escapeAttr(tc.u)}" style="margin-bottom:0;cursor:pointer" onclick="abrirPanelTecnico(${globalIdx})">
     <div class="tarea-card-head" style="padding:14px 16px">
       <div class="tarea-card-icon" style="background:${color.bg};color:${color.fg};font-size:14px;font-weight:900">${initials}</div>
@@ -2934,7 +2956,8 @@ function abrirPanelTecnico(globalIdx){
   const body = document.getElementById("asignaciones-body");
   if(!body) return;
 
-  const color = tc.t==='elec'?{bg:'#fff3df',fg:'#854f0b'}:{bg:'#eef2ff',fg:'#0c447c'};
+  const color = tc.t==='elec'?{bg:'#fff3df',fg:'#854f0b'}:tc.t==='contr'?{bg:'#f3f6fb',fg:'#4e5e84'}:{bg:'#eef2ff',fg:'#0c447c'};
+  const tipoTrabajador = tc.t==='elec'?'Eléctrico':tc.t==='contr'?'Contratista':'Mecánico';
   const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
 
   // Tareas asignadas
@@ -2968,6 +2991,7 @@ function abrirPanelTecnico(globalIdx){
           <div class="panel-tarea-desc">${pLbl} ${escapeHtml(t.desc||'Sin descripción')}</div>
           <div class="panel-tarea-meta">
             ${t.equipo?'📍 '+escapeHtml(t.equipo)+' &nbsp;·&nbsp; ':''}
+            ${t.contratistaNombre?'👷 '+escapeHtml(t.contratistaNombre)+' &nbsp;·&nbsp; ':''}
             📅 ${escapeHtml(t.fecha||'')} ${escapeHtml(t.hora||'')}
             ${t.fechaProgramada||t.horaProgramada?'<span style="color:#1228ff;font-weight:700"> · Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</span>':''}
             ${t.fechaLimite?'<span style="color:#c62828;font-weight:700"> · ⏰ Límite: '+escapeHtml(t.fechaLimite)+'</span>':''}
@@ -2982,6 +3006,7 @@ function abrirPanelTecnico(globalIdx){
         <div style="font-size:12px;color:#182033;line-height:1.6;margin-bottom:8px">${escapeHtml(t.desc||'')}</div>
         ${t.notas?'<div style="font-size:11px;color:#1228ff;font-style:italic;margin-bottom:8px">💬 '+escapeHtml(t.notas)+'</div>':''}
         ${t.equipo?'<div style="font-size:11px;color:#5f6c8d">📍 '+escapeHtml(t.equipo)+'</div>':''}
+        ${t.contratistaNombre?'<div style="font-size:11px;color:#4e5e84;font-weight:700;margin-top:4px">👷 Contratista(s): '+escapeHtml(t.contratistaNombre)+'</div>':''}
         ${t.fechaProgramada||t.horaProgramada?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-top:4px">📅 Programada: '+escapeHtml((t.fechaProgramada||"")+" "+(t.horaProgramada||""))+'</div>':''}
         ${t.fechaLimite?'<div style="font-size:11px;color:#c62828;font-weight:700;margin-top:4px">⏰ Fecha límite: '+escapeHtml(t.fechaLimite)+'</div>':''}
         ${t.horasHombre?'<div style="font-size:11px;color:#1228ff;font-weight:700;margin-top:6px">⏱ Horas hombre: '+escapeHtml(t.horasHombre)+'h</div>':''}
@@ -3034,7 +3059,7 @@ function abrirPanelTecnico(globalIdx){
       <div class="panel-tc-avatar" style="background:${color.bg};color:${color.fg}">${initials}</div>
       <div style="flex:1">
         <div class="panel-tc-nombre">${escapeHtml(tc.n)}</div>
-        <div class="panel-tc-puesto">${tc.p} &nbsp;·&nbsp; ${tc.t==='elec'?'Eléctrico':'Mecánico'}</div>
+        <div class="panel-tc-puesto">${tc.p} &nbsp;·&nbsp; ${tipoTrabajador}</div>
         <div class="panel-tc-stats">
           <div class="panel-tc-stat"><div class="panel-tc-stat-num">${activas}</div><div class="panel-tc-stat-lbl">Activas</div></div>
           <div class="panel-tc-stat"><div class="panel-tc-stat-num">${completadas}</div><div class="panel-tc-stat-lbl">Por validar</div></div>
@@ -3097,6 +3122,10 @@ function abrirModalAsignar(usuarioTecnico){
   document.getElementById("modal-tarea-equipo").value = "";
   document.getElementById("modal-tarea-prioridad").value = "normal";
   document.getElementById("modal-tarea-fecha").value  = "";
+  const contratistaField = document.getElementById("modal-contratista-field");
+  const contratistaInput = document.getElementById("modal-tarea-contratista");
+  if(contratistaInput) contratistaInput.value = "";
+  if(contratistaField) contratistaField.style.display = tc.t==="contr" ? "block" : "none";
 
   // Header
   document.getElementById("modal-tecnico-title").textContent = "Asignar tarea a " + tc.n.split(" ")[0];
@@ -3104,14 +3133,15 @@ function abrirModalAsignar(usuarioTecnico){
 
   // Perfil card
   const initials = tc.n.split(" ").map(w=>w[0]).join("").slice(0,2);
-  const colorBg  = tc.t==="elec"?"#fff3df":"#eef2ff";
-  const colorFg  = tc.t==="elec"?"#854f0b":"#0c447c";
+  const colorBg  = tc.t==="elec"?"#fff3df":tc.t==="contr"?"#f3f6fb":"#eef2ff";
+  const colorFg  = tc.t==="elec"?"#854f0b":tc.t==="contr"?"#4e5e84":"#0c447c";
+  const tipoLabel = tc.t==="elec"?"Eléctrico":tc.t==="contr"?"Contratista":"Mecánico";
   document.getElementById("modal-tecnico-perfil").innerHTML = `
     <div class="tecnico-perfil-card">
       <div class="tecnico-perfil-avatar" style="background:${colorBg};color:${colorFg}">${escapeHtml(initials)}</div>
       <div>
         <div class="tecnico-perfil-nombre">${escapeHtml(tc.n)}</div>
-        <div class="tecnico-perfil-puesto">${tc.p} &nbsp;·&nbsp; ${tc.t==="elec"?"Eléctrico":"Mecánico"}</div>
+        <div class="tecnico-perfil-puesto">${tc.p} &nbsp;·&nbsp; ${tipoLabel}</div>
       </div>
     </div>
   `;
@@ -3131,6 +3161,7 @@ function abrirModalAsignar(usuarioTecnico){
           <div style="flex:1">
             <div style="font-size:12px;font-weight:700;color:#08112d">${escapeHtml(t.desc||"Sin descripción").slice(0,70)}${(t.desc||"").length>70?"...":""}</div>
             ${t.equipo?'<div style="font-size:11px;color:#5f6c8d;margin-top:2px">&#128205; '+escapeHtml(t.equipo)+'</div>':""} 
+            ${t.contratistaNombre?'<div style="font-size:11px;color:#4e5e84;margin-top:2px">&#128119; '+escapeHtml(t.contratistaNombre)+'</div>':""}
             <div style="font-size:10px;color:#5f6c8d;margin-top:2px">${escapeHtml(t.fecha||"")} · ${label}</div>
           </div>
         </div>`;
@@ -3173,6 +3204,7 @@ function enviarTareaAsignada(){
   const fecha     = document.getElementById("modal-tarea-fecha").value;
   const cartaTag  = document.getElementById("modal-tarea-carta")?.value || "";
   const comentario= document.getElementById("modal-tarea-comentario")?.value.trim() || "";
+  const contratistaNombre = document.getElementById("modal-tarea-contratista")?.value.trim() || "";
 
   if(!desc){ 
     document.getElementById("modal-tarea-desc").focus();
@@ -3193,6 +3225,7 @@ function enviarTareaAsignada(){
     asignadoA:        tc.u,
     asignadoANombre:  tc.n,
     puesto:           tc.p,
+    contratistaNombre,
     desc,
     equipo,
     prioridad: prio,
@@ -3212,6 +3245,7 @@ function enviarTareaAsignada(){
     asignadoA:    tarea.asignadoA,
     asignadoANombre: tarea.asignadoANombre,
     puesto:       tarea.puesto,
+    contratistaNombre: tarea.contratistaNombre,
     desc:         tarea.desc,
     equipo:       tarea.equipo,
     prioridad:    tarea.prioridad,
@@ -3298,6 +3332,7 @@ function renderHorasHombre(){
       usuario:t.asignadoA,
       nombre:t.asignadoANombre,
       puesto:t.puesto,
+      contratistaNombre:t.contratistaNombre||"",
       equipo:t.equipo||"Asignación",
       tipo:"Tarea asignada",
       desc:t.desc||"Tarea asignada",
@@ -3377,7 +3412,7 @@ function renderHorasHombre(){
       const {tc, actos, totalMins} = item;
       const horas = (totalMins/60).toFixed(1);
       const pct   = totalMins > 0 ? Math.round((totalMins/maxMins)*100) : 0;
-      const color = tc.t==='elec' ? {bg:'#fff3df',fg:'#854f0b'} : {bg:'#eef2ff',fg:'#0c447c'};
+      const color = tc.t==='elec' ? {bg:'#fff3df',fg:'#854f0b'} : tc.t==='contr' ? {bg:'#f3f6fb',fg:'#4e5e84'} : {bg:'#eef2ff',fg:'#0c447c'};
       const initials = tc.n.split(' ').map(w=>w[0]).join('').slice(0,2);
       return `<div class="hh-tecnico-card">
         <div class="hh-tecnico-head" onclick="var d=document.getElementById('hh-det-${escapeAttr(tc.u)}');if(d)d.style.display=d.style.display==='none'?'block':'none'">
@@ -3402,6 +3437,7 @@ function renderHorasHombre(){
                   <div class="hh-act-dot" style="background:${a.fuente==='tarea'?'#1228ff':(a.status==='aprobada'?'#179b52':'#d97706')}"></div>
                   <div class="hh-act-info">
                     <div style="font-weight:700;color:#08112d;font-size:12px">${escapeHtml(a.equipo||'')} · ${escapeHtml(a.tipo||'')}</div>
+                    ${a.contratistaNombre?'<div style="font-size:11px;color:#4e5e84;font-weight:700">👷 '+escapeHtml(a.contratistaNombre)+'</div>':''}
                     <div>${escapeHtml((a.desc||'').slice(0,60))}${(a.desc||'').length>60?'...':''}</div>
                     <div style="margin-top:2px">${escapeHtml(a.fecha||'')} ${a.horaInicio?'· '+a.horaInicio+' → '+(a.horaFin||''):''} ${a.fuente==='tarea'?'· Asignación':''} ${a.status==='rechazada'?'· Rechazada':''}</div>
                     ${a.comentario?'<div style="color:#1228ff;margin-top:1px">💬 '+escapeHtml(a.comentario)+'</div>':''}
@@ -4173,6 +4209,10 @@ window.addEventListener("DOMContentLoaded", initApp);
     </div>
     <div class="modal-body">
       <div id="modal-tecnico-perfil"></div>
+      <div class="modal-field" id="modal-contratista-field" style="display:none">
+        <label>Nombre(s) del contratista</label>
+        <input type="text" id="modal-tarea-contratista" placeholder="Ej: Juan Pérez, Carlos López, Equipo contratista turno A...">
+      </div>
       <div class="modal-field">
         <label>¿Qué necesitas que haga?</label>
         <textarea id="modal-tarea-desc" placeholder="Ej: Revisar vibración en reductor BTR-6320, cambiar filtro de aceite en MOT-3301, limpiar tablero eléctrico área 2..." rows="4"></textarea>
