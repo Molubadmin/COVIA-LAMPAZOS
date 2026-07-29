@@ -1649,7 +1649,8 @@ async function cargarCartasGuardadas(){
       const count = Number(c.elementosCount||0);
       CARTAS_DATA[id] = {
         ...(CARTAS_DATA[id]||{}),
-        origen:"crm",
+        origen:c.origen||"crm",
+        origenElementos:c.origenElementos||"",
         fechaGuardado:c.fechaGuardado||"",
         elementos:CARTAS_DATA[id]?.elementos || new Array(count).fill(null).map(()=>({}))
       };
@@ -4002,7 +4003,7 @@ async function recargarDesdeExcel(){
   try{
     delete CARTAS_DATA[idTag];
     document.getElementById("carta-container").innerHTML='<div class="loading-msg">Recargando desde Excel...</div>';
-    const r=await apiGet({action:"getCarta",idTag});
+    const r=await apiGet({action:"getCarta",idTag,source:"excel"});
     if(r.ok&&r.data){
       const d=r.data;
       CARTAS_DATA[idTag]={
