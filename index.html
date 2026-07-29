@@ -4092,7 +4092,19 @@ function imprimirCarta(){
       <td style="text-align:center">${escapeHtml(fre)}</td><td>${escapeHtml(tar)}</td>
       <td>${escapeHtml(intVal)}</td><td>${escapeHtml(tempVal)}</td>
     </tr>`;
-  }).join("");
+  });
+  const tableHead=`<thead><tr>
+  <th style="width:13%">Foto<br>punto</th><th style="width:8%">Elemento</th>
+  <th style="width:10%">DescripciÃ³n</th><th style="width:9%">Lubricante</th>
+  <th style="width:6%">Lub.<br>inicial</th><th style="width:6%">Re-lub.</th>
+  <th style="width:7%">Cant.</th><th style="width:5%">Bomb.<br>/Litros</th>
+  <th style="width:7%">Frecuencia</th><th style="width:7%">Tarea</th>
+  <th style="width:9%">Int. muestreo</th><th style="width:13%">Temp. real<br>(operativa)</th>
+</tr></thead>`;
+  const tablasElementos=[];
+  for(let i=0;i<filas.length;i+=3){
+    tablasElementos.push(`<table class="${i>0?'page-table':''}">${tableHead}<tbody>${filas.slice(i,i+3).join("")}</tbody></table>`);
+  }
   const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Carta - ${idTag}</title>
 <style>
 @page{size:A4 landscape;margin:8mm}
@@ -4101,33 +4113,35 @@ img { max-width: 100%; }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;font-size:8.5pt;color:#000}
 .carta{width:100%;break-inside:auto;page-break-inside:auto}
-.hdr{display:grid;grid-template-columns:160px 1fr 195px;border:2px solid #08112d}
-.lc{border-right:1px solid #1228ff;padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center}
+.hdr{display:grid;grid-template-columns:140px 1fr 185px;border:2px solid #08112d}
+.lc{border-right:1px solid #1228ff;padding:5px;background:#08112d;display:flex;align-items:center;justify-content:center}
 .lb{width:62px;height:62px;border:2px solid #fff;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7pt;font-weight:900;color:#fff;text-align:center;line-height:1.3}
-.tc{border-right:1px solid #1228ff;padding:8px;background:#08112d;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:3px}
-.mt{font-size:13pt;font-weight:900;color:#fff;letter-spacing:2px}
-.st{font-size:7.5pt;color:#c7d0f8;letter-spacing:1px}
-.ic{padding:8px;background:#eef2ff}
+.tc{border-right:1px solid #1228ff;padding:6px;background:#08112d;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.mt{font-size:11.5pt;font-weight:900;color:#fff;letter-spacing:2px}
+.st{font-size:7pt;color:#c7d0f8;letter-spacing:1px}
+.ic{padding:6px;background:#eef2ff}
 .ir{display:flex;gap:4px;margin-bottom:5px;font-size:7.5pt}
 .il{font-weight:800;color:#08112d;min-width:68px;font-size:7pt}
 .iv{border-bottom:1.5px solid #08112d;flex:1;padding-bottom:1px;color:#08112d}
-.er{display:grid;grid-template-columns:160px 1fr;border:2px solid #08112d;border-top:none}
-.fc{padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center;border-right:1px solid #08112d}
-.dc{padding:8px;background:#f8faff;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.er{display:grid;grid-template-columns:140px 1fr;border:2px solid #08112d;border-top:none}
+.fc{padding:5px;background:#08112d;display:flex;align-items:center;justify-content:center;border-right:1px solid #08112d}
+.fc img{width:96px!important;height:96px!important}
+.dc{padding:6px;background:#f8faff;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
 .dato{display:flex;flex-direction:column;gap:2px}
 .dl{font-size:6.5pt;font-weight:800;color:#0c1eaf;text-transform:uppercase}
 .dv{font-size:8pt;border-bottom:1px solid #c7d0f8;padding-bottom:1px;min-height:13px;color:#08112d}
 .dv.b{color:#0c1eaf;font-weight:800}
-.eb{background:#08112d;color:#fff;padding:5px 10px;font-weight:900;font-size:8.5pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
+.eb{background:#08112d;color:#fff;padding:4px 10px;font-weight:900;font-size:8pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
 table{width:100%;border-collapse:collapse;border:2px solid #08112d;border-top:none;table-layout:fixed;break-inside:auto;page-break-inside:auto}
+table.page-table{break-before:page;page-break-before:always;border-top:2px solid #08112d}
 thead{display:table-header-group}
 tbody{display:table-row-group}
-th{background:#0c1eaf;color:#fff;font-size:6pt;font-weight:800;padding:3px 2px;border:1px solid #1228ff;text-align:center}
-td{font-size:6.5pt;padding:3px 2px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
+th{background:#0c1eaf;color:#fff;font-size:5.7pt;font-weight:800;padding:2px 2px;border:1px solid #1228ff;text-align:center}
+td{font-size:6.1pt;padding:2px 2px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
 tr{break-inside:avoid;page-break-inside:avoid}
 tbody tr{border-bottom:1.5px solid #c7d0f8}
-tbody tr:nth-child(3n):not(:last-child){break-after:page;page-break-after:always}
-tbody td:first-child img{width:92px!important;height:92px!important}
+tbody td:first-child{padding:3px!important}
+tbody td:first-child img{width:76px!important;height:76px!important}
 tr:nth-child(even) td{background:#f3f5ff}
 td:first-child{background:#08112d!important;text-align:center}
 .rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff;break-inside:avoid;page-break-inside:avoid}
@@ -4166,7 +4180,8 @@ td:first-child{background:#08112d!important;text-align:center}
   </div>
 </div>
 <div class="eb">&#9881; ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACI\u00D3N</div>
-<table>
+${tablasElementos.join("")}
+<template>
 <thead><tr>
   <th style="width:13%">Foto<br>punto</th><th style="width:8%">Elemento</th>
   <th style="width:10%">Descripción</th><th style="width:9%">Lubricante</th>
@@ -4176,7 +4191,7 @@ td:first-child{background:#08112d!important;text-align:center}
   <th style="width:9%">Int. muestreo</th><th style="width:13%">Temp. real<br>(operativa)</th>
 </tr></thead>
 <tbody>${filas}</tbody>
-</table>
+</template>
 <div class="rw"><div class="rt">RECOMENDACIONES DE MONITOREO E INSPECCI\u00D3N</div><div class="rb">${escapeHtml(carta.recomendaciones||"")}</div></div>
 <div class="fw"><div class="fg">
   <div class="fb"><div class="fla">Revis\u00F3</div><div class="fti">Departamento Lubricaci\u00F3n</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaReviso)}</span></div></div>
