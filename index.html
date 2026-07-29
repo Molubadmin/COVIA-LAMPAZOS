@@ -4081,7 +4081,7 @@ function imprimirCarta(){
     const tempVal    = edInps2[edInps2.length-1]?.value ?? el.temp ?? '';
     return`<tr>
       <td style="background:#08112d;text-align:center;vertical-align:middle;padding:6px;">
-        <div style="color:#c7d0f8;font-size:7pt;font-weight:800;margin-bottom:4px;">${i+1}</div>${fotoElem}
+        <div style="color:#c7d0f8;font-size:8pt;font-weight:900;margin-bottom:5px;">${i+1}</div>${fotoElem}
       </td>
       <td>${escapeHtml(el.nombre||"")}</td><td>${escapeHtml(el.desc||"")}</td>
       <td>${escapeHtml(el.lub||"")}</td>
@@ -4094,7 +4094,7 @@ function imprimirCarta(){
     </tr>`;
   });
   const tableHead=`<thead><tr>
-  <th style="width:13%">Foto<br>punto</th><th style="width:8%">Elemento</th>
+  <th style="width:16%">Foto<br>punto</th><th style="width:8%">Elemento</th>
   <th style="width:10%">DescripciÃ³n</th><th style="width:9%">Lubricante</th>
   <th style="width:6%">Lub.<br>inicial</th><th style="width:6%">Re-lub.</th>
   <th style="width:7%">Cant.</th><th style="width:5%">Bomb.<br>/Litros</th>
@@ -4139,9 +4139,9 @@ tbody{display:table-row-group}
 th{background:#0c1eaf;color:#fff;font-size:6.4pt;font-weight:800;padding:3px 2px;border:1px solid #1228ff;text-align:center}
 td{font-size:7.1pt;padding:4px 3px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
 tr{break-inside:avoid;page-break-inside:avoid}
-tbody tr{border-bottom:1.5px solid #c7d0f8}
+tbody tr{height:132px;border-bottom:1.5px solid #c7d0f8}
 tbody td:first-child{padding:3px!important}
-tbody td:first-child img{width:96px!important;height:96px!important}
+tbody td:first-child img{width:116px!important;height:116px!important}
 tr:nth-child(even) td{background:#f3f5ff}
 td:first-child{background:#08112d!important;text-align:center}
 .rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff;break-inside:avoid;page-break-inside:avoid}
