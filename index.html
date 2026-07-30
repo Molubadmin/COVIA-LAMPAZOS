@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -162,6 +162,10 @@
     .equip-tag{color:var(--azul-3);font-size:17px;font-weight:900}
     .equip-nombre{margin-top:4px;font-size:13px;font-weight:700;color:var(--texto)}
     .equip-proceso,.equip-estado{margin-top:4px;font-size:11px;color:var(--texto-suave);font-weight:600}
+    .uso-toggle{border:none;border-radius:12px;padding:8px 10px;min-width:64px;font-size:10px;font-weight:900;
+      color:#fff;cursor:pointer;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
+    .uso-toggle.on{background:linear-gradient(135deg,#179b52,#107241)}
+    .uso-toggle.off{background:linear-gradient(135deg,#c62828,#8e1f1f)}
     .crit-badge{font-size:10px;padding:8px 12px;border-radius:999px;font-weight:800;flex-shrink:0}
     .crit-A{background:#ffe8e8;color:var(--rojo);border:1px solid #ffcccc}
     .crit-B{background:var(--naranja-bg);color:var(--naranja);border:1px solid #ffdfaa}
@@ -361,6 +365,10 @@
     .lub-fields-grasa,.lub-fields-aceite{display:grid;gap:4px}
     .lub-fields-grasa{grid-template-columns:1fr 1fr;gap:2px}
     .lub-fields-aceite{grid-template-columns:1fr}
+    .elem-actions{display:flex;gap:4px;align-items:center;flex-shrink:0}
+    .btn-move-elem{width:24px;height:24px;border-radius:7px;border:1px solid #c7d0f8;background:#f8faff;
+      color:#1228ff;font-size:12px;font-weight:900;cursor:pointer;line-height:1}
+    .btn-move-elem:disabled{opacity:.35;cursor:not-allowed}
 
     @media(max-width:980px){.hero-shell{grid-template-columns:1fr}.hero-brand{grid-template-columns:1fr}}
         @media(max-width:980px){.hero-shell{grid-template-columns:1fr}.hero-brand{grid-template-columns:1fr}}
@@ -1137,13 +1145,24 @@ function esSupervisor(){ return ["ADMIN","SUPERVISOR"].includes(ROL_SESION); }
 function esTecnico(){ return ["TECNICO_MEC","TECNICO_ELC","TECNICO_CONTR"].includes(ROL_SESION); }
 const IMG_MAX_PX=1080;
 const IMG_QUALITY=0.72;
-let AREAS=[],areaActiva=0,busqueda="",equipoActivo=null,estadoMap={},detalleCache={},subiendoFoto=false;
+let AREAS=[],areaActiva=0,busqueda="",equipoActivo=null,estadoMap={},usoMap={},detalleCache={},subiendoFoto=false;
 let cartasBusqueda="";
 let cartaActivaId=null;
 let CARTAS_DATA={};
 let CARTA_FOTO_MAP={};
 const FRECUENCIAS=["Diaria","Semanal","Quincenal","Mensual","Bimestral","Trimestral","Semestral","Anual"];
 const TAREAS=["Engrase","Aceite","Inspeccion visual","Muestra de aceite","Cambio de aceite","Limpieza"];
+const USO_STORE_KEY="covia_lampazos_uso_equipos_v1";
+
+function cargarUsoEquipos(){
+  try{usoMap=JSON.parse(localStorage.getItem(USO_STORE_KEY)||"{}")||{};}
+  catch(e){usoMap={};}
+}
+function guardarUsoEquipos(){
+  try{localStorage.setItem(USO_STORE_KEY,JSON.stringify(usoMap));}
+  catch(e){}
+}
+function equipoEnUso(id){return usoMap[id]!==false}
 
 function mostrarOverlay(t,s){
   document.getElementById("overlay-title").textContent=t||"Subiendo foto...";
@@ -1317,10 +1336,12 @@ function renderLista(){
   const area=AREAS[areaActiva];
   const items=area.items.filter(e=>!busqueda||(e.id||"").toLowerCase().includes(busqueda.toLowerCase())||(e.nombre||"").toLowerCase().includes(busqueda.toLowerCase())||(e.proceso||"").toLowerCase().includes(busqueda.toLowerCase()));
   const doneArea=area.items.filter(e=>estadoMap[e.id]).length;
-  document.getElementById("summary-bar").innerHTML=`<span class="s-pill s-total">${area.items.length} equipos</span><span class="s-pill s-done">${doneArea} completos</span><span class="s-pill s-pend">${area.items.length-doneArea} pendientes</span>`;
+  const enUsoArea=area.items.filter(e=>equipoEnUso(e.id)).length;
+  document.getElementById("summary-bar").innerHTML=`<span class="s-pill s-total">${area.items.length} equipos</span><span class="s-pill s-done">${doneArea} completos</span><span class="s-pill s-pend">${area.items.length-doneArea} pendientes</span><span class="s-pill s-total">${enUsoArea} ON / ${area.items.length-enUsoArea} OFF</span>`;
   if(!items.length){list.innerHTML='<div class="empty-msg">Sin resultados para la busqueda.</div>';return}
   list.innerHTML=items.map(e=>{
     const comp=!!estadoMap[e.id],res=resumenEquipo(e.id);
+    const enUso=equipoEnUso(e.id);
     let sc="",st="";
     if(comp){sc="done";st="&#10003;";}else if(res.score>0){sc="parcial";st=res.score;}
     return`<div class="equip-row${comp?" completo":""}" onclick="abrirDetalle('${safeJs(e.id)}',${areaActiva})">
@@ -1332,11 +1353,19 @@ function renderLista(){
         <div class="equip-estado">${comp?"Completo":res.score>0?res.score+" de "+res.total+" registros cargados":"Sin levantar"}</div>
       </div>
       <span class="crit-badge crit-${escapeHtml(e.crit)}">Crit ${escapeHtml(e.crit)}</span>
+      <button class="uso-toggle ${enUso?"on":"off"}" onclick="toggleUsoEquipo(event,'${safeJs(e.id)}')" title="Cambiar estado de uso">${enUso?"ON":"OFF"}</button>
       <span class="chevron">&#8250;</span>
     </div>`;
   }).join("");
 }
 function filtrar(){busqueda=document.getElementById("search-input").value.trim();renderLista();}
+
+function toggleUsoEquipo(evt,idTag){
+  if(evt)evt.stopPropagation();
+  usoMap[idTag]=!equipoEnUso(idTag);
+  guardarUsoEquipos();
+  renderLista();
+}
 
 async function abrirDetalle(id,areaIdx){
   const area=AREAS[areaIdx];equipoActivo=area.items.find(e=>e.id===id);
@@ -1649,8 +1678,7 @@ async function cargarCartasGuardadas(){
       const count = Number(c.elementosCount||0);
       CARTAS_DATA[id] = {
         ...(CARTAS_DATA[id]||{}),
-        origen:c.origen||"crm",
-        origenElementos:c.origenElementos||"",
+        origen:"crm",
         fechaGuardado:c.fechaGuardado||"",
         elementos:CARTAS_DATA[id]?.elementos || new Array(count).fill(null).map(()=>({}))
       };
@@ -3519,6 +3547,7 @@ function detenerSyncTrabajo(){
 }
 
 async function cargarApp(){
+  cargarUsoEquipos();
   // Cargar equipos, estado, actividades y tareas en paralelo
   const [equiposResp, estadoResp, actividadesResp, tareasResp] = await Promise.allSettled([
     apiGet({action:"getEquipos"}),
@@ -3869,11 +3898,55 @@ function renderElemRow(el,i,idTag){
       <div class="ed"><div class="ed-lbl">Temp. real (operativa)</div>
         <div style="display:flex;align-items:center;gap:4px">
           <input class="ed-inp" value="${escapeAttr(el.temp||"")}" oninput="CARTAS_DATA['${safeJs(idTag)}'].elementos[${i}].temp=this.value" style="flex:1">
-          <button class="btn-del-elem" onclick="eliminarElemento('${safeJs(idTag)}',${i})" title="Eliminar elemento">&#10005;</button>
+          <div class="elem-actions">
+            <button class="btn-move-elem" onclick="moverElemento('${safeJs(idTag)}',${i},-1)" title="Mover arriba" ${i===0?"disabled":""}>&#8593;</button>
+            <button class="btn-move-elem" onclick="moverElemento('${safeJs(idTag)}',${i},1)" title="Mover abajo" ${i===CARTAS_DATA[idTag].elementos.length-1?"disabled":""}>&#8595;</button>
+            <button class="btn-del-elem" onclick="eliminarElemento('${safeJs(idTag)}',${i})" title="Eliminar elemento">&#10005;</button>
+          </div>
         </div>
       </div>
     </div>
   </div>`;
+}
+
+function sincronizarElementoDesdeDom(idTag,i){
+  if(!CARTAS_DATA[idTag]||!CARTAS_DATA[idTag].elementos[i])return;
+  const el=CARTAS_DATA[idTag].elementos[i];
+  const row=document.getElementById(`er-${idTag}-${i}`);
+  if(!row)return;
+  const sels=[...row.querySelectorAll("select")];
+  const edInps=[...row.querySelectorAll(".ed-inp")];
+  el.nombre=edInps[0]?.value??el.nombre;
+  el.desc=edInps[1]?.value??el.desc;
+  el.lub=edInps[2]?.value??el.lub;
+  el.lubInicial=edInps[3]?.value??el.lubInicial??"";
+  el.relub=edInps[4]?.value??el.relub??"";
+  el.tipo=el.tipo||"grasa";
+  if(el.tipo==="grasa"){
+    el.g=document.getElementById(`eg-${idTag}-${i}`)?.value??el.g;
+    el.bombazos=document.getElementById(`eb-${idTag}-${i}`)?.value??el.bombazos;
+  }else{
+    el.litros=document.getElementById(`el-${idTag}-${i}`)?.value??el.litros;
+  }
+  el.frec=sels[0]?.value??el.frec;
+  el.tarea=sels[1]?.value??el.tarea;
+  el.int=edInps[edInps.length-2]?.value??el.int;
+  el.temp=edInps[edInps.length-1]?.value??el.temp;
+}
+function sincronizarElementosDesdeDom(idTag){
+  if(!CARTAS_DATA[idTag])return;
+  CARTAS_DATA[idTag].elementos.forEach((_,i)=>sincronizarElementoDesdeDom(idTag,i));
+}
+
+function moverElemento(idTag,idx,dir){
+  if(!CARTAS_DATA[idTag])return;
+  const elementos=CARTAS_DATA[idTag].elementos;
+  const nuevoIdx=idx+dir;
+  if(nuevoIdx<0||nuevoIdx>=elementos.length)return;
+  sincronizarElementosDesdeDom(idTag);
+  const [item]=elementos.splice(idx,1);
+  elementos.splice(nuevoIdx,0,item);
+  reRenderElementos(idTag);
 }
 
 function cambiarTipoLub(idTag,i,tipo){
@@ -3942,6 +4015,7 @@ async function guardarCarta(){
   const reviso=document.getElementById(`cf-reviso-${idTag}`)?.value||"";
   const fechaFirma=document.getElementById(`cf-fecha-${idTag}`)?.value||"";
   const autorizo=document.getElementById(`cf-autorizo-${idTag}`)?.value||"";
+  sincronizarElementosDesdeDom(idTag);
   const elementos=carta.elementos.map((el,i)=>{
     const selRow=document.getElementById(`er-${idTag}-${i}`);
     const sels=selRow?selRow.querySelectorAll("select"):[];
@@ -4003,7 +4077,7 @@ async function recargarDesdeExcel(){
   try{
     delete CARTAS_DATA[idTag];
     document.getElementById("carta-container").innerHTML='<div class="loading-msg">Recargando desde Excel...</div>';
-    const r=await apiGet({action:"getCarta",idTag,source:"excel"});
+    const r=await apiGet({action:"getCarta",idTag});
     if(r.ok&&r.data){
       const d=r.data;
       CARTAS_DATA[idTag]={
@@ -4042,6 +4116,7 @@ function imprimirCarta(){
   const idTag=cartaActivaId;if(!idTag||!CARTAS_DATA[idTag])return;
   const _logo=LOGO_BASE64||"";
   const carta=CARTAS_DATA[idTag];
+  sincronizarElementosDesdeDom(idTag);
   const equipo=encontrarEquipo(idTag)||{};
   carta.planta=document.getElementById(`ci-planta-${idTag}`)?.value||"COVIA LAMPAZOS";
   carta.direccion=document.getElementById(`ci-dir-${idTag}`)?.value||"Lampazos de Naranjo, N.L.";
@@ -4081,7 +4156,7 @@ function imprimirCarta(){
     const tempVal    = edInps2[edInps2.length-1]?.value ?? el.temp ?? '';
     return`<tr>
       <td style="background:#08112d;text-align:center;vertical-align:middle;padding:6px;">
-        <div style="color:#c7d0f8;font-size:8pt;font-weight:900;margin-bottom:5px;">${i+1}</div>${fotoElem}
+        <div style="color:#c7d0f8;font-size:7pt;font-weight:800;margin-bottom:4px;">${i+1}</div>${fotoElem}
       </td>
       <td>${escapeHtml(el.nombre||"")}</td><td>${escapeHtml(el.desc||"")}</td>
       <td>${escapeHtml(el.lub||"")}</td>
@@ -4092,62 +4167,42 @@ function imprimirCarta(){
       <td style="text-align:center">${escapeHtml(fre)}</td><td>${escapeHtml(tar)}</td>
       <td>${escapeHtml(intVal)}</td><td>${escapeHtml(tempVal)}</td>
     </tr>`;
-  });
-  const tableHead=`<thead><tr>
-  <th style="width:16%">Foto<br>punto</th><th style="width:8%">Elemento</th>
-  <th style="width:10%">DescripciÃ³n</th><th style="width:9%">Lubricante</th>
-  <th style="width:6%">Lub.<br>inicial</th><th style="width:6%">Re-lub.</th>
-  <th style="width:7%">Cant.</th><th style="width:5%">Bomb.<br>/Litros</th>
-  <th style="width:7%">Frecuencia</th><th style="width:7%">Tarea</th>
-  <th style="width:9%">Int. muestreo</th><th style="width:13%">Temp. real<br>(operativa)</th>
-</tr></thead>`;
-  const tablasElementos=[];
-  for(let i=0;i<filas.length;i+=3){
-    tablasElementos.push(`<table class="${i>0?'page-table':''}">${tableHead}<tbody>${filas.slice(i,i+3).join("")}</tbody></table>`);
-  }
+  }).join("");
   const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Carta - ${idTag}</title>
 <style>
-@page{size:A4 landscape;margin:6mm}
+@page{size:A4 landscape;margin:8mm}
 * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
 img { max-width: 100%; }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;font-size:9.2pt;color:#000}
-.carta{width:100%;break-inside:auto;page-break-inside:auto}
-.hdr{display:grid;grid-template-columns:150px 1fr 195px;border:2px solid #08112d}
-.lc{border-right:1px solid #1228ff;padding:5px;background:#08112d;display:flex;align-items:center;justify-content:center}
+body{font-family:Arial,sans-serif;font-size:8.5pt;color:#000}
+.carta{width:100%}
+.hdr{display:grid;grid-template-columns:160px 1fr 195px;border:2px solid #08112d}
+.lc{border-right:1px solid #1228ff;padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center}
 .lb{width:62px;height:62px;border:2px solid #fff;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7pt;font-weight:900;color:#fff;text-align:center;line-height:1.3}
-.tc{border-right:1px solid #1228ff;padding:6px;background:#08112d;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.tc{border-right:1px solid #1228ff;padding:8px;background:#08112d;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:3px}
 .mt{font-size:13pt;font-weight:900;color:#fff;letter-spacing:2px}
 .st{font-size:7.5pt;color:#c7d0f8;letter-spacing:1px}
-.ic{padding:6px;background:#eef2ff}
-.ir{display:flex;gap:4px;margin-bottom:5px;font-size:8pt}
-.il{font-weight:800;color:#08112d;min-width:68px;font-size:7.5pt}
+.ic{padding:8px;background:#eef2ff}
+.ir{display:flex;gap:4px;margin-bottom:5px;font-size:7.5pt}
+.il{font-weight:800;color:#08112d;min-width:68px;font-size:7pt}
 .iv{border-bottom:1.5px solid #08112d;flex:1;padding-bottom:1px;color:#08112d}
-.er{display:grid;grid-template-columns:150px 1fr;border:2px solid #08112d;border-top:none}
-.fc{padding:5px;background:#08112d;display:flex;align-items:center;justify-content:center;border-right:1px solid #08112d}
-.fc img{width:112px!important;height:112px!important}
-.dc{padding:6px;background:#f8faff;display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.er{display:grid;grid-template-columns:160px 1fr;border:2px solid #08112d;border-top:none}
+.fc{padding:8px;background:#08112d;display:flex;align-items:center;justify-content:center;border-right:1px solid #08112d}
+.dc{padding:8px;background:#f8faff;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .dato{display:flex;flex-direction:column;gap:2px}
-.dl{font-size:7pt;font-weight:800;color:#0c1eaf;text-transform:uppercase}
-.dv{font-size:8.8pt;border-bottom:1px solid #c7d0f8;padding-bottom:1px;min-height:14px;color:#08112d}
+.dl{font-size:6.5pt;font-weight:800;color:#0c1eaf;text-transform:uppercase}
+.dv{font-size:8pt;border-bottom:1px solid #c7d0f8;padding-bottom:1px;min-height:13px;color:#08112d}
 .dv.b{color:#0c1eaf;font-weight:800}
-.eb{background:#08112d;color:#fff;padding:5px 10px;font-weight:900;font-size:9pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
-table{width:100%;border-collapse:collapse;border:2px solid #08112d;border-top:none;table-layout:fixed;break-inside:auto;page-break-inside:auto}
-table.page-table{break-before:page;page-break-before:always;border-top:2px solid #08112d}
-thead{display:table-header-group}
-tbody{display:table-row-group}
-th{background:#0c1eaf;color:#fff;font-size:6.4pt;font-weight:800;padding:3px 2px;border:1px solid #1228ff;text-align:center}
-td{font-size:7.1pt;padding:4px 3px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
-tr{break-inside:avoid;page-break-inside:avoid}
-tbody tr{height:132px;border-bottom:1.5px solid #c7d0f8}
-tbody td:first-child{padding:3px!important}
-tbody td:first-child img{width:116px!important;height:116px!important}
+.eb{background:#08112d;color:#fff;padding:5px 10px;font-weight:900;font-size:8.5pt;border:2px solid #08112d;border-top:none;border-bottom:none;letter-spacing:1px}
+table{width:100%;border-collapse:collapse;border:2px solid #08112d;border-top:none;table-layout:fixed}
+th{background:#0c1eaf;color:#fff;font-size:6pt;font-weight:800;padding:3px 2px;border:1px solid #1228ff;text-align:center}
+td{font-size:6.5pt;padding:3px 2px;border:1px solid #dde4ff;vertical-align:middle;color:#08112d}
 tr:nth-child(even) td{background:#f3f5ff}
 td:first-child{background:#08112d!important;text-align:center}
-.rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff;break-inside:avoid;page-break-inside:avoid}
+.rw{border:2px solid #08112d;border-top:none;padding:7px 10px;background:#f8faff}
 .rt{font-weight:900;font-size:8.5pt;color:#08112d;margin-bottom:5px}
 .rb{font-size:7.5pt;min-height:28px;color:#333;line-height:1.5;white-space:pre-wrap}
-.fw{background:#08112d;border:2px solid #08112d;border-top:none;padding:11px 14px;break-inside:avoid;page-break-inside:avoid}
+.fw{background:#08112d;border:2px solid #08112d;border-top:none;padding:11px 14px}
 .fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .fb{display:flex;flex-direction:column;gap:4px}
 .fla{font-size:6.5pt;font-weight:800;color:#c7d0f8;text-transform:uppercase;letter-spacing:1px}
@@ -4156,7 +4211,7 @@ td:first-child{background:#08112d!important;text-align:center}
 .fnr{display:flex;gap:4px;margin-top:5px}
 .fnl{font-size:6.5pt;color:#c7d0f8;font-weight:700;min-width:48px}
 .fnv{border-bottom:1px solid #6b7fc4;flex:1;font-size:7pt;color:#eef2ff;padding-bottom:1px}
-.footer{background:#0c1eaf;color:#fff;padding:4px 10px;font-size:6.5pt;font-weight:700;display:flex;justify-content:space-between;break-inside:avoid;page-break-inside:avoid}
+.footer{background:#0c1eaf;color:#fff;padding:4px 10px;font-size:6.5pt;font-weight:700;display:flex;justify-content:space-between}
 </style></head><body>
 <div class="carta">
 <div class="hdr">
@@ -4180,8 +4235,7 @@ td:first-child{background:#08112d!important;text-align:center}
   </div>
 </div>
 <div class="eb">&#9881; ELEMENTOS TRIBOLÓGICOS — PUNTOS DE LUBRICACI\u00D3N</div>
-${tablasElementos.join("")}
-<template>
+<table>
 <thead><tr>
   <th style="width:13%">Foto<br>punto</th><th style="width:8%">Elemento</th>
   <th style="width:10%">Descripción</th><th style="width:9%">Lubricante</th>
@@ -4191,7 +4245,7 @@ ${tablasElementos.join("")}
   <th style="width:9%">Int. muestreo</th><th style="width:13%">Temp. real<br>(operativa)</th>
 </tr></thead>
 <tbody>${filas}</tbody>
-</template>
+</table>
 <div class="rw"><div class="rt">RECOMENDACIONES DE MONITOREO E INSPECCI\u00D3N</div><div class="rb">${escapeHtml(carta.recomendaciones||"")}</div></div>
 <div class="fw"><div class="fg">
   <div class="fb"><div class="fla">Revis\u00F3</div><div class="fti">Departamento Lubricaci\u00F3n</div><div class="fli"></div><div class="fnr"><span class="fnl">Nombre:</span><span class="fnv">${escapeHtml(firmaReviso)}</span></div></div>
