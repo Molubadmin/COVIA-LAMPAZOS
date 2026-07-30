@@ -220,10 +220,12 @@
     .entry-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
     .entry-head-left{display:flex;align-items:center;gap:10px;min-width:0}
     .entry-title{font-size:14px;font-weight:900;color:var(--azul-3)}
-    .drag-handle{width:34px;height:34px;border-radius:11px;border:1px solid #dbe1f0;background:#f8faff;
-      color:#1228ff;font-size:18px;font-weight:900;cursor:grab;display:inline-flex;align-items:center;justify-content:center;
-      flex-shrink:0;touch-action:none;user-select:none}
+    .drag-handle{min-width:86px;height:38px;border-radius:12px;border:1px solid rgba(18,40,255,.24);
+      background:linear-gradient(135deg,#eef2ff,#ffffff);color:#1228ff;font-size:12px;font-weight:900;
+      cursor:grab;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      flex-shrink:0;touch-action:none;user-select:none;box-shadow:0 8px 16px rgba(18,40,255,.10)}
     .drag-handle:active{cursor:grabbing;background:#eef2ff}
+    .drag-handle-icon{font-size:18px;line-height:1}
     .badge-hecho,.badge-vacio{font-size:10px;padding:6px 10px}
     .badge-hecho{background:var(--verde-bg);color:var(--verde)}
     .badge-vacio{background:#f3f6fb;color:#7d89a4}
@@ -1516,7 +1518,7 @@ function renderReferenciaCard(item,numero,conPlaca){
     ondragend="terminarArrastreReferencia()">
     <div class="entry-head">
       <div class="entry-head-left">
-        <button class="drag-handle" title="Mantener presionado y mover" onpointerdown="iniciarMovimientoReferenciaTouch(event,'${safeJs(item.uid)}','${safeJs(item.categoria)}')">&#8942;</button>
+        <button class="drag-handle" title="Mantener presionado y arrastrar" onpointerdown="iniciarMovimientoReferenciaTouch(event,'${safeJs(item.uid)}','${safeJs(item.categoria)}')"><span class="drag-handle-icon">&#8597;</span>Mover</button>
         <div class="entry-title">${conPlaca?"Registro "+numero+" - equipo con placa":"Registro "+numero+" - equipo sin placa"}</div>
       </div>
       <span class="${valido?"badge-hecho":"badge-vacio"}">${valido?"Guardado":"Parcial o vacio"}${pendiente}</span>
