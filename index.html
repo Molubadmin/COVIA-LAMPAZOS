@@ -215,8 +215,15 @@
     .entry-list{display:flex;flex-direction:column;gap:14px}
     .entry-card{border:1px solid var(--borde);border-radius:20px;padding:16px;
       background:linear-gradient(180deg,#ffffff 0%,#fbfcff 100%)}
+    .entry-card.dragging{opacity:.72;outline:2px solid rgba(18,40,255,.35);box-shadow:0 18px 40px rgba(18,40,255,.16)}
+    .entry-card.drag-over{border-color:#1228ff;box-shadow:0 0 0 4px rgba(18,40,255,.10)}
     .entry-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+    .entry-head-left{display:flex;align-items:center;gap:10px;min-width:0}
     .entry-title{font-size:14px;font-weight:900;color:var(--azul-3)}
+    .drag-handle{width:34px;height:34px;border-radius:11px;border:1px solid #dbe1f0;background:#f8faff;
+      color:#1228ff;font-size:18px;font-weight:900;cursor:grab;display:inline-flex;align-items:center;justify-content:center;
+      flex-shrink:0;touch-action:none;user-select:none}
+    .drag-handle:active{cursor:grabbing;background:#eef2ff}
     .badge-hecho,.badge-vacio{font-size:10px;padding:6px 10px}
     .badge-hecho{background:var(--verde-bg);color:var(--verde)}
     .badge-vacio{background:#f3f6fb;color:#7d89a4}
@@ -1153,6 +1160,7 @@ let CARTA_FOTO_MAP={};
 const FRECUENCIAS=["Diaria","Semanal","Quincenal","Mensual","Bimestral","Trimestral","Semestral","Anual"];
 const TAREAS=["Engrase","Aceite","Inspeccion visual","Muestra de aceite","Cambio de aceite","Limpieza"];
 const USO_STORE_KEY="covia_lampazos_uso_equipos_v1";
+const ORDEN_REF_STORE_KEY="covia_lampazos_orden_referencias_v1";
 
 function cargarUsoEquipos(){
   try{usoMap=JSON.parse(localStorage.getItem(USO_STORE_KEY)||"{}")||{};}
@@ -1163,6 +1171,27 @@ function guardarUsoEquipos(){
   catch(e){}
 }
 function equipoEnUso(id){return usoMap[id]!==false}
+
+function cargarOrdenReferencias(){
+  try{return JSON.parse(localStorage.getItem(ORDEN_REF_STORE_KEY)||"{}")||{};}
+  catch(e){return{};}
+}
+function guardarOrdenCategoria(idTag,categoria,lista){
+  const orden=cargarOrdenReferencias();
+  orden[idTag+"_"+categoria]=lista.map(item=>item.uid);
+  try{localStorage.setItem(ORDEN_REF_STORE_KEY,JSON.stringify(orden));}
+  catch(e){}
+}
+function aplicarOrdenCategoria(idTag,categoria,lista){
+  const ids=cargarOrdenReferencias()[idTag+"_"+categoria];
+  if(!Array.isArray(ids)||!ids.length)return lista;
+  const pos=new Map(ids.map((uid,i)=>[uid,i]));
+  return [...lista].sort((a,b)=>{
+    const ai=pos.has(a.uid)?pos.get(a.uid):Number.MAX_SAFE_INTEGER;
+    const bi=pos.has(b.uid)?pos.get(b.uid):Number.MAX_SAFE_INTEGER;
+    return ai-bi;
+  });
+}
 
 function mostrarOverlay(t,s){
   document.getElementById("overlay-title").textContent=t||"Subiendo foto...";
@@ -1392,6 +1421,8 @@ async function cargarDetalleEquipo(idTag){
       equipoPlaca:Array.isArray(data.equipoPlaca)?data.equipoPlaca.map(mapReferenciaAPI):[],
       otrosEquipos:Array.isArray(data.otrosEquipos)?data.otrosEquipos.map(mapReferenciaAPI):[],
       descripcion:normalizarDescripcion(data.descripcion)};
+    detalleCache[idTag].equipoPlaca=aplicarOrdenCategoria(idTag,"equipo_placa",detalleCache[idTag].equipoPlaca);
+    detalleCache[idTag].otrosEquipos=aplicarOrdenCategoria(idTag,"otro_equipo",detalleCache[idTag].otrosEquipos);
   }catch(err){console.error(err);detalleCache[idTag]=detalleVacio();}
 }
 
@@ -1454,7 +1485,7 @@ function renderEquipoPlaca(det){
     </div>
     <div class="section-body">
       <div class="helper-box">Aqui puedes subir foto del equipo, foto de la placa o ambas. Ninguna es obligatoria.</div>
-      <div class="entry-list">${entries.map((item,idx)=>renderReferenciaCard(item,idx+1,true)).join("")}</div>
+      <div class="entry-list" data-ref-list="equipo_placa">${entries.map((item,idx)=>renderReferenciaCard(item,idx+1,true)).join("")}</div>
       <div class="photo-actions"><button class="btn-secondary" onclick="agregarReferencia('equipo_placa')">Agregar otro equipo con placa</button></div>
     </div>
   </div>`;
@@ -1469,7 +1500,7 @@ function renderOtrosEquipos(det){
     </div>
     <div class="section-body">
       <div class="helper-box">Aqui puedes agregar fotos de otros equipos o componentes sin placa. Tampoco es obligatorio.</div>
-      <div class="entry-list">${entries.map((item,idx)=>renderReferenciaCard(item,idx+1,false)).join("")}</div>
+      <div class="entry-list" data-ref-list="otro_equipo">${entries.map((item,idx)=>renderReferenciaCard(item,idx+1,false)).join("")}</div>
       <div class="photo-actions"><button class="btn-secondary" onclick="agregarReferencia('otro_equipo')">Agregar otro equipo sin placa</button></div>
     </div>
   </div>`;
@@ -1477,9 +1508,17 @@ function renderOtrosEquipos(det){
 function renderReferenciaCard(item,numero,conPlaca){
   const valido=conPlaca?referenciaConPlacaValida(item):referenciaSinPlacaValida(item);
   const pendiente=(item.base64FotoEquipo||item.base64FotoPlaca)?" (lista, falta guardar)":"";
-  return`<div class="entry-card">
+  return`<div class="entry-card" draggable="true" data-ref-card="${escapeAttr(item.uid)}" data-ref-category="${escapeAttr(item.categoria)}"
+    ondragstart="iniciarArrastreReferencia(event,'${safeJs(item.uid)}','${safeJs(item.categoria)}')"
+    ondragover="sobreArrastreReferencia(event)"
+    ondragleave="salirArrastreReferencia(event)"
+    ondrop="soltarArrastreReferencia(event,'${safeJs(item.uid)}','${safeJs(item.categoria)}')"
+    ondragend="terminarArrastreReferencia()">
     <div class="entry-head">
-      <div class="entry-title">${conPlaca?"Registro "+numero+" - equipo con placa":"Registro "+numero+" - equipo sin placa"}</div>
+      <div class="entry-head-left">
+        <button class="drag-handle" title="Mantener presionado y mover" onpointerdown="iniciarMovimientoReferenciaTouch(event,'${safeJs(item.uid)}','${safeJs(item.categoria)}')">&#8942;</button>
+        <div class="entry-title">${conPlaca?"Registro "+numero+" - equipo con placa":"Registro "+numero+" - equipo sin placa"}</div>
+      </div>
       <span class="${valido?"badge-hecho":"badge-vacio"}">${valido?"Guardado":"Parcial o vacio"}${pendiente}</span>
     </div>
     <div class="entry-grid">
@@ -1544,6 +1583,89 @@ function agregarReferencia(categoria){
 }
 function obtenerListaCategoria(categoria){const det=getDetalleState(equipoActivo.id);return categoria==="equipo_placa"?det.equipoPlaca:det.otrosEquipos;}
 function buscarReferencia(uid,categoria){return obtenerListaCategoria(categoria).find(item=>item.uid===uid);}
+
+let referenciaArrastrando=null;
+let referenciaTouchDrag=null;
+
+function indiceReferencia(categoria,uid){
+  return obtenerListaCategoria(categoria).findIndex(item=>item.uid===uid);
+}
+function reordenarReferencia(categoria,uidOrigen,uidDestino){
+  if(!equipoActivo||uidOrigen===uidDestino)return;
+  const lista=obtenerListaCategoria(categoria);
+  const from=lista.findIndex(item=>item.uid===uidOrigen);
+  const to=lista.findIndex(item=>item.uid===uidDestino);
+  if(from<0||to<0||from===to)return;
+  const [item]=lista.splice(from,1);
+  lista.splice(to,0,item);
+  guardarOrdenCategoria(equipoActivo.id,categoria,lista);
+  renderDetalle();
+}
+function iniciarArrastreReferencia(evt,uid,categoria){
+  referenciaArrastrando={uid,categoria};
+  evt.dataTransfer.effectAllowed="move";
+  evt.dataTransfer.setData("text/plain",uid);
+  const card=evt.currentTarget;
+  setTimeout(()=>card.classList.add("dragging"),0);
+}
+function sobreArrastreReferencia(evt){
+  if(!referenciaArrastrando)return;
+  const card=evt.currentTarget;
+  if(card.dataset.refCategory!==referenciaArrastrando.categoria)return;
+  evt.preventDefault();
+  card.classList.add("drag-over");
+}
+function salirArrastreReferencia(evt){evt.currentTarget.classList.remove("drag-over");}
+function soltarArrastreReferencia(evt,uidDestino,categoriaDestino){
+  evt.preventDefault();
+  evt.currentTarget.classList.remove("drag-over");
+  if(!referenciaArrastrando||referenciaArrastrando.categoria!==categoriaDestino)return;
+  reordenarReferencia(categoriaDestino,referenciaArrastrando.uid,uidDestino);
+  referenciaArrastrando=null;
+}
+function terminarArrastreReferencia(){
+  document.querySelectorAll(".entry-card.dragging,.entry-card.drag-over").forEach(el=>el.classList.remove("dragging","drag-over"));
+  referenciaArrastrando=null;
+}
+function iniciarMovimientoReferenciaTouch(evt,uid,categoria){
+  evt.preventDefault();
+  evt.stopPropagation();
+  const card=evt.currentTarget.closest(".entry-card");
+  referenciaTouchDrag={uid,categoria,activo:false,card,pointerId:evt.pointerId};
+  card?.setPointerCapture?.(evt.pointerId);
+  clearTimeout(referenciaTouchDrag.timer);
+  referenciaTouchDrag.timer=setTimeout(()=>{
+    if(!referenciaTouchDrag)return;
+    referenciaTouchDrag.activo=true;
+    referenciaTouchDrag.card?.classList.add("dragging");
+  },160);
+  card.addEventListener("pointermove",moverReferenciaTouch);
+  card.addEventListener("pointerup",terminarMovimientoReferenciaTouch,{once:true});
+  card.addEventListener("pointercancel",terminarMovimientoReferenciaTouch,{once:true});
+}
+function moverReferenciaTouch(evt){
+  if(!referenciaTouchDrag||!referenciaTouchDrag.activo)return;
+  const el=document.elementFromPoint(evt.clientX,evt.clientY);
+  const destino=el&&el.closest?el.closest(".entry-card"):null;
+  document.querySelectorAll(".entry-card.drag-over").forEach(card=>card.classList.remove("drag-over"));
+  if(destino&&destino.dataset.refCategory===referenciaTouchDrag.categoria&&destino.dataset.refCard!==referenciaTouchDrag.uid){
+    destino.classList.add("drag-over");
+  }
+}
+function terminarMovimientoReferenciaTouch(evt){
+  if(!referenciaTouchDrag)return;
+  clearTimeout(referenciaTouchDrag.timer);
+  const drag=referenciaTouchDrag;
+  drag.card?.releasePointerCapture?.(drag.pointerId);
+  drag.card?.removeEventListener("pointermove",moverReferenciaTouch);
+  const el=document.elementFromPoint(evt.clientX,evt.clientY);
+  const destino=el&&el.closest?el.closest(".entry-card"):null;
+  document.querySelectorAll(".entry-card.dragging,.entry-card.drag-over").forEach(card=>card.classList.remove("dragging","drag-over"));
+  referenciaTouchDrag=null;
+  if(drag.activo&&destino&&destino.dataset.refCategory===drag.categoria){
+    reordenarReferencia(drag.categoria,drag.uid,destino.dataset.refCard);
+  }
+}
 
 async function subirFotoCompleta(evt){
   const file=evt.target.files[0];evt.target.value="";
